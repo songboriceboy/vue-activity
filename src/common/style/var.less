@@ -1,0 +1,58 @@
+// Color variables
+@black: #000;
+@white: #fff;
+@red: #f44;
+@blue: #1989fa;
+@orange: #ff976a;
+@orange-dark: #ed6a0c;
+@orange-light: #fffbe8;
+@green: #07c160;
+@gray: #c8c9cc;
+@gray-light: #e5e5e5;
+@gray-darker: #7d7e80;
+@gray-dark: #969799;
+
+// Default colors
+@text-color: #323233;
+@border-color: #ebedf0;
+@active-color: #f2f3f5;
+@background-color: #f8f8f8;
+@background-color-light: #fafafa;
+
+// 图片后缀
+// @suffix: '@2x.png';
+// @media only screen and (-webkit-min-device-pixel-ratio: 3),
+//   only screen and (min--moz-device-pixel-ratio: 3),
+//   only screen and (-o-min-device-pixel-ratio: 3),
+//   only screen and (min-device-pixel-ratio: 3) {
+//   @suffix: '@3x.png';
+// }
+
+// 背景图
+.bg-img(@url) {
+  background-image: url('@{url}@2x.png');
+  @media only screen and (-webkit-min-device-pixel-ratio: 3),
+    only screen and (min--moz-device-pixel-ratio: 3),
+    only screen and (-o-min-device-pixel-ratio: 3),
+    only screen and (min-device-pixel-ratio: 3) {
+    background-image: url('@{url}@3x.png');
+  }
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+// 清楚浮动
+.clearfix() {
+  &::after {
+    display: table;
+    clear: both;
+    content: '';
+  }
+}
+
+// 多行文本溢出显示省略号
+.ellipsis() {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
