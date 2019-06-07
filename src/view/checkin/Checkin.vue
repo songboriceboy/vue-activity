@@ -1,5 +1,5 @@
 <template>
-  <div class="checkin-index">
+  <div class="checkin">
     <van-button round
                 type="danger">点击签到</van-button>
     <span class="icon"></span>
@@ -9,10 +9,11 @@
 
 <script>
 export default {
-  name: 'checkinIndex',
+  name: 'checkin',
   data () {
     return {
-    };
+
+    }
   },
   methods: {
 
@@ -21,13 +22,15 @@ export default {
 </script>
 
 <style lang="less">
-.icon {
-  display: block;
-  width: 162px;
-  height: 155px;
-  .bg-img("~@images/mine/pic_mine_avatar");
-}
-.text {
-  color: @text-color;
+.checkin {
+  .icon {
+    display: block;
+    width: 162px;
+    height: 155px;
+    .bg-img("~@images/mine/pic_mine_avatar");
+  }
+  .text {
+    color: @text-color;
+  }
 }
 </style>
