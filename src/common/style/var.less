@@ -1,7 +1,7 @@
 // Color variables
 @black: #000;
 @white: #fff;
-@red: #f44;
+@red: #f21717;
 @blue: #1989fa;
 @orange: #ff976a;
 @orange-dark: #ed6a0c;
@@ -39,6 +39,7 @@
   }
   background-repeat: no-repeat;
   background-position: center;
+  background-size: 100% 100%;
 }
 
 // 清楚浮动
@@ -55,4 +56,14 @@
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+}
+
+// 圆角按钮渐变
+.isRadiusButton() {
+  background: linear-gradient(
+    132deg,
+    rgba(250, 108, 51, 1) 0%,
+    rgba(242, 58, 23, 1) 100%
+  );
+  border-radius: 44px;
 }

@@ -61,9 +61,22 @@ export default {
 
 <style lang="less">
 .head-nav {
-  height: 85px;
+  height: 86px;
+  background-color: #f21717;
+  .van-tabs--line {
+    padding-top: 85px;
+  }
+  .van-tabs--line .van-tabs__wrap {
+    height: 85px;
+  }
+  .van-tab {
+    line-height: 85px;
+  }
   .van-tabs__line {
     background: #fff;
+  }
+  .van-ellipsis {
+    font-size: 32px;
   }
 }
 </style>

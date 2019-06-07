@@ -1,15 +1,16 @@
 <template>
   <div class="checkin">
-    <van-button round
-                type="danger">点击签到</van-button>
-    <span class="icon"></span>
-    <span class="text">文字</span>
+    <span class="check-rule"></span>
+    <check-calendar></check-calendar>
   </div>
 </template>
 
 <script>
+import CheckCalendar from './children/Calendar'
+
 export default {
   name: 'checkin',
+  components: { CheckCalendar },
   data () {
     return {
 
@@ -21,16 +22,22 @@ export default {
 };
 </script>
 
-<style lang="less">
+<style lang="less" scoped>
 .checkin {
-  .icon {
+  position: absolute;
+  top: 85px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  .bg-img("~@images/checkin/pic_checkin_background");
+  .check-rule {
+    width: 200px;
+    height: 62px;
     display: block;
-    width: 162px;
-    height: 155px;
-    .bg-img("~@images/mine/pic_mine_avatar");
-  }
-  .text {
-    color: @text-color;
+    position: absolute;
+    right: 0;
+    top: 30px;
+    .bg-img("~@images/checkin/pic_checkin_rule");
   }
 }
 </style>
