@@ -40,7 +40,7 @@
     </div>
     <van-button type="default"
                 class="isRadiusButton"
-                @touchstart="onSubmit"
+                @click="onSubmit"
                 v-if="!readonly">提交</van-button>
     <!-- 城市地区 -->
     <van-popup v-model="showPicker"

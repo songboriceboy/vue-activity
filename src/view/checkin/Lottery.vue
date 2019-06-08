@@ -155,7 +155,6 @@ export default {
     },
     //关闭弹窗
     closeToast () {
-      console.log(this.toastControl)
       this.toastControl = false;
     }
   }

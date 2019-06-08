@@ -1,17 +1,19 @@
 <template>
   <div class="calendar">
-    <div class="message">已连续签到 {{ calendarData.days }} 天，距离幸运又近了一步</div>
+    <div class="message">{{ statusMessage }}</div>
     <div class="container">
       <van-row type="flex"
                justify="center">
         <van-col span="8">
-          <div class="left"><i></i></div>
+          <div class="left"
+               @click="onPrev"><i></i></div>
         </van-col>
         <van-col span="8">
-          <div class="time">{{ calendarData.curYear }}年{{ calendarData.curMonth }}月</div>
+          <div class="time">{{ curYear }}年{{ curMonth }}月</div>
         </van-col>
         <van-col span="8">
-          <div class="right"><i></i></div>
+          <div class="right"
+               @click="onNext"><i></i></div>
         </van-col>
       </van-row>
       <div class="content">
@@ -22,25 +24,29 @@
           </li>
         </ul>
         <ul class="list">
-          <li v-for="num in calendarData.curMonthDays"
+          <template v-for="num in firstDay">
+            <li v-if="num < firstDay"
+                :key="'0_0'+num"></li>
+          </template>
+          <li v-for="num in curMonthDays"
               :key="num"
-              :class="{red: calendarData.curDay === num}">
+              :class="{red: staticYMD === ''+curYear+curMonth+num}">
             {{ num }}
             <span class="checked"
-                  v-if="calendarData.checkinDays.indexOf(num) > -1"></span>
+                  v-if="checkinDays.indexOf(''+curYear+curMonth+num) > -1"></span>
             <span class="record"
-                  v-if="calendarData.recordDay.indexOf(num) > -1">
+                  v-if="recordDays.indexOf(''+curYear+curMonth+num) > -1">
               <i class="icon"></i>
               中奖纪录
             </span>
             <span class="invalid"
-                  v-if="calendarData.invaildDay.indexOf(num) > -1">
+                  v-if="invaildDays.indexOf(''+curYear+curMonth+num) > -1">
               <i class="icon"></i>
               已过期
             </span>
             <span class="success"
                   @click="goLottery"
-                  v-if="calendarData.successDay.indexOf(num) > -1">
+                  v-if="successDays.indexOf(''+curYear+curMonth+num) > -1">
               <i class="icon"></i>
               去抽奖
             </span>
@@ -48,37 +54,145 @@
         </ul>
       </div>
       <van-button type="default"
-                  class="isRadiusButton">
+                  class="isRadiusButton"
+                  @click="onCheckin">
         <i class="calendar-icon"></i>
         <span class="button-text">点击签到</span>
       </van-button>
     </div>
+    <!-- 签到成功 -->
+    <check-success :show="successControl"
+                   :key="successControl"
+                   :text="successText"
+                   :days="days"
+                   @close="closeSuccess"></check-success>
   </div>
 </template>
 
 <script>
+import checkSuccess from './children/Success'
 export default {
   name: 'Calendar',
+  components: { checkSuccess },
   data () {
     return {
-      cnNumbers: ['一', '二', '三', '四', '五', '六', '日'],
-      calendarData: {
-        curYear: 2019, // 当前年份
-        curMonth: 6, // 当前月份
-        curDay: 24, // 当前日期
-        curMonthDays: 30, // 该月的天数
-        checkinDays: [6, 7, 9, 10, 11], // 已签到的日期
-        invaildDay: [3], // 已作废的日期
-        successDay: [28], // 可以抽奖的日期
-        recordDay: [25], // 已经抽奖的日期
-        days: 3, // 连续签到的天数
+      cnNumbers: ['一', '二', '三', '四', '五', '六', '日'], // 日历头部
+      staticYMD: '', // 今天日期 201967
+      curYear: 0, // 当前年份
+      curMonth: 0, // 当前月份
+      curDate: 0, // 当前日期
+      curMonthDays: 0, // 该月的天数
+      firstDay: 0, // 每月 1 日是周几 0~6
+      checkinDays: [], // 已签到的日期
+      invaildDays: [], // 已作废的日期
+      successDays: [], // 可以抽奖的日期
+      recordDays: [], // 已经抽奖的日期
+      days: 0, // 连续签到的天数
+      successControl: false, // 签到成功信息弹框控制
+      successText: '', // 签到成功信息
+    }
+  },
+  created () {
+    this.init()
+  },
+  computed: {
+    // 签到状态信息
+    statusMessage () {
+      let str = ''
+      let days = this.days
+      if (days === 0) {
+        str = '已连续签到 0 天, 点击下方签到按钮开始签到哦!'
+      } else if (days > 0 && days < 7) {
+        str = '已连续签到 ' + days + ' 天, 距离幸运又近了一步!'
+      } else if (days === 7) {
+        str = '已连续签到 7 天, 点击"去抽奖"可以参与抽奖!'
       }
+      return str;
     }
   },
   methods: {
+    // 初始化签到日历数据
+    init () {
+      const date = new Date()
+      this.curYear = date.getFullYear()
+      this.curMonth = date.getMonth() + 1
+      this.curDate = date.getDate()
+      this.staticYMD = '' + this.curYear + this.curMonth + this.curDate
+
+      this.printCalendar(this.curYear, this.curMonth)
+
+      this.getCheckRecord()
+    },
+
+    // 获取签到记录
+    getCheckRecord () {
+      this.checkinDays = ['201961', '201962', '201963', '201964', '201965', '201966', '201967']
+      this.invaildDays = []
+      this.successDays = []
+      this.recordDays = ['201967']
+      this.days = 0
+    },
+
+    // 遍历日历
+    printCalendar (y, m) {
+      this.curMonthDays = this.getMonthDays(y, m)
+      this.firstDay = this.firstDateToWeek(y, m)
+    },
+
+    // 获取月天数
+    getMonthDays (y, m) {
+      const date = new Date(y, m, 0)
+      return date.getDate()
+    },
+
+    // 获取每月 1 日是星期几
+    firstDateToWeek (y, m) {
+      const date = new Date(y + '/' + m + '/1')
+      return date.getDay() > 0 ? date.getDay() : 7
+    },
+
+    // 上个月
+    onPrev () {
+      const month = this.curMonth
+      if (month > 1) {
+        this.curMonth = month - 1
+      } else if (month === 1) {
+        // 当前是 1 月, 则减少一年
+        this.curMonth = 12
+        this.curYear--
+      }
+
+      this.printCalendar(this.curYear, this.curMonth)
+    },
+
+    // 下个月
+    onNext () {
+      const month = this.curMonth
+      if (month < 12) {
+        this.curMonth = month + 1
+      } else if (month === 12) {
+        // 当前是 12 月, 则增加年
+        this.curMonth = 1
+        this.curYear++
+      }
+
+      this.printCalendar(this.curYear, this.curMonth)
+    },
+
+    // 点击签到
+    onCheckin () {
+      this.successControl = true
+      this.checkinDays.push(this.staticYMD)
+    },
+
     // 去抽奖
     goLottery () {
       this.$router.push({ path: '/lottery' })
+    },
+
+    // 关闭签到成功的信息弹框
+    closeSuccess () {
+      this.successControl = false
     }
   }
 };
@@ -116,23 +230,24 @@ export default {
   }
   .left {
     width: 100%;
-    height: 50px;
+    height: 36px;
+    padding-top: 14px;
     i {
       display: inline-block;
       width: 35px;
       height: 21px;
-      margin-top: 14px;
       .bg-img("~@images/checkin/pic_checkin_previous");
     }
   }
   .right {
     width: 100%;
     height: 50px;
+    height: 36px;
+    padding-top: 14px;
     i {
       display: inline-block;
       width: 35px;
       height: 21px;
-      margin-top: 14px;
       .bg-img("~@images/checkin/pic_checkin_");
     }
   }
