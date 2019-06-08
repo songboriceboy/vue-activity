@@ -15,7 +15,6 @@ const routes = [
       title: '授权登录'
     }
   },
-
   {
     path: '',
     component: () => import('./view/content/Index.vue'),
@@ -25,13 +24,6 @@ const routes = [
         component: () => import('./view/checkin/Checkin.vue'),
         meta: {
           title: '签到'
-        }
-      },
-      {
-        path: '/lottery',
-        component: () => import('./view/checkin/Lottery'),
-        meta: {
-          title: '招行抽奖'
         }
       },
       {
@@ -70,6 +62,20 @@ const routes = [
         }
       }
     ]
+  },
+  {
+    path: '/lottery',
+    component: () => import('./view/checkin/Lottery'),
+    meta: {
+      title: '招行抽奖'
+    }
+  },
+  {
+    path: '/lotteryDetails',
+    component: () => import('./view/checkin/Details'),
+    meta: {
+      title: '资料详情'
+    }
   }
 ]
 

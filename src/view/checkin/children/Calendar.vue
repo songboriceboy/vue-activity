@@ -39,6 +39,7 @@
               已过期
             </span>
             <span class="success"
+                  @click="goLottery"
                   v-if="calendarData.successDay.indexOf(num) > -1">
               <i class="icon"></i>
               去抽奖
@@ -68,14 +69,17 @@ export default {
         curMonthDays: 30, // 该月的天数
         checkinDays: [6, 7, 9, 10, 11], // 已签到的日期
         invaildDay: [3], // 已作废的日期
-        successDay: [], // 可以抽奖的日期
+        successDay: [28], // 可以抽奖的日期
         recordDay: [25], // 已经抽奖的日期
         days: 3, // 连续签到的天数
       }
     }
   },
   methods: {
-
+    // 去抽奖
+    goLottery () {
+      this.$router.push({ path: '/lottery' })
+    }
   }
 };
 </script>

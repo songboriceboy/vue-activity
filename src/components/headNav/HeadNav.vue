@@ -2,7 +2,6 @@
   <div class="head-nav">
     <van-tabs @click="jump"
               sticky
-              v-model="active"
               background="#F21717"
               title-inactive-color="#FFC5C5"
               title-active-color="#FFF"
@@ -45,7 +44,6 @@ export default {
           path: '/mine'
         }
       ], // 列表
-      active: this.$route.query.active // 当前页
     }
   },
 
@@ -53,7 +51,7 @@ export default {
     // 跳转页面
     jump (index) {
       const path = this.navList[index].path
-      this.$router.push({ path: path, query: { active: index } })
+      this.$router.push({ path: path })
     }
   }
 }
