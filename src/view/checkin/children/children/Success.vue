@@ -19,9 +19,10 @@
         <span class="button-text"
               v-else>去抽奖</span>
       </van-button>
-      <span class="success-close"
-            @click="closesuccessDialog"></span>
     </div>
+    <span class="success-close"
+          v-if="days === 7"
+          @click="closesuccessDialog"></span>
   </van-dialog>
 </template>
 
@@ -52,8 +53,11 @@ export default {
 
     // 跳转
     handleTo () {
-      // let path = this.hasPrize ? '/lotteryDetails' : '/checkin';
-      // this.$router.push({ path: path })
+      if (this.days === 7) {
+        this.$router.push({ path: '/lottery' })
+      } else {
+        this.closesuccessDialog()
+      }
     }
   }
 };
@@ -62,41 +66,56 @@ export default {
 <style lang="less" scoped>
 .success-dialog {
   background: transparent;
-  width: 543px;
-  padding: 0 20px;
-}
-.success-img {
-  width: 270px;
-  height: 193px;
-  margin: 0 auto;
-}
-.success-img-false {
-  .bg-img("~@images/checkin/pic_checkin_notgetting");
-}
-.success-img-true {
-  .bg-img("~@images/checkin/pic_checkin_winning");
+  width: 583px;
+  padding-bottom: 163px;
+  .success-close {
+    width: 96px;
+    height: 96px;
+    display: block;
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    margin-left: -48px;
+    .bg-img("~@images/checkin/pic_checkin_close");
+  }
 }
 .container {
   background: rgba(253, 247, 244, 1);
   border-radius: 15px 15px;
   padding-bottom: 50px;
-  .success-close {
-    width: 44px;
-    height: 44px;
-    display: block;
+  overflow: hidden;
+  .img-bg {
+    width: 100%;
+    height: 430px;
+    .bg-img("~@images/checkin/pic_checkin_window");
+  }
+  .img {
+    width: 376px;
+    height: 272px;
     position: absolute;
-    right: -18px;
-    top: -18px;
-    .bg-img("~@images/checkin/pic_checkin_close1");
+    top: 26px;
+    left: 50%;
+    margin-left: -188px;
+    .bg-img("~@images/checkin/pic_checkin_success");
   }
 }
 .content {
-  font-size: 32px;
-  font-weight: 400;
-  color: rgba(249, 121, 108, 1);
-  line-height: 1.5;
   text-align: center;
-  padding-bottom: 55px;
+  padding: 0 75px 24px;
+  h4 {
+    font-size: 42px;
+    font-weight: 500;
+    color: rgba(242, 23, 23, 1);
+    line-height: 42px;
+  }
+  p {
+    margin-top: 25px;
+    font-size: 32px;
+    font-weight: 400;
+    color: rgba(249, 121, 108, 1);
+    line-height: 45px;
+    letter-spacing: 1px;
+  }
 }
 .isRadiusButton {
   width: 345px;
@@ -104,7 +123,7 @@ export default {
   line-height: 93px;
   display: block;
   text-align: center;
-  margin: 10px auto 0;
+  margin: 0 auto;
   font-size: 0;
   .isRadiusButton();
   .button-text {

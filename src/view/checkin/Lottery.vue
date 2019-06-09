@@ -36,6 +36,7 @@
                  :hasPrize="hasPrize"
                  :infoImg="infoImg"
                  :key="toastControl"
+                 :buttonText="buttonText"
                  @close="closeToast"></info-dialog>
   </div>
 </template>
@@ -48,33 +49,33 @@ export default {
       lotteryTicket: 0, //抽奖次数
       prizeList: [
         {
-          icon: require("@images/checkin/give_up.png"), // 奖品图片
-          name: "Mac一台", // 奖品名称
+          icon: require('@images/checkin/give_up.png'), // 奖品图片
+          name: 'Mac一台', // 奖品名称
           isPrize: 1 // 该奖项是否为奖品
         },
         {
-          icon: require("@images/checkin/give_up.png"),
-          name: "酒店50元消费券",
+          icon: require('@images/checkin/give_up.png'),
+          name: '酒店50元消费券',
           isPrize: 1
         },
         {
-          icon: require("@images/checkin/give_up.png"),
-          name: "谢谢参与",
+          icon: require('@images/checkin/give_up.png'),
+          name: '谢谢参与',
           isPrize: 0
         },
         {
-          icon: require("@images/checkin/give_up.png"),
-          name: "Ipad一个",
+          icon: require('@images/checkin/give_up.png'),
+          name: 'Ipad一个',
           isPrize: 1
         },
         {
-          icon: require("@images/checkin/give_up.png"),
-          name: "iPhone7手机一台",
+          icon: require('@images/checkin/give_up.png'),
+          name: 'iPhone7手机一台',
           isPrize: 1
         },
         {
-          icon: require("@images/checkin/give_up.png"),
-          name: "奖励10枚金币",
+          icon: require('@images/checkin/give_up.png'),
+          name: '奖励10枚金币',
           isPrize: 1
         }
       ], //奖品列表
@@ -84,8 +85,8 @@ export default {
       rotateAngle: 0, //将要旋转的角度
       startRotatingDegreePointer: 0, //指针初始旋转角度
       rotateAnglePointer: 0, //指针将要旋转的度数
-      rotateTransition: "transform 6s ease-in-out", //初始化选中的过度属性控制
-      rotateTransitionPointer: "transform 12s ease-in-out", //初始化指针过度属性控制
+      rotateTransition: 'transform 6s ease-in-out', //初始化选中的过度属性控制
+      rotateTransitionPointer: 'transform 12s ease-in-out', //初始化指针过度属性控制
       clickFlag: true, //是否可以旋转抽奖
       index: 0 // 指定每次旋转到的奖品下标
     };
@@ -95,13 +96,16 @@ export default {
   },
   computed: {
     infoTitle () {
-      return this.hasPrize ? "恭喜您, 中奖啦!" : "未中奖, 很遗憾!";
+      return this.hasPrize ? '恭喜您, 中奖啦!' : '未中奖, 很遗憾!';
     },
     infoText () {
-      return this.hasPrize ? "恭喜您抽中奖品: " + this.prizeList[this.index].name : "您和奖品只差一丢丢, 继续签到下次再抽一次吧。";
+      return this.hasPrize ? '恭喜您抽中奖品: ' + this.prizeList[this.index].name : '您和奖品只差一丢丢, 继续签到下次再抽一次吧。';
     },
     infoImg () {
-      return this.hasPrize ? require("@images/checkin/give_up.png") : '';
+      return this.hasPrize ? require('@images/checkin/give_up.png') : '';
+    },
+    buttonText () {
+      return this.hasPrize ? '立即领取' : '返回首页';
     }
   },
   methods: {
@@ -109,6 +113,7 @@ export default {
     initPrizeList () {
       this.lotteryTicket = 1
     },
+
     rotateHandle () {
       if (this.lotteryTicket > 0) {
         this.index = 2
@@ -117,6 +122,7 @@ export default {
         this.$toast('您的抽奖次数用完了哦!');
       }
     },
+
     rotating () {
       if (!this.clickFlag) return;
       var type = 0; // 默认为 0  转盘转动 1 箭头和转盘都转动(暂且遗留)
@@ -134,9 +140,9 @@ export default {
           resultAngle[resultIndex] -
           this.startRotatingDegree % 360;
         this.startRotatingDegree = rotateAngle;
-        this.rotateAngle = "rotate(" + rotateAngle + "deg)";
+        this.rotateAngle = 'rotate(' + rotateAngle + 'deg)';
         // // //转动指针
-        // this.rotateAnglePointer = "rotate(" + this.startRotatingDegreePointer + 360 * randCircle + "deg)";
+        // this.rotateAnglePointer = 'rotate(' + this.startRotatingDegreePointer + 360 * randCircle + 'deg)';
         // this.startRotatingDegreePointer = 360 * randCircle;
         var that = this;
         // 旋转结束后，允许再次触发
@@ -148,11 +154,14 @@ export default {
         //
       }
     },
+
+    // 结束
     gameOver () {
       this.toastControl = true;
       this.hasPrize = this.prizeList[this.index].isPrize
       this.lotteryTicket--
     },
+
     //关闭弹窗
     closeToast () {
       this.toastControl = false;

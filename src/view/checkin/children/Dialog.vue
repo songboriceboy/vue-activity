@@ -15,6 +15,7 @@
       <div class="content">
         <img :src="infoImg"
              alt=""
+             v-if="infoImg"
              class="content-img">
         {{ text }}
       </div>
@@ -22,10 +23,7 @@
                   class="isRadiusButton"
                   @click="handleTo">
         <i class="calendar-icon"></i>
-        <span class="button-text"
-              v-if="hasPrize">立即领取</span>
-        <span class="button-text"
-              v-else>返回首页</span>
+        <span class="button-text">{{ buttonText }}</span>
       </van-button>
     </div>
   </van-dialog>
@@ -49,7 +47,10 @@ export default {
     }, // 是否中奖
     infoImg: {
       default: ''
-    } // 奖品图片
+    }, // 奖品图片
+    buttonText: {
+      default: ''
+    } // 按钮文字
   },
   data () {
     return {
@@ -64,7 +65,9 @@ export default {
 
     // 跳转
     handleTo () {
-      let path = this.hasPrize ? '/lotteryDetails' : '/checkin';
+      this.closeInfoDialog()
+      let isEdit = this.buttonText === '查看详情' ? 1 : 0;
+      let path = this.hasPrize ? '/lotteryDetails?edit=' + isEdit : '/checkin';
       this.$router.push({ path: path })
     }
   }
@@ -102,20 +105,20 @@ export default {
   position: relative;
   .bg-img("~@images/checkin/pic_checkin_windowtop");
 }
+.info-close {
+  width: 44px;
+  height: 44px;
+  display: block;
+  position: absolute;
+  right: -18px;
+  top: -18px;
+  .bg-img("~@images/checkin/pic_checkin_close1");
+}
 .container {
   background: rgba(253, 247, 244, 1);
   border-radius: 0 0 15px 15px;
   padding: 50px 75px 70px;
   overflow: hidden;
-  .info-close {
-    width: 44px;
-    height: 44px;
-    display: block;
-    position: absolute;
-    right: -18px;
-    top: -18px;
-    .bg-img("~@images/checkin/pic_checkin_close1");
-  }
 }
 .content {
   font-size: 32px;

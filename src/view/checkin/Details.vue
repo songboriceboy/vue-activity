@@ -31,7 +31,10 @@
                  class="details-form-row-areas"
                  v-else />
       <div class="details-form-row-label">详细地址</div>
+      <div v-if="readonly"
+           class="readonly-address">{{ infos.address }}</div>
       <van-field v-model="infos.address"
+                 v-else
                  type="textarea"
                  label-width="100%"
                  placeholder="请填写详细地址"
@@ -64,7 +67,7 @@ export default {
   name: 'lotteryDetails',
   data () {
     return {
-      readonly: false, // 是否可编辑
+      edit: this.$route.query.edit, // 是否可编辑
       areaList, // 城市地区数据
       showPicker: false, // 地区控制
       infos: {
@@ -75,7 +78,27 @@ export default {
       }
     }
   },
+  created () {
+    if (this.readonly) {
+      this.init()
+    }
+  },
+  computed: {
+    readonly () {
+      return this.edit === '1' ? true : false;
+    }
+  },
   methods: {
+    // 获取提交的资料
+    init () {
+      this.infos = {
+        username: 'GuoYou.Li',
+        phone: '13510748985',
+        areas: '深圳市南山区西丽街道',
+        address: '麒麟公寓',
+      }
+    },
+
     // 完成地区选择
     onConfirm (data) {
       if (data) {

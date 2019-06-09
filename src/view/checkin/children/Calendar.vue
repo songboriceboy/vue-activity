@@ -35,6 +35,7 @@
             <span class="checked"
                   v-if="checkinDays.indexOf(''+curYear+curMonth+num) > -1"></span>
             <span class="record"
+                  @click="viewRecord(''+curYear+curMonth+num)"
                   v-if="recordDays.indexOf(''+curYear+curMonth+num) > -1">
               <i class="icon"></i>
               中奖纪录
@@ -66,14 +67,25 @@
                    :text="successText"
                    :days="days"
                    @close="closeSuccess"></check-success>
+    <!-- 抽奖信息弹框 -->
+    <info-dialog :show="toastControl"
+                 :key="'0_0'+toastControl"
+                 :title="recordInfo.infoTitle"
+                 :text="recordInfo.infoText"
+                 :hasPrize="recordInfo.hasPrize"
+                 :infoImg="recordInfo.infoImg"
+                 :buttonText="recordInfo.buttonText"
+                 @close="closeToast"></info-dialog>
   </div>
 </template>
 
 <script>
 import checkSuccess from './children/Success'
+import InfoDialog from './Dialog'
+
 export default {
   name: 'Calendar',
-  components: { checkSuccess },
+  components: { checkSuccess, InfoDialog },
   data () {
     return {
       cnNumbers: ['一', '二', '三', '四', '五', '六', '日'], // 日历头部
@@ -90,6 +102,14 @@ export default {
       days: 0, // 连续签到的天数
       successControl: false, // 签到成功信息弹框控制
       successText: '', // 签到成功信息
+      recordInfo: {
+        hasPrize: false, // 是否中奖
+        infoTitle: '', // 中奖标题
+        infoImg: '', // 中奖图片
+        infoText: '', // 中奖信息
+        buttonText: '' // 按钮文字
+      }, // 中奖纪录信息
+      toastControl: false // 详情控制
     }
   },
   created () {
@@ -126,10 +146,10 @@ export default {
 
     // 获取签到记录
     getCheckRecord () {
-      this.checkinDays = ['201961', '201962', '201963', '201964', '201965', '201966', '201967']
+      this.checkinDays = ['2019528', '201962', '201963', '201964', '201965', '201966', '201967', '201968']
       this.invaildDays = []
       this.successDays = []
-      this.recordDays = ['201967']
+      this.recordDays = ['201968']
       this.days = 0
     },
 
@@ -181,6 +201,15 @@ export default {
 
     // 点击签到
     onCheckin () {
+      this.days++
+      let str = ''
+      if (this.days === 7) {
+        this.successDays.push(this.staticYMD)
+        str = '恭喜您已连续签到7天，有一次抽奖的机会'
+      } else {
+        str = '已连续签到' + this.days + '天，继续加油，签满7天可抽奖一次。'
+      }
+      this.successText = str
       this.successControl = true
       this.checkinDays.push(this.staticYMD)
     },
@@ -190,9 +219,34 @@ export default {
       this.$router.push({ path: '/lottery' })
     },
 
+    // 查看中奖纪录
+    viewRecord () {
+      // console.log(date)
+      // this.recordInfo = {
+      //   hasPrize: false,
+      //   infoTitle: '未中奖,很遗憾！',
+      //   infoImg: '',
+      //   infoText: '您和奖品只差一丢丢，继续签到下次再抽一次吧。',
+      //   buttonText: '返回首页'
+      // }
+      this.recordInfo = {
+        hasPrize: true,
+        infoTitle: '恭喜您,中奖啦！',
+        infoImg: require('@images/checkin/give_up.png'),
+        infoText: '恭喜您抽中奖品: iPad一个',
+        buttonText: '查看详情'
+      }
+      this.toastControl = true
+    },
+
     // 关闭签到成功的信息弹框
     closeSuccess () {
       this.successControl = false
+    },
+
+    // 关闭抽奖详情信息
+    closeToast () {
+      this.toastControl = false
     }
   }
 };
