@@ -8,6 +8,7 @@
 
 <script>
 import activityItem from './children/Item'
+
 export default {
   name: 'activity',
   components: { activityItem },
