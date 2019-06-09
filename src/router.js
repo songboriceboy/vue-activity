@@ -91,6 +91,9 @@ router.beforeEach((to, from, next) => {
   if (title) {
     document.title = title
   }
+
+  // 登录状态
+  // const token = localStorage.getItem()
   next()
 })
 

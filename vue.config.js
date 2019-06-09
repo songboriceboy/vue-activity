@@ -3,8 +3,24 @@ const pxtoviewport = require('postcss-px-to-viewport')
 const path = require('path')
 
 module.exports = {
-  outputDir: 'docs',
   publicPath: process.env.NODE_ENV === 'production' ? '/merchants-h5/' : '/',
+
+  // 配置 axios 代理请求
+  devServer: {
+    port: '8080', //代理端口
+    proxy: {
+      '/api': {
+        //代理api
+        target: 'localhost', //服务器api地址
+        changeOrigin: true, //是否跨域
+        ws: true, // proxy websockets
+        pathRewrite: {
+          //重写路径
+          '^/api': ''
+        }
+      }
+    }
+  },
 
   css: {
     loaderOptions: {
