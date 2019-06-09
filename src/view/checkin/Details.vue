@@ -42,7 +42,7 @@
                  autosize />
     </div>
     <van-button type="default"
-                class="isRadiusButton"
+                class="is-radius-button-red"
                 @click="onSubmit"
                 v-if="!readonly">提交</van-button>
     <!-- 城市地区 -->
@@ -158,16 +158,14 @@ export default {
 <style lang="less" scoped>
 @import url("~@/common/style/resetui.less");
 .details {
-  .isRadiusButton {
+  .is-radius-button-red {
+    .is-radius-button-red();
     width: 80%;
     height: 92px;
     line-height: 92px;
     display: block;
-    text-align: center;
     margin: 78px auto 0;
     font-size: 38px;
-    color: #fff;
-    .isRadiusButton();
   }
 }
 </style>

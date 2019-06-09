@@ -55,7 +55,7 @@
         </ul>
       </div>
       <van-button type="default"
-                  class="isRadiusButton"
+                  class="is-radius-button-red"
                   @click="onCheckin">
         <i class="calendar-icon"></i>
         <span class="button-text">点击签到</span>
@@ -381,15 +381,14 @@ export default {
     }
   }
 
-  .isRadiusButton {
+  .is-radius-button-red {
+    .is-radius-button-red();
     width: 468px;
     height: 88px;
     line-height: 88px;
     display: block;
-    text-align: center;
     margin: 10px auto 0;
     font-size: 0;
-    .isRadiusButton();
   }
   .calendar-icon {
     display: inline-block;

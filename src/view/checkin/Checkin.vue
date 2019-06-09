@@ -13,12 +13,12 @@
 </template>
 
 <script>
-import CheckCalendar from './children/Calendar'
+import checkCalendar from './children/Calendar'
 import checkRules from './children/Rules'
 
 export default {
   name: 'checkin',
-  components: { CheckCalendar, checkRules },
+  components: { checkCalendar, checkRules },
   data () {
     return {
       rulesControl: false, // 签到规则弹框控制
@@ -44,7 +44,7 @@ export default {
 <style lang="less" scoped>
 .checkin {
   position: absolute;
-  top: 85px;
+  top: 0;
   left: 0;
   right: 0;
   bottom: 0;

@@ -1,11 +1,10 @@
 <template>
   <div class="head-nav">
     <van-tabs @click="jump"
-              sticky
+              v-model="active"
               background="#F21717"
               title-inactive-color="#FFC5C5"
-              title-active-color="#FFF"
-              class=".ignore">
+              title-active-color="#FFF">
       <van-tab v-for="(item,index) in navList"
                :title="item.title"
                :key="index"></van-tab>
@@ -44,6 +43,7 @@ export default {
           path: '/mine'
         }
       ], // 列表
+      active: this.$route.query.active
     }
   },
 
@@ -51,7 +51,7 @@ export default {
     // 跳转页面
     jump (index) {
       const path = this.navList[index].path
-      this.$router.push({ path: path })
+      this.$router.push({ path: path, query: { active: index } })
     }
   }
 }

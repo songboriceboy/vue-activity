@@ -11,7 +11,7 @@
         <p>{{ text }}</p>
       </div>
       <van-button type="default"
-                  class="isRadiusButton"
+                  class="is-radius-button-red"
                   @click="handleTo">
         <i class="calendar-icon"></i>
         <span class="button-text"
@@ -117,15 +117,14 @@ export default {
     letter-spacing: 1px;
   }
 }
-.isRadiusButton {
+.is-radius-button-red {
+  .is-radius-button-red();
   width: 345px;
   height: 93px;
   line-height: 93px;
   display: block;
-  text-align: center;
   margin: 0 auto;
   font-size: 0;
-  .isRadiusButton();
   .button-text {
     font-size: 38px;
     font-weight: 500;
