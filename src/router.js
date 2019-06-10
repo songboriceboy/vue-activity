@@ -54,7 +54,7 @@ export default new Router({
           component: () => import('./view/video/Video'),
           meta: {
             title: '视频',
-            requireAuth: true
+            requireAuth: false
           }
         },
         {
@@ -89,6 +89,14 @@ export default new Router({
       meta: {
         title: '资料详情',
         requireAuth: true
+      }
+    },
+    {
+      path: '/videoList',
+      component: () => import('./view/video/VideoList'),
+      meta: {
+        title: '视频列表',
+        requireAuth: false
       }
     }
   ]

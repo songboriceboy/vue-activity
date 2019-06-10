@@ -22,7 +22,6 @@ export default {
     // 重定向至签到页
     redirect () {
       let path = this.$route.path
-      console.log(path)
       if (path === '' || path === '/') {
         this.$router.push({ path: '/checkin' })
       }

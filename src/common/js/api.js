@@ -14,8 +14,8 @@ import axios from '@/common/js/http'
 // 授权登录部分
 const login = {
   //  授权登录
-  login(params) {
-    return axios.post(`/oauth`, params)
+  login() {
+    return axios.post(`/oauth`)
   }
 }
 
