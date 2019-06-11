@@ -4,24 +4,25 @@
          :alt="itemData.title"
          class="img" />
     <div class="content">
+      <div class="label">#话题</div>
       <h2>{{ itemData.title }}</h2>
       <div class="row">
-        <div class="end-time">{{ itemData.endTime }}</div>
+        <div class="discuss-users-box">
+          <discuss-users></discuss-users>
+        </div>
         <van-button type="default"
                     class="button is-radius-button-red"
-                    @click="onApply"
-                    v-if="itemData.hasTime">报名</van-button>
-        <van-button type="default"
-                    class="button is-radius-button-gray"
-                    v-else>已结束</van-button>
+                    @click="goDiscuss">我有话说</van-button>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import discussUsers from '@/components/discussUsers/DiscussUsers'
 export default {
-  name: 'activityItem',
+  name: 'discussItem',
+  components: { discussUsers },
   props: {
     itemData: {
       required: true,
@@ -37,8 +38,8 @@ export default {
     }
   },
   methods: {
-    // 报名
-    onApply () {
+    // 我有话说
+    goDiscuss () {
 
     }
   }
@@ -56,42 +57,43 @@ export default {
   .img {
     display: block;
     width: 100%;
-    height: 294px;
+    height: 364px;
   }
 }
 .content {
-  padding: 16px 24px 36px;
+  padding: 17px 24px 36px;
+  .label {
+    height: 40px;
+    font-size: 28px;
+    font-family: PingFangSC-Medium;
+    font-weight: 500;
+    color: rgba(255, 69, 0, 1);
+    line-height: 40px;
+  }
   h2 {
     height: 53px;
     font-size: 38px;
     font-weight: 500;
     color: rgba(49, 49, 49, 1);
     line-height: 53px;
+    margin-top: 7px;
     .ellipsis();
   }
   .row {
     padding-top: 3px;
     .clearfix();
-    .end-time {
-      padding-top: 9px;
-      height: 40px;
-      font-size: 28px;
-      font-weight: 500;
-      color: rgba(255, 69, 0, 1);
-      line-height: 40px;
-      float: left;
-    }
     .is-radius-button-red {
       .is-radius-button-red();
     }
-    .is-radius-button-gray {
-      .is-radius-button-gray();
-    }
     .button {
-      width: 151px;
-      height: 57px;
-      line-height: 57px;
+      width: 190px;
+      height: 70px;
+      line-height: 70px;
       float: right;
+      font-size: 28px;
+      font-family: PingFangSC-Semibold;
+      font-weight: 600;
+      color: rgba(255, 255, 255, 1);
     }
   }
 }
