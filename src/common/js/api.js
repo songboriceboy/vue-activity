@@ -11,14 +11,6 @@ import axios from '@/common/js/http'
 // return axios.post(`/login`, qs.stringify(params))
 // return axios.post(`/login`, params)
 
-// 授权登录部分
-const login = {
-  //  授权登录
-  login() {
-    return axios.post(`/oauth`)
-  }
-}
-
 // 签到模块
 const checkin = {
   // 获取签到规则
@@ -196,7 +188,6 @@ const common = {
 }
 
 export default {
-  login,
   checkin,
   acticity,
   trial,

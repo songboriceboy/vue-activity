@@ -21,14 +21,10 @@ const tip = msg => {
 
 /**
  * 跳转登录页
- * 携带当前页面路由，以期在登录页面完成登录后返回当前页面
  */
 const toLogin = () => {
   router.replace({
-    path: '/login',
-    query: {
-      redirect: router.currentRoute.fullPath
-    }
+    path: '/login'
   })
 }
 
@@ -48,7 +44,7 @@ const errorHandle = (status, other) => {
     case 403:
       tip('授权登录失效，请重新授权登录')
       // localStorage.removeItem('token')
-      store.commit('setTokenMutation', null)
+      store.commit('setToken', null)
       setTimeout(() => {
         toLogin()
       }, 1000)
@@ -99,5 +95,58 @@ instance.interceptors.response.use(
     }
   }
 )
+
+/**
+ * 获取 token 和用户信息
+ */
+const postTokenInfo = (code, next) => {
+  axios.post('/login', { code }).then(res => {
+    const result = res.data
+    if (result) {
+      if (result.errorCode === 0) {
+        // 设置 vuex 状态值
+        let token = result.data.token.accessToken
+        let openid = result.data.user.openid
+        store.commit('setToken', token)
+        store.commit('setOpenid', openid)
+        // 设置缓存
+        localStorage.setItem('token', token)
+        localStorage.setItem('openid', openid)
+        next()
+      } else {
+        tip(result.message)
+        next({
+          path: '/login'
+        })
+      }
+    }
+  })
+}
+
+router.beforeEach((to, from, next) => {
+  // 获取 code
+  const code = to.query.code
+  if (code) {
+    // 获取用户信息和 token
+    postTokenInfo(code, next)
+  } else {
+    if (!code && to.meta.requireAuth) {
+      // 判断该路由是否需要登录权限
+      if (localStorage.getItem('token')) {
+        next()
+      } else {
+        // 设置状态
+        store.commit('afterLoginGo', to.fullPath)
+        // 设置缓存
+        localStorage.setItem('afterLoginGo', to.fullPath)
+        next({
+          path: '/login'
+        })
+      }
+    } else {
+      next()
+    }
+  }
+})
 
 export default instance

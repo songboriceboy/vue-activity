@@ -1,25 +1,24 @@
 export default {
-  // 用户名
-  setUsernameMutation(ctx, name) {
-    this.state.username = name
-    try {
-      if (localStorage.username) {
-        localStorage.username = name
-      }
-    } catch (e) {
-      console.log(e)
-    }
+  // 设置 token
+  setToken(state, token) {
+    state.token = token
+    localStorage['token'] = token
   },
 
-  // token
-  setTokenMutation(ctx, token) {
-    this.state.token = token
-    try {
-      if (localStorage.token) {
-        localStorage.token = token
-      }
-    } catch (e) {
-      console.log(e)
-    }
+  // 设置 账号 id openid
+  setOpenid(state, openid) {
+    state.openid = openid
+    localStorage['openid'] = openid
+  },
+
+  // 重试次数计数
+  retryCountAdd(state) {
+    state.retryCount++
+  },
+
+  // 设置登录跳转地址
+  setLoginGo(state, path) {
+    state.afterLoginGo = path
+    localStorage['afterLoginGo'] = path
   }
 }

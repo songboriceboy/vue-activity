@@ -1,16 +1,21 @@
 <template>
   <div class="login">
     <header class="header">
-      <!-- <img :src="imgSrc"
-           alt=""> -->
+      <img :src="imgSrc"
+           :alt="title"
+           class="logo">
       <h1>{{ title }}</h1>
       <h4>{{ name }}</h4>
     </header>
     <section class="content">
-      <h4 @click="onLogin">该程序将获取以下授权:</h4>
-      <ul></ul>
+      <h5>该程序将获取以下授权:</h5>
+      <ul class="list">
+        <li>获得您的公开信息(昵称, 头像等)</li>
+      </ul>
     </section>
-
+    <van-button type="primary"
+                class="allow"
+                @click="onLogin">允许</van-button>
   </div>
 </template>
 
@@ -20,22 +25,116 @@ export default {
   data () {
     return {
       title: '掌上生活',
-      name: '深圳招商银行'
+      name: '深圳招商银行',
+      imgSrc: './logo.png'
     }
   },
+  mounted () {
+    this.init()
+  },
   methods: {
+    // init
+    init () {
+      if (localStorage.getItem('token')) {
+        let path = '/checkin'
+        let afterLoginGo = localStorage.getItem('afterLoginGo')
+        if (afterLoginGo) {
+          path = afterLoginGo
+        }
+        this.$router.push({ path: path })
+      }
+    },
+
     // 允许授权登录
     onLogin () {
-      // this.$api.login.login()
-      //   .then(res => {
-      //     console.log(res)
-      //   })
-      location.href = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx7812484f92be0061&redirect_uri=http%3A%2F%2Fmerchants.lzdu.com%2Fapi%2Foauth_callback%3Fback_url%3Dhttp%253A%252F%252Fmerchants.lzdu.com%252Fapi%252Foauth&response_type=code&scope=snsapi_userinfo&state=3c347eb132065abf52ee4c1bf8ee0e35&connect_redirect=1&uin=MzE0MTI0MTkwNg%3D%3D&key=27afd5fe7004a19600622a2975bbeeb5ca7c62028511105f51df17110a52016de8798230dc05096453c1db532844893a&pass_ticket=tyCTmUadt/Ozx8wl7CbW7bfsrt+DoDW9FmlJ6s+H2Q9Bm9TP22HOnAO7z6Lw1RkEoYWOAtnqwD+uIdS3oXodxw=='
+      let url = 'http://loginfo.lzdu.com'
+      window.location.href = 'http://merchants.lzdu.com/api/oauth?back_url=' + url
     }
   }
 }
 </script>
 
 <style lang="less" scoped>
+.login {
+  padding: 0 40px;
+  .header {
+    margin: 0 30px;
+    border-bottom: 1px solid #e5e5e5;
+    padding: 120px 0 52px;
+  }
+  .logo {
+    display: block;
+    width: 124px;
+    height: 128px;
+    margin: 0 auto;
+  }
+  h1 {
+    height: 45px;
+    font-size: 32px;
+    font-family: PingFangSC-Medium;
+    font-weight: 500;
+    color: rgba(0, 0, 0, 0.87);
+    line-height: 45px;
+    text-align: center;
+    margin-top: 46px;
+  }
+  h4 {
+    height: 33px;
+    font-size: 24px;
+    font-family: PingFangSC-Regular;
+    font-weight: 400;
+    color: rgba(136, 136, 136, 1);
+    line-height: 33px;
+    letter-spacing: 2px;
+    text-align: center;
+    margin-top: 20px;
+  }
+  .content {
+    padding: 46px 30px 56px;
+    h5 {
+      height: 28px;
+      font-size: 28px;
+      font-family: PingFangSC-Regular;
+      font-weight: 400;
+      color: rgba(0, 0, 0, 0.87);
+      line-height: 29px;
+    }
+    .list {
+      padding-top: 34px;
+      li {
+        height: 34px;
+        font-size: 22px;
+        font-family: PingFangSC-Regular;
+        font-weight: 400;
+        color: rgba(155, 155, 155, 1);
+        line-height: 34px;
+        padding-left: 35px;
+        position: relative;
+        &::before {
+          display: block;
+          content: "";
+          width: 10px;
+          height: 10px;
+          background-color: #66ba6c;
+          position: absolute;
+          top: 12px;
+          left: 0;
+          border-radius: 100%;
+        }
+      }
+    }
+  }
+  .allow {
+    display: block;
+    width: 100%;
+    padding: 0;
+    height: 94px;
+    color: #fff;
+    font-size: 36px;
+    background: rgba(26, 173, 25, 1);
+    border-radius: 10px;
+    border: 2px solid rgba(5, 5, 5, 0.08);
+  }
+}
 </style>
 

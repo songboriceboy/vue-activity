@@ -14,27 +14,6 @@ Vue.component('HeadNav', HeadNav)
 Vue.prototype.$axios = axios
 Vue.prototype.$api = api
 
-router.beforeEach((to, from, next) => {
-  const title = to.meta && to.meta.title
-  if (title) {
-    document.title = title
-  }
-
-  if (to.meta.requireAuth) {
-    // 判断该路由是否需要登录权限
-    if (localStorage.getItem('token')) {
-      next()
-    } else {
-      next()
-      // next({
-      //   path: '/login'
-      // })
-    }
-  } else {
-    next()
-  }
-})
-
 new Vue({
   router,
   store,
