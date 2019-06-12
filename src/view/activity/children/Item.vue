@@ -1,5 +1,6 @@
 <template>
-  <div class="item">
+  <div class="item"
+       @click="toDetails">
     <img :src="itemData.imgSrc"
          :alt="itemData.title"
          class="img" />
@@ -9,7 +10,6 @@
         <div class="end-time">{{ itemData.endTime }}</div>
         <van-button type="default"
                     class="button is-radius-button-red"
-                    @click="onApply"
                     v-if="itemData.hasTime">报名</van-button>
         <van-button type="default"
                     class="button is-radius-button-gray"
@@ -39,7 +39,13 @@ export default {
   methods: {
     // 报名
     onApply () {
+      console.log('报名')
+      return false
+    },
 
+    // 详情
+    toDetails () {
+      this.$router.push({ path: '/activityDetail', query: { id: this.itemData.id } })
     }
   }
 };

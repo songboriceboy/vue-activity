@@ -84,6 +84,14 @@ export default new Router({
       }
     },
     {
+      path: '/activityDetail',
+      component: () => import('./view/activity/Details'),
+      meta: {
+        title: '活动详情',
+        requireAuth: true
+      }
+    },
+    {
       path: '/lotteryDetails',
       component: () => import('./view/checkin/Details'),
       meta: {
