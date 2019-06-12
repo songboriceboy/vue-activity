@@ -25,7 +25,9 @@ import {
   RadioGroup,
   Radio,
   Icon,
-  Actionsheet
+  Actionsheet,
+  Tabbar,
+  TabbarItem
 } from 'vant'
 import 'vant/lib/index.css'
 
@@ -55,3 +57,5 @@ Vue.use(RadioGroup)
 Vue.use(Radio)
 Vue.use(Icon)
 Vue.use(Actionsheet)
+Vue.use(Tabbar)
+Vue.use(TabbarItem)

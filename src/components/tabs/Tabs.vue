@@ -3,22 +3,16 @@
             swipeable
             sticky
             animated
-            class="detail-tabs"
+            class="common-tabs"
             title-inactive-color="#333"
             title-active-color="#FF4500">
-    <!-- <van-tab v-for="(item, index) of detailData"
-             :key="index"
-             :title="item.tab">
-      <div class="container"
-           v-html="item.content"></div>
-    </van-tab> -->
     <slot name="tab"></slot>
   </van-tabs>
 </template>
 
 <script>
 export default {
-  name: 'commonDetail',
+  name: 'commonTabs',
   props: {
     detailData: {}
   },
@@ -31,7 +25,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.detail-tabs.van-tabs {
+.common-tabs.van-tabs {
   padding-top: 87px;
   position: relative;
   /deep/ .van-tabs__wrap {

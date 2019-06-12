@@ -15,25 +15,30 @@
       </div>
     </div>
     <div class="detail-b">
-      <common-detail>
+      <common-tabs>
         <template slot="tab">
           <van-tab v-for="(item, index) of detailData"
                    :key="index"
                    :title="item.tab">
             <div class="tab-container"
-                 v-html="item.content"></div>
+                 v-html="item.content"
+                 v-if="item.content"></div>
+            <empty-box v-else></empty-box>
           </van-tab>
         </template>
-      </common-detail>
+      </common-tabs>
     </div>
+    <detail-footer></detail-footer>
   </section>
 </template>
 
 <script>
-import commonDetail from '@/components/details/Details'
+import commonTabs from '@/components/tabs/Tabs'
+import detailFooter from '@/components/footer/Footer'
+import emptyBox from '@/components/empty/Empty'
 export default {
   name: 'activityDetail',
-  components: { commonDetail },
+  components: { commonTabs, detailFooter, emptyBox },
   data () {
     return {
       details: {
@@ -66,9 +71,9 @@ export default {
 
 <style lang="less" scoped>
 .detial {
-  background: rgba(246, 247, 248, 1);
+  background-color: #fff;
   .detail-t {
-    margin-bottom: 10px;
+    border-bottom: 10px solid rgba(246, 247, 248, 1);
     background-color: #fff;
     .img {
       display: block;
