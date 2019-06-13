@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <div class="title">幸运大转盘</div>
+    <div class="title"></div>
     <div class="tip">签到抽奖 把好礼带回家</div>
     <div class="lucky-wheel">
       <div class="wheel-main">
@@ -181,10 +181,9 @@ export default {
   .bg-img("~@images/checkin/pic_checkin_background2");
   .title {
     width: 594px;
+    height: 124px;
     margin: 44px auto 0;
-    font-size: 100px;
-    text-align: center;
-    color: #fff;
+    .bg-img("~@images/checkin/pic_lottery_font");
   }
   .tip {
     height: 60px;
