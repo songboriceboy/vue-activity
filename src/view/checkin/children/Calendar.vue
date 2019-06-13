@@ -148,8 +148,8 @@ export default {
     getCheckRecord () {
       this.checkinDays = ['201963', '201964', '201965', '201966', '201967', '201968', '201969', '2019610', '2019611', '2019612']
       this.invaildDays = []
-      this.successDays = []
-      this.recordDays = ['201969']
+      this.successDays = ['201969']
+      this.recordDays = []
       this.days = 3
     },
 

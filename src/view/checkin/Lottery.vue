@@ -22,7 +22,8 @@
                 {{item.name}}
               </div>
               <div class="prize-pic">
-                <img :src="item.icon">
+                <img :src="item.icon"
+                     :alt="item.name">
               </div>
             </div>
           </div>
@@ -49,32 +50,32 @@ export default {
       lotteryTicket: 0, //抽奖次数
       prizeList: [
         {
-          icon: require('@images/checkin/give_up.png'), // 奖品图片
+          icon: require('@images/checkin/pic_lottery_img1@3x.png'), // 奖品图片
           name: 'Mac一台', // 奖品名称
           isPrize: 1 // 该奖项是否为奖品
         },
         {
-          icon: require('@images/checkin/give_up.png'),
+          icon: require('@images/checkin/pic_lottery_img3@3x.png'),
           name: '酒店50元消费券',
           isPrize: 1
         },
         {
-          icon: require('@images/checkin/give_up.png'),
+          icon: require('@images/checkin/pic_lottery_@3x.png'),
           name: '谢谢参与',
           isPrize: 0
         },
         {
-          icon: require('@images/checkin/give_up.png'),
+          icon: require('@images/checkin/pic_lottery_img5@3x.png'),
           name: 'Ipad一个',
           isPrize: 1
         },
         {
-          icon: require('@images/checkin/give_up.png'),
+          icon: require('@images/checkin/pic_lottery_img4@3x.png'),
           name: 'iPhone7手机一台',
           isPrize: 1
         },
         {
-          icon: require('@images/checkin/give_up.png'),
+          icon: require('@images/checkin/pic_lottery_img2@3x.png'),
           name: '奖励10枚金币',
           isPrize: 1
         }
@@ -305,8 +306,8 @@ export default {
   padding-top: 20px;
 }
 .prize-pic img {
-  width: 4.0625rem;
-  height: 2.5rem;
+  max-width: 4.0625rem;
+  max-height: 2.5rem;
 }
 .prize-type {
   padding-top: 130px;
