@@ -328,6 +328,7 @@ export default {
       text-align: center;
       color: #999;
       padding: 25px 0;
+      font-size: 26px;
     }
     .list {
       .clearfix();

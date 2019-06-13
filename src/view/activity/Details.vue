@@ -28,7 +28,9 @@
         </template>
       </common-tabs>
     </div>
-    <detail-footer></detail-footer>
+    <detail-footer :label="footerData.label"
+                   :endTime="footerData.endTime"
+                   :routerPath="footerData.routerPath"></detail-footer>
   </section>
 </template>
 
@@ -63,7 +65,12 @@ export default {
           tab: '体验报告',
           content: ''
         }
-      ] // 详情
+      ], // 详情
+      footerData: {
+        endTime: '2019-6-15 22:19:00',
+        label: '报名',
+        routerPath: './'
+      }
     }
   }
 }
