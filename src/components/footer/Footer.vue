@@ -34,10 +34,10 @@ export default {
     endTime: {
       type: String,
       default: ''
-    },
+    }, // 截止时间
     routePath: {
       default: ''
-    }
+    } // 报名跳转路径
   },
   data () {
     return {
@@ -46,54 +46,16 @@ export default {
     }
   },
   mounted () {
-    let timer = setInterval(() => {
-      if (this.over) {
-        clearInterval(timer)
-      }
-      this.countDown()
-    }, 1000)
+    this.init()
   },
   methods: {
-    // 倒计时
-    countDown () {
-      // 如果截止时间为空
-      if (!this.endTime) {
-        this.over = true
-        return false
-      }
-
-      // 截止时间
-      const endTime = new Date(this.endTime)
-
-      // 当前时间
-      const nowTime = new Date()
-
-      // 剩余时间 秒
-      let leftTime = parseInt((endTime.getTime() - nowTime.getTime()) / 1000)
-
-      // 如果截止时间已经过期
-      if (leftTime <= 0) {
-        this.over = true
-        this.leftTime = ['00', '00', '00', '00']
-        return false
-      }
-
-      // 取整
-      let D = this.addPrefixZero(parseInt(leftTime / (24 * 60 * 60)))
-      let H = this.addPrefixZero(parseInt(leftTime / (60 * 60) % 24))
-      let M = this.addPrefixZero(parseInt(leftTime / 60 % 60))
-      let S = this.addPrefixZero(parseInt(leftTime % 60))
-
-      this.leftTime = [D, H, M, S]
-    },
-
-    // 时间 1 位数, 则添加前缀 0
-    addPrefixZero (time) {
-      if (time >= 10) {
-        return time
-      } else {
-        return `0${time}`
-      }
+    init () {
+      let timer = setInterval(() => {
+        if (this.over) {
+          clearInterval(timer)
+        }
+        this.leftTime = this.$methods.countDown(this)
+      }, 1000)
     }
   }
 }

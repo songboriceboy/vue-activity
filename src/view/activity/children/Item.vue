@@ -7,7 +7,9 @@
     <div class="content">
       <h2>{{ itemData.title }}</h2>
       <div class="row">
-        <div class="end-time">{{ itemData.endTime }}</div>
+        <div class="end-time">
+          <count-down :endTime="itemData.endTime"></count-down>
+        </div>
         <van-button type="default"
                     class="button is-radius-button-red"
                     v-if="itemData.hasTime">报名</van-button>
@@ -20,8 +22,10 @@
 </template>
 
 <script>
+import countDown from '@/components/countDown/CountDown'
 export default {
   name: 'activityItem',
+  components: { countDown },
   props: {
     itemData: {
       required: true,
