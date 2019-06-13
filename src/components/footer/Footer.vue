@@ -102,4 +102,7 @@ export default {
     width: 100%;
   }
 }
+.van-hairline--top-bottom::after {
+  border: none;
+}
 </style>

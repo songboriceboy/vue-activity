@@ -48,6 +48,7 @@ export default {
     // 允许授权登录
     onLogin () {
       let url = 'http://loginfo.lzdu.com'
+      // let url = location.href
       window.location.href = 'http://merchants.lzdu.com/api/oauth?back_url=' + url
     }
   }

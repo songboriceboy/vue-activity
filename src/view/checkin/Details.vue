@@ -92,10 +92,10 @@ export default {
     // 获取提交的资料
     init () {
       this.infos = {
-        username: 'GuoYou.Li',
-        phone: '13510748985',
+        username: 'GY',
+        phone: '13510748888',
         areas: '深圳市南山区西丽街道',
-        address: '麒麟公寓',
+        address: '西丽地铁站',
       }
     },
 

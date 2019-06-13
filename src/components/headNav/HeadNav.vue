@@ -63,9 +63,14 @@ export default {
   background-color: #f21717;
   .van-tabs--line {
     padding-top: 85px;
+    background-color: #f21717;
+  }
+  .van-hairline--top-bottom::after {
+    border: none;
   }
   .van-tabs--line .van-tabs__wrap {
     height: 85px;
+    background-color: #f21717;
   }
   .van-tab {
     line-height: 85px;

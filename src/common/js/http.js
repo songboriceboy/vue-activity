@@ -130,7 +130,9 @@ router.beforeEach((to, from, next) => {
     // 获取用户信息和 token
     postTokenInfo(code, next)
   } else {
-    if (!code && to.meta.requireAuth) {
+    // 临时注释
+    // if (!code && to.meta.requireAuth) {
+    if (code && to.meta.requireAuth) {
       // 判断该路由是否需要登录权限
       if (localStorage.getItem('token')) {
         next()

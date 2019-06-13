@@ -146,11 +146,11 @@ export default {
 
     // 获取签到记录
     getCheckRecord () {
-      this.checkinDays = ['2019528', '201962', '201963', '201964', '201965', '201966', '201967', '201968']
+      this.checkinDays = ['201963', '201964', '201965', '201966', '201967', '201968', '201969', '2019610', '2019611', '2019612']
       this.invaildDays = []
       this.successDays = []
-      this.recordDays = ['201968']
-      this.days = 0
+      this.recordDays = ['201969']
+      this.days = 3
     },
 
     // 遍历日历
@@ -201,17 +201,21 @@ export default {
 
     // 点击签到
     onCheckin () {
-      this.days++
-      let str = ''
-      if (this.days === 7) {
-        this.successDays.push(this.staticYMD)
-        str = '恭喜您已连续签到7天，有一次抽奖的机会'
+      if (this.checkinDays.indexOf(this.staticYMD) < 0) {
+        this.days++
+        let str = ''
+        if (this.days === 7) {
+          this.successDays.push(this.staticYMD)
+          str = '恭喜您已连续签到7天，有一次抽奖的机会'
+        } else {
+          str = '已连续签到' + this.days + '天，继续加油，签满7天可抽奖一次。'
+        }
+        this.successText = str
+        this.successControl = true
+        this.checkinDays.push(this.staticYMD)
       } else {
-        str = '已连续签到' + this.days + '天，继续加油，签满7天可抽奖一次。'
+        this.$toast('今天已经签过到了, 记得明天再来哦!')
       }
-      this.successText = str
-      this.successControl = true
-      this.checkinDays.push(this.staticYMD)
     },
 
     // 去抽奖
@@ -323,7 +327,7 @@ export default {
       line-height: 44px;
       text-align: center;
       color: #999;
-      padding: 22px 0;
+      padding: 25px 0;
     }
     .list {
       .clearfix();
@@ -347,18 +351,18 @@ export default {
         display: block;
         width: 74px;
         height: 58px;
-        margin: 0 auto;
+        margin: 6px 0 0 10px;
       }
       .invalid,
       .success,
       .record {
         display: block;
-        width: 88px;
+        width: 100%;
         text-align: center;
         font-size: 22px;
         position: absolute;
         top: 8px;
-        right: 5px;
+        right: 0;
       }
       .invalid {
         color: #bec0ca;
