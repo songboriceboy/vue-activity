@@ -150,6 +150,7 @@ export default {
         // this.$refs.username.focus()
         return false
       }
+      return true
     }
   }
 }

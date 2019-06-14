@@ -92,6 +92,14 @@ export default new Router({
       }
     },
     {
+      path: '/activityApply',
+      component: () => import('./view/activity/Apply'),
+      meta: {
+        title: '活动报名',
+        requireAuth: true
+      }
+    },
+    {
       path: '/lotteryDetails',
       component: () => import('./view/checkin/Details'),
       meta: {

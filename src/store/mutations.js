@@ -12,13 +12,18 @@ export default {
   },
 
   // 重试次数计数
-  retryCountAdd(state) {
-    state.retryCount++
-  },
+  // retryCountAdd(state) {
+  //   state.retryCount++
+  // },
 
   // 设置登录跳转地址
   setLoginGo(state, path) {
     state.afterLoginGo = path
     localStorage['afterLoginGo'] = path
+  },
+
+  // 设置 message 弹框控制的状态
+  setMessageShow(state, show) {
+    state.messageShow = show
   }
 }

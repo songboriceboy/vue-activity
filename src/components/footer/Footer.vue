@@ -18,7 +18,7 @@
     <van-tabbar-item class="footer-r"
                      v-else
                      replace
-                     to="/">
+                     :to="routerPath">
       {{ label }}
     </van-tabbar-item>
   </van-tabbar>
@@ -35,7 +35,7 @@ export default {
       type: String,
       default: ''
     }, // 截止时间
-    routePath: {
+    routerPath: {
       default: ''
     } // 报名跳转路径
   },
