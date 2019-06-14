@@ -1,13 +1,15 @@
 <template>
   <div class="content">
     <head-nav></head-nav>
-    <div class="scroll-content">
+    <div class="scroll-content"
+         ref="wrapper">
       <router-view />
     </div>
   </div>
 </template>
 
 <script>
+// import BScroll from 'better-scroll'
 export default {
   name: 'Content',
   data () {
@@ -15,9 +17,18 @@ export default {
 
     }
   },
-  mounted () {
-    this.redirect()
-  },
+  // watch: {
+  //   '$route' (to, from) {
+  //     console.log(to, from)
+  //     this.scroll = new BScroll(this.$refs.wrapper, { scrollY: true })
+  //   }
+  // },
+  // mounted () {
+  //   this.redirect()
+  //   setTimeout(() => {
+  //     this.scroll = new BScroll(this.$refs.wrapper, { scrollY: true })
+  //   }, 20)
+  // },
   methods: {
     // 重定向至签到页
     redirect () {
