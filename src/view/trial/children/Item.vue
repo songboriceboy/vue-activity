@@ -4,15 +4,15 @@
          :alt="itemData.title"
          class="img" />
     <div class="content">
-      <div class="label">#话题</div>
+      <div class="label">¥</div>
       <h2>{{ itemData.title }}</h2>
       <div class="row">
-        <div class="discuss-users-box">
+        <div class="trial-users-box">
           <users-pic></users-pic>
         </div>
         <van-button type="default"
                     class="button is-radius-button-red"
-                    @click="goDiscuss">我有话说</van-button>
+                    @click="goTrial">申请试用</van-button>
       </div>
     </div>
   </div>
@@ -21,7 +21,7 @@
 <script>
 import usersPic from '@/components/usersPic/UsersPic'
 export default {
-  name: 'discussItem',
+  name: 'trialItem',
   components: { usersPic },
   props: {
     itemData: {
@@ -38,8 +38,8 @@ export default {
     }
   },
   methods: {
-    // 我有话说
-    goDiscuss () {
+    // 申请试用
+    goTrial () {
 
     }
   }

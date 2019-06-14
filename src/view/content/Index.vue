@@ -20,15 +20,15 @@ export default {
     }
   },
   watch: {
-    '$route' (to, from) {
-      console.log(to, from)
-      this.scroll = new BScroll(this.$refs.wrapper, { scrollY: true })
+    '$route' () {
+      this.redirect()
     }
   },
   mounted () {
     this.$nextTick(() => {
       this.scroll = new BScroll(this.$refs.wrapper);
     });
+    this.redirect()
   },
   methods: {
     // 重定向至签到页

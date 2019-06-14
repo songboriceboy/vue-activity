@@ -66,6 +66,5 @@ export default {
 <style lang="less" scoped>
 .discuss {
   padding: 32px;
-  overflow: hidden;
 }
 </style>
