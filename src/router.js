@@ -100,6 +100,14 @@ export default new Router({
       }
     },
     {
+      path: '/trialDetail',
+      component: () => import('./view/trial/Details'),
+      meta: {
+        title: '试用详情',
+        requireAuth: true
+      }
+    },
+    {
       path: '/lotteryDetails',
       component: () => import('./view/checkin/Details'),
       meta: {

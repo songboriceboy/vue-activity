@@ -236,7 +236,7 @@ export default {
       this.recordInfo = {
         hasPrize: true,
         infoTitle: '恭喜您,中奖啦！',
-        infoImg: require('@images/checkin/give_up.png'),
+        infoImg: require('@images/checkin/pic_lottery_img1@3x.png'),
         infoText: '恭喜您抽中奖品: iPad一个',
         buttonText: '查看详情'
       }

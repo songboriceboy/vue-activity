@@ -50,7 +50,7 @@ export default {
   methods: {
     // 申请试用
     goTrial () {
-
+      this.$router.push({ path: './trialDetail' })
     }
   }
 };

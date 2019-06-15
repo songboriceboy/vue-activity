@@ -20,21 +20,21 @@ export default {
           title: '招商春季踏青活动1',
           endTime: '2019-06-30 00:00:00',
           hasTime: true,
-          imgSrc: require('@images/activity/pic_activity_1@3x.png'),
+          imgSrc: 'http://192.168.100.14:8080/static/pic_activity_1@3x.png',
         },
         {
           id: '2',
           title: '招商春季踏青活动2',
           endTime: '2019-06-01 00:00:00',
           hasTime: false,
-          imgSrc: require('@images/activity/pic_activity_2@3x.png'),
+          imgSrc: 'http://192.168.100.14:8080/static/pic_activity_2@3x.png',
         },
         {
           id: '3',
           title: '招商春季踏青活动3',
           endTime: '2019-06-16 00:00:00',
           hasTime: true,
-          imgSrc: require('@images/activity/pic_activity_3@3x.png'),
+          imgSrc: 'http://192.168.100.14:8080/static/pic_activity_3@3x.png',
         }
       ]
     }

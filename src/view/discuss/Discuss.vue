@@ -18,37 +18,35 @@ export default {
         {
           id: '1',
           title: '说说你家乡的秋天1',
-          imgSrc: require('@images/discuss/pic_discuss_list_1 copy@3x.png'),
-          discussUsers: [
-            require('@images/discuss/pic_discuss_comment_head_1@3x.png'),
-            require('@images/discuss/pic_discuss_comment_head_2@3x.png'),
-            require('@images/discuss/pic_discuss_comment_head_3@3x.png'),
-            require('@images/discuss/pic_discuss_comment_head_1@3x.png'),
-            require('@images/discuss/pic_discuss_comment_head_3@3x.png')
+          imgSrc: 'http://192.168.100.14:8080/static/pic_discuss_list_1 copy@3x.png',
+          usersPic: [
+            'http://192.168.100.14:8080/static/pic.png',
+            'http://192.168.100.14:8080/static/pic.png',
+            'http://192.168.100.14:8080/static/pic.png',
+            'http://192.168.100.14:8080/static/pic.png',
+            'http://192.168.100.14:8080/static/pic.png'
           ],
         },
         {
           id: '2',
           title: '说说你家乡的秋天2',
-          imgSrc: require('@images/discuss/pic_discuss_list_1@3x.png'),
-          discussUsers: [
-            require('@images/discuss/pic_discuss_comment_head_1@3x.png'),
-            require('@images/discuss/pic_discuss_comment_head_2@3x.png'),
-            require('@images/discuss/pic_discuss_comment_head_3@3x.png')
+          imgSrc: 'http://192.168.100.14:8080/static/pic_discuss_list_1@3x.png',
+          usersPic: [
+            'http://192.168.100.14:8080/static/pic.png',
+            'http://192.168.100.14:8080/static/pic.png',
+            'http://192.168.100.14:8080/static/pic.png'
           ],
         },
         {
           id: '3',
           title: '说说你家乡的秋天3',
-          imgSrc: require('@images/discuss/pic_discuss_list_details_1@3x.png'),
-          discussUsers: [
-            require('@images/discuss/pic_discuss_comment_head_1@3x.png'),
-            require('@images/discuss/pic_discuss_comment_head_2@3x.png'),
-            require('@images/discuss/pic_discuss_comment_head_2@3x.png'),
-            require('@images/discuss/pic_discuss_comment_head_2@3x.png'),
-            require('@images/discuss/pic_discuss_comment_head_2@3x.png'),
-            require('@images/discuss/pic_discuss_comment_head_2@3x.png'),
-            require('@images/discuss/pic_discuss_comment_head_3@3x.png')
+          imgSrc: 'http://192.168.100.14:8080/static/pic_discuss_list_details_1@3x.png',
+          usersPic: [
+            'http://192.168.100.14:8080/static/pic.png',
+            'http://192.168.100.14:8080/static/pic.png',
+            'http://192.168.100.14:8080/static/pic.png',
+            'http://192.168.100.14:8080/static/pic.png',
+            'http://192.168.100.14:8080/static/pic.png'
           ],
         }
       ]

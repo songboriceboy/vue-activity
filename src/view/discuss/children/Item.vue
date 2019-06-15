@@ -7,8 +7,8 @@
       <div class="label">#话题</div>
       <h2>{{ itemData.title }}</h2>
       <div class="row">
-        <div class="discuss-users-box">
-          <users-pic></users-pic>
+        <div class="users-box">
+          <users-pic :usersPic=itemData.usersPic></users-pic>
         </div>
         <van-button type="default"
                     class="button is-radius-button-red"
@@ -61,7 +61,7 @@ export default {
   }
 }
 .content {
-  padding: 17px 24px 36px;
+  padding: 17px 24px 38px;
   .label {
     height: 40px;
     font-size: 28px;
@@ -80,16 +80,19 @@ export default {
     .ellipsis();
   }
   .row {
-    padding-top: 3px;
-    .clearfix();
+    padding-top: 16px;
+    display: flex;
+    .users-box {
+      flex: 1;
+    }
     .is-radius-button-red {
       .is-radius-button-red();
     }
     .button {
       width: 190px;
       height: 70px;
+      border-radius: 35px;
       line-height: 70px;
-      float: right;
       font-size: 28px;
       font-family: PingFangSC-Semibold;
       font-weight: 600;

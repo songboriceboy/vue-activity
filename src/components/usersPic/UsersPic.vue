@@ -54,7 +54,7 @@ export default {
       display: block;
       width: 54px;
       height: 54px;
-      .bg-img("~@images/trial/pic_on_trial_more");
+      .bg-img("~@images/pic_on_trial_more");
     }
   }
 }

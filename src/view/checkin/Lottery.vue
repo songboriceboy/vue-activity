@@ -103,7 +103,7 @@ export default {
       return this.hasPrize ? '恭喜您抽中奖品: ' + this.prizeList[this.index].name : '您和奖品只差一丢丢, 继续签到下次再抽一次吧。';
     },
     infoImg () {
-      return this.hasPrize ? require('@images/checkin/give_up.png') : '';
+      return this.hasPrize ? require('@images/checkin/pic_lottery_img1@3x.png') : '';
     },
     buttonText () {
       return this.hasPrize ? '立即领取' : '返回首页';

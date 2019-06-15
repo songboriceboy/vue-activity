@@ -46,7 +46,7 @@ export default {
       details: {
         id: 1,
         title: '招商春季踏青活动1',
-        imgSrc: require('@images/activity/pic_activity_details_1@3x.png'),
+        imgSrc: 'http://192.168.100.14:8080/static/pic_activity_details_1@3x.png',
         applyed: 22,
         total: 100,
         address: '福田莲花山',
@@ -55,11 +55,11 @@ export default {
       detailData: [
         {
           tab: '活动介绍',
-          content: '<img src="https://upload.jianshu.io/users/upload_avatars/9520297/66bfa8a8-d0e5-4631-904e-0b8662799b4b.jpg?imageMogr2/auto-orient/strip|imageView2/1/w/120/h/120" />><img src="https://upload.jianshu.io/admin_banners/web_images/4660/224da83c76e01d5deff07e163615921233af5c82.jpg?imageMogr2/auto-orient/strip|imageView2/1/w/1250/h/540" alt="title" />',
+          content: '<img src="http://192.168.100.14:8080/static/pic_activity_details_1@3x.png" alt="title" />',
         },
         {
           tab: '商户介绍',
-          content: '<p>商户介绍字段商户介绍字段商户介绍字段商户介绍字段商户介绍字段商户介绍字段商户介绍字段商户介绍字段商户介绍字段商户介绍字段商户介绍字段商户介绍字段商户介绍字段商户介绍字段商户介绍</p><img src="https://upload.jianshu.io/admin_banners/web_images/4672/20312e92bba4622441b74ea42977598e0bbbe4c4.jpg?imageMogr2/auto-orient/strip|imageView2/1/w/1250/h/540" alt="title" />'
+          content: '<p>商户介绍字段商户介绍字段商户介绍字段商户介绍字段商户介绍字段商户介绍字段商户介绍字段商户介绍字段商户介绍字段商户介绍字段商户介绍字段商户介绍字段商户介绍字段商户介绍字段商户介绍</p><img src="http://192.168.100.14:8080/static/pic_activity_details_1@3x.png" alt="title" />'
         },
         {
           tab: '体验报告',
@@ -115,7 +115,7 @@ export default {
       float: right;
       width: 42px;
       height: 40px;
-      .bg-img("~@images/activity/ic_activity_details_share");
+      .bg-img("~@images/ic_activity_details_share");
     }
     .info {
       font-size: 28px;

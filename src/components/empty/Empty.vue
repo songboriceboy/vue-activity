@@ -22,7 +22,7 @@ export default {
     width: 185px;
     height: 180px;
     margin: 0 auto;
-    .bg-img("~@images/activity/pic_activity_experience_1");
+    .bg-img("~@images/pic_activity_experience_1");
   }
   p {
     text-align: center;
