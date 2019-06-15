@@ -26,7 +26,6 @@ export default {
             require('@images/discuss/pic_discuss_comment_head_1@3x.png'),
             require('@images/discuss/pic_discuss_comment_head_3@3x.png')
           ],
-          number: 5
         },
         {
           id: '2',
@@ -37,7 +36,6 @@ export default {
             require('@images/discuss/pic_discuss_comment_head_2@3x.png'),
             require('@images/discuss/pic_discuss_comment_head_3@3x.png')
           ],
-          number: 3
         },
         {
           id: '3',
@@ -52,7 +50,6 @@ export default {
             require('@images/discuss/pic_discuss_comment_head_2@3x.png'),
             require('@images/discuss/pic_discuss_comment_head_3@3x.png')
           ],
-          number: 7,
         }
       ]
     }

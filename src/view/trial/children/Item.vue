@@ -12,13 +12,17 @@
         </div>
         <div class="end-time">{{ itemData.endTime }}截止</div>
       </div>
-      <div class="row">
+      <div class="row-flex">
         <div class="trial-users-box">
-          <users-pic></users-pic>
+          <users-pic :usersPic="itemData.usersPic"></users-pic>
         </div>
         <van-button type="default"
                     class="button is-radius-button-red"
-                    @click="goTrial">申请试用</van-button>
+                    @click="goTrial"
+                    v-if="itemData.hasTime">申请试用</van-button>
+        <van-button type="default"
+                    class="button is-radius-button-gray"
+                    v-else>已结束</van-button>
       </div>
     </div>
   </div>
@@ -108,19 +112,29 @@ export default {
       color: rgba(255, 69, 0, 1);
       line-height: 59px;
     }
-    .is-radius-button-red {
-      .is-radius-button-red();
-    }
-    .button {
-      width: 151px;
-      height: 57px;
-      float: right;
-      font-size: 26px;
-      font-family: PingFangSC-Medium;
-      font-weight: 500;
-      color: rgba(255, 255, 255, 1);
-      line-height: 57px;
-    }
+  }
+  .row-flex {
+    display: flex;
+    padding: 10px 0;
+  }
+  .trial-users-box {
+    flex: 1;
+  }
+  .is-radius-button-red {
+    .is-radius-button-red();
+  }
+  .is-radius-button-gray {
+    .is-radius-button-gray();
+  }
+  .button {
+    width: 150px;
+    height: 58px;
+    float: right;
+    font-size: 26px;
+    font-family: PingFangSC-Medium;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 1);
+    line-height: 58px;
   }
 }
 </style>

@@ -22,14 +22,14 @@ export default {
           price: '430.00',
           quantity: 4,
           usersPic: [
-            require('@images/discuss/pic_discuss_comment_head_1@3x.png'),
-            require('@images/discuss/pic_discuss_comment_head_2@3x.png'),
-            require('@images/discuss/pic_discuss_comment_head_3@3x.png'),
-            require('@images/discuss/pic_discuss_comment_head_1@3x.png'),
-            require('@images/discuss/pic_discuss_comment_head_3@3x.png')
+            require('@images/pic.png'),
+            require('@images/pic.png'),
+            require('@images/pic.png'),
+            require('@images/pic.png'),
+            require('@images/pic.png')
           ],
-          number: 5,
-          endTime: '2019-06-18'
+          endTime: '2019-06-18',
+          hasTime: true
         },
         {
           id: '2',
@@ -38,12 +38,10 @@ export default {
           price: '3938.0',
           quantity: 1,
           usersPic: [
-            require('@images/discuss/pic_discuss_comment_head_1@3x.png'),
-            require('@images/discuss/pic_discuss_comment_head_2@3x.png'),
-            require('@images/discuss/pic_discuss_comment_head_3@3x.png')
+            require('@images/pic.png'),
           ],
-          number: 3,
-          endTime: '2019-06-13'
+          endTime: '2019-06-13',
+          hasTime: false
         }
       ]
     }
