@@ -391,6 +391,7 @@ export default {
     width: 468px;
     height: 88px;
     line-height: 88px;
+    border-radius: 44px;
     display: block;
     margin: 10px auto 0;
     font-size: 0;
@@ -407,6 +408,9 @@ export default {
     font-size: 36px;
     color: #fff;
     vertical-align: middle;
+    font-family: PingFangSC-Medium;
+    font-weight: 500;
+    letter-spacing: 1px;
   }
 }
 </style>

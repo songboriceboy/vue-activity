@@ -102,6 +102,11 @@ export default {
       height: 57px;
       line-height: 57px;
       float: right;
+      border-radius: 29px;
+      font-size: 26px;
+      font-family: PingFangSC-Medium;
+      font-weight: 500;
+      color: rgba(255, 255, 255, 1);
     }
   }
 }

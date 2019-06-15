@@ -4,8 +4,14 @@
          :alt="itemData.title"
          class="img" />
     <div class="content">
-      <div class="label">¥</div>
       <h2>{{ itemData.title }}</h2>
+      <div class="row">
+        <div class="label">
+          ¥<span class="price">{{ itemData.price }}</span>
+          <span class="text">提供{{ itemData.quantity }}份</span>
+        </div>
+        <div class="end-time">{{ itemData.endTime }}截止</div>
+      </div>
       <div class="row">
         <div class="trial-users-box">
           <users-pic></users-pic>
@@ -50,50 +56,70 @@ export default {
 .item {
   width: 100%;
   margin-bottom: 32px;
-  background: rgba(255, 255, 255, 1);
-  box-shadow: 0px 2px 20px 0px rgba(117, 117, 117, 0.14);
-  border-radius: 16px;
   overflow: hidden;
+  background: rgba(255, 255, 255, 1);
+  box-shadow: 0px 2px 8px 2px rgba(229, 229, 229, 0.78);
+  border-radius: 8px;
   .img {
     display: block;
     width: 100%;
-    height: 364px;
+    height: 395px;
   }
 }
 .content {
-  padding: 17px 24px 36px;
-  .label {
-    height: 40px;
-    font-size: 28px;
-    font-family: PingFangSC-Medium;
-    font-weight: 500;
-    color: rgba(255, 69, 0, 1);
-    line-height: 40px;
-  }
+  padding: 28px 30px;
   h2 {
-    height: 53px;
-    font-size: 38px;
-    font-weight: 500;
-    color: rgba(49, 49, 49, 1);
-    line-height: 53px;
-    margin-top: 7px;
-    .ellipsis();
+    font-size: 32px;
+    font-family: PingFangSC-Semibold;
+    font-weight: 600;
+    color: rgba(51, 51, 51, 1);
+    line-height: 45px;
   }
   .row {
-    padding-top: 3px;
+    padding: 10px 0;
     .clearfix();
+    .label {
+      float: left;
+      height: 59px;
+      font-size: 24px;
+      font-family: PingFangSC-Regular;
+      font-weight: 400;
+      color: rgba(255, 69, 0, 1);
+      line-height: 59px;
+    }
+    .price {
+      font-size: 42px;
+    }
+    .text {
+      height: 30px;
+      font-size: 22px;
+      font-family: PingFangSC-Regular;
+      font-weight: 400;
+      color: rgba(167, 167, 167, 1);
+      line-height: 30px;
+      padding-left: 10px;
+    }
+    .end-time {
+      float: right;
+      height: 59px;
+      font-size: 24px;
+      font-family: PingFangSC-Medium;
+      font-weight: 500;
+      color: rgba(255, 69, 0, 1);
+      line-height: 59px;
+    }
     .is-radius-button-red {
       .is-radius-button-red();
     }
     .button {
-      width: 190px;
-      height: 70px;
-      line-height: 70px;
+      width: 151px;
+      height: 57px;
       float: right;
-      font-size: 28px;
-      font-family: PingFangSC-Semibold;
-      font-weight: 600;
+      font-size: 26px;
+      font-family: PingFangSC-Medium;
+      font-weight: 500;
       color: rgba(255, 255, 255, 1);
+      line-height: 57px;
     }
   }
 }

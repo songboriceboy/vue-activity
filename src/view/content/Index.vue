@@ -26,7 +26,10 @@ export default {
   },
   mounted () {
     this.$nextTick(() => {
-      this.scroll = new BScroll(this.$refs.wrapper);
+      this.scroll = new BScroll(this.$refs.wrapper, {
+        click: true,
+        taps: true
+      })
     });
     this.redirect()
   },
@@ -50,5 +53,8 @@ export default {
   bottom: 0;
   left: 0;
   overflow: hidden;
+}
+.scroll-content {
+  min-height: 100%;
 }
 </style>
