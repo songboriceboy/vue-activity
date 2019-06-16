@@ -10,7 +10,7 @@
 import videoItem from './children/Item'
 
 export default {
-  name: 'Video',
+  name: 'video',
   components: { videoItem },
   data () {
     return {

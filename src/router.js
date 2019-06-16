@@ -54,7 +54,7 @@ export default new Router({
           component: () => import('./view/video/Video'),
           meta: {
             title: '视频',
-            requireAuth: false
+            requireAuth: true
           }
         },
         {
@@ -120,7 +120,7 @@ export default new Router({
       component: () => import('./view/video/VideoList'),
       meta: {
         title: '视频列表',
-        requireAuth: false
+        requireAuth: true
       }
     },
     {
@@ -128,7 +128,23 @@ export default new Router({
       component: () => import('./view/mine/EditInfo'),
       meta: {
         title: '编辑信息',
-        requireAuth: false
+        requireAuth: true
+      }
+    },
+    {
+      path: '/about',
+      component: () => import('./view/mine/About'),
+      meta: {
+        title: '联系我们',
+        requireAuth: true
+      }
+    },
+    {
+      path: '/suggest',
+      component: () => import('./view/mine/Suggest'),
+      meta: {
+        title: '意见反馈',
+        requireAuth: true
       }
     }
   ]

@@ -67,7 +67,7 @@ export default {
         }
       ], // 详情
       footerData: {
-        endTime: '2019-6-15 22:19:00',
+        endTime: '2019-6-18 22:19:00',
         label: '报名',
         routerPath: '/activityApply'
       }

@@ -1,5 +1,6 @@
 <template>
-  <div class="item">
+  <div class="item"
+       @click="rediectTo">
     <div class="video-img">
       <img :src="itemData.imgSrc"
            :alt="itemData.title"
@@ -31,6 +32,10 @@ export default {
     }
   },
   methods: {
+    // 跳转详情页
+    rediectTo () {
+      this.$router.push({ path: '/videoList' })
+    }
   }
 };
 </script>
