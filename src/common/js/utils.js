@@ -27,7 +27,8 @@ import {
   Icon,
   Actionsheet,
   Tabbar,
-  TabbarItem
+  TabbarItem,
+  Cell
 } from 'vant'
 import 'vant/lib/index.css'
 
@@ -59,3 +60,4 @@ Vue.use(Icon)
 Vue.use(Actionsheet)
 Vue.use(Tabbar)
 Vue.use(TabbarItem)
+Vue.use(Cell)

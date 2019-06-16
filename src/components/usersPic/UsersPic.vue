@@ -31,7 +31,7 @@ export default {
 .users-pic {
   height: 64px;
   line-height: 64px;
-  overflow: hidden;
+  .clearfix();
 }
 .users-list {
   .clearfix();
@@ -40,15 +40,16 @@ export default {
   li {
     width: 54px;
     height: 54px;
-    border: 6px solid #fff;
+    border: 5px solid #fff;
+    background-color: #fff;
     border-radius: 50%;
     overflow: hidden;
     float: left;
     margin-left: -30px;
     img {
       display: block;
-      width: 100%;
-      height: 100%;
+      width: 54px;
+      height: 54px;
     }
     .more {
       display: block;
