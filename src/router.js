@@ -132,6 +132,14 @@ export default new Router({
       }
     },
     {
+      path: '/myReport',
+      component: () => import('./view/mine/Report'),
+      meta: {
+        title: '体验报告',
+        requireAuth: true
+      }
+    },
+    {
       path: '/about',
       component: () => import('./view/mine/About'),
       meta: {
