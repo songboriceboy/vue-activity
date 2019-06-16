@@ -7,10 +7,12 @@
       </div>
       <div class="info">
         <h1>UOOU</h1>
-        <div class="edit">
+        <router-link tag="div"
+                     class="edit"
+                     to="/editInfo">
           <i class="edit-icon"></i>
           <span>编辑个人资料</span>
-        </div>
+        </router-link>
       </div>
     </section>
     <nav class="nav">

@@ -122,6 +122,14 @@ export default new Router({
         title: '视频列表',
         requireAuth: false
       }
+    },
+    {
+      path: '/editInfo',
+      component: () => import('./view/mine/EditInfo'),
+      meta: {
+        title: '编辑信息',
+        requireAuth: false
+      }
     }
   ]
 })

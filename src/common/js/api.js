@@ -127,7 +127,7 @@ const discuss = {
 
   //  添加话题评论
   postTopicComment(params) {
-    return axios.get(`/topic/comment`, params)
+    return axios.get(`/topic/comment`, { params: params })
   },
 
   //  删除话题评论
@@ -144,8 +144,8 @@ const mine = {
   },
 
   // 更新个人信息
-  putInfo(params) {
-    return axios.put(`/my/info`, params)
+  patchInfo(params) {
+    return axios.patch(`/my/info`, params)
   },
 
   // 我的活动列表
@@ -184,6 +184,11 @@ const common = {
   // 分享
   share(params) {
     return axios.post(`/share`, params)
+  },
+
+  // 图片上传
+  upload(params) {
+    return axios.post(`/upload`, params)
   }
 }
 
