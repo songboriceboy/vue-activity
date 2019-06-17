@@ -49,7 +49,7 @@ import commonTabs from '@/components/tabs/Tabs'
 import detailFooter from '@/components/footer/Footer'
 import emptyBox from '@/components/empty/Empty'
 import usersPic from '@/components/usersPic/UsersPic'
-import commentLi from '@/view/comment/Comment'
+import commentLi from '@/view/public/Comment'
 
 export default {
   name: 'trialDetail',

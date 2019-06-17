@@ -149,7 +149,7 @@ export default new Router({
     },
     {
       path: '/commentDetails',
-      component: () => import('./view/comment/CommentDetails'),
+      component: () => import('./view/public/CommentDetails'),
       meta: {
         title: '详情',
         requireAuth: true
