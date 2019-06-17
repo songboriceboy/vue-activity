@@ -25,12 +25,12 @@ export default {
 <style lang="less" scoped>
 .likes {
   display: inline-block;
-  line-height: 28px;
+  line-height: 32px;
   .like,
   .liked {
     display: inline-block;
-    width: 27px;
-    height: 27px;
+    width: 32px;
+    height: 32px;
     vertical-align: middle;
     .bg-img("~@images/ic_discuss_comment_1");
   }
@@ -38,10 +38,10 @@ export default {
     .bg-img("~@images/ic_discuss_comment_2");
   }
   .text {
-    height: 28px;
+    height: 32px;
     display: inline-block;
     vertical-align: middle;
-    font-size: 20px;
+    font-size: 24px;
     font-family: PingFangSC-Regular;
     font-weight: 400;
     color: rgba(153, 153, 153, 1);

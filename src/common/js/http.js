@@ -124,6 +124,9 @@ const postTokenInfo = (code, next) => {
 }
 
 router.beforeEach((to, from, next) => {
+  if (to.meta.title) {
+    document.title = to.meta.title
+  }
   // 获取 code
   const code = to.query.code
   if (code) {
@@ -131,14 +134,13 @@ router.beforeEach((to, from, next) => {
     postTokenInfo(code, next)
   } else {
     // 临时注释
-    // if (!code && to.meta.requireAuth) {
-    if (code && to.meta.requireAuth) {
+    if (!code && to.meta.requireAuth) {
       // 判断该路由是否需要登录权限
       if (localStorage.getItem('token')) {
         next()
       } else {
         // 设置状态
-        store.commit('afterLoginGo', to.fullPath)
+        store.commit('setLoginGo', to.fullPath)
         // 设置缓存
         localStorage.setItem('afterLoginGo', to.fullPath)
         next({

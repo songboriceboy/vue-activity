@@ -36,7 +36,7 @@ export default {
     // init
     init () {
       if (localStorage.getItem('token')) {
-        let path = '/checkin'
+        let path = '/checkin?active=0'
         let afterLoginGo = localStorage.getItem('afterLoginGo')
         if (afterLoginGo) {
           path = afterLoginGo
@@ -48,8 +48,9 @@ export default {
     // 允许授权登录
     onLogin () {
       let url = 'http://loginfo.lzdu.com'
+      // let url = 'http://192.168.100.14:8080/#/checkin?active=0'
       // let url = location.href
-      window.location.href = 'http://merchants.lzdu.com/api/oauth?back_url=' + url
+      location.href = 'http://merchants.lzdu.com/api/oauth?back_url=' + url
     }
   }
 }

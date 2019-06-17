@@ -7,7 +7,7 @@ module.exports = {
 
   // 配置 axios 代理请求
   devServer: {
-    port: '8080', //代理端口
+    // port: '8080', //代理端口
     proxy: {
       '/': {
         //代理api

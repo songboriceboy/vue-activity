@@ -23,13 +23,21 @@
                    :key="index"
                    :title="item.tab">
             <div class="tab-container"
-                 v-html="item.content"
-                 v-if="item.content"></div>
+                 v-html="item.intro"
+                 v-if="item.intro"></div>
+            <div class="reports-container"
+                 v-else-if="item.reports">
+              <comment-li v-for="data of item.reports"
+                          :details="data"
+                          :key="data.id"
+                          :title="'试用产品: ' + details.title"></comment-li>
+            </div>
             <empty-box v-else></empty-box>
           </van-tab>
         </template>
       </common-tabs>
     </div>
+    <!-- 报名条 -->
     <detail-footer :label="footerData.label"
                    :endTime="footerData.endTime"
                    :routerPath="footerData.routerPath"></detail-footer>
@@ -41,10 +49,11 @@ import commonTabs from '@/components/tabs/Tabs'
 import detailFooter from '@/components/footer/Footer'
 import emptyBox from '@/components/empty/Empty'
 import usersPic from '@/components/usersPic/UsersPic'
+import commentLi from '@/view/comment/Comment'
 
 export default {
   name: 'trialDetail',
-  components: { commonTabs, detailFooter, emptyBox, usersPic },
+  components: { commonTabs, detailFooter, emptyBox, usersPic, commentLi },
   data () {
     return {
       details: {
@@ -64,11 +73,28 @@ export default {
       detailData: [
         {
           tab: '产品详情',
-          content: '<img src="http://192.168.100.14:8080/static/pci_on_trial_commodity_details_2@3x.png" alt="图片" /><img src="http://192.168.100.14:8080/static/pci_on_trial_commodity_details_2@3x.png" alt="图片" />',
+          intro: '<img src="http://192.168.100.14:8080/static/pci_on_trial_commodity_details_2@3x.png" alt="图片" /><img src="http://192.168.100.14:8080/static/pci_on_trial_commodity_details_2@3x.png" alt="图片" />',
         },
         {
           tab: '体验报告',
-          content: ''
+          reports: [{
+            id: 3,
+            images: [
+              'http://192.168.100.14:8080/static/pic_activity_details_2@3x.png',
+              'http://192.168.100.14:8080/static/pic_activity_details_3@3x.png',
+              'http://192.168.100.14:8080/static/pic_activity_details_2@3x.png',
+              'http://192.168.100.14:8080/static/pic_activity_details_2@3x.png',
+              'http://192.168.100.14:8080/static/pic_activity_details_3@3x.png'
+            ],
+            content: 'asdasdsadasd111',
+            like_times: 123,
+            created_at: '9分钟前',
+            user: {
+              id: 1,
+              name: 'Everan',
+              avatar: 'http://192.168.100.14:8080/static/pic.png'
+            }
+          }]
         }
       ], // 详情
       footerData: {
@@ -136,8 +162,11 @@ export default {
     }
   }
   .detail-b {
+    padding: 0 0 126px;
     .tab-container {
-      padding: 0 0 126px;
+    }
+    .reports-container {
+      padding: 30px;
     }
   }
 }

@@ -6,14 +6,6 @@ Vue.use(Router)
 export default new Router({
   routes: [
     {
-      path: '*',
-      redirect: '/checkin',
-      meta: {
-        title: '签到',
-        requireAuth: true
-      }
-    },
-    {
       path: '/login',
       component: () => import('./view/login/Login'),
       meta: {
@@ -160,6 +152,14 @@ export default new Router({
       component: () => import('./view/comment/CommentDetails'),
       meta: {
         title: '详情',
+        requireAuth: true
+      }
+    },
+    {
+      path: '*',
+      redirect: '/login',
+      meta: {
+        title: '授权登录',
         requireAuth: true
       }
     }
