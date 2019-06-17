@@ -154,6 +154,14 @@ export default new Router({
         title: '意见反馈',
         requireAuth: true
       }
+    },
+    {
+      path: '/commentDetails',
+      component: () => import('./view/comment/CommentDetails'),
+      meta: {
+        title: '详情',
+        requireAuth: true
+      }
     }
   ]
 })

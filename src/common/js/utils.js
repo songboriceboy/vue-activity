@@ -6,7 +6,6 @@ import {
   Dialog,
   Loading,
   Toast,
-  ImagePreview,
   Swipe,
   SwipeItem,
   Tag,
@@ -38,7 +37,6 @@ Vue.use(Uploader)
 Vue.use(Dialog)
 Vue.use(Loading)
 Vue.use(Toast)
-Vue.use(ImagePreview)
 Vue.use(Swipe)
 Vue.use(SwipeItem)
 Vue.use(Tag)
