@@ -28,15 +28,17 @@ export default {
   methods: {
     // 查看规则
     openRules () {
-      // this.$api.checkin.getRules().then(res => {
-      //   let result = res.data
-      //   if (result.errorCode === 0) {
-      //     this.rulesText = result.content
-      //     this.rulesControl = true
-      //   }
-      // })
-      this.rulesText = '<p>1、签到按月计算 </p><p>2、每天签到都可以点亮 </p><p>3、单个周内连续签到7天可抽奖，同一周内最多可抽1次 </p><p>4、每日最多签到1次，断签清零重新签</p>'
-      this.rulesControl = true
+      // 节流
+      if (!this.rulesText) {
+        this.$api.checkin.getRules().then(res => {
+          if (res) {
+            this.rulesText = res.content
+            this.rulesControl = true
+          }
+        })
+      } else {
+        this.rulesControl = true
+      }
     },
 
     // 关闭签到规则弹框

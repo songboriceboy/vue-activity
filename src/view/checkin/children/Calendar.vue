@@ -46,7 +46,7 @@
               已过期
             </span>
             <span class="success"
-                  @click="goLottery"
+                  @click="goLottery(''+curYear+curMonth+num)"
                   v-if="successDays.indexOf(''+curYear+curMonth+num) > -1">
               <i class="icon"></i>
               去抽奖
@@ -145,12 +145,54 @@ export default {
     },
 
     // 获取签到记录
-    getCheckRecord () {
-      this.checkinDays = ['201963', '201964', '201965', '201966', '201967', '201968', '201969', '2019611', '2019612', '2019613']
-      this.invaildDays = []
-      this.successDays = ['201969']
-      this.recordDays = []
-      this.days = 3
+    getCheckRecord (date) {
+      let params = { date: date || this.curYear + '-' + this.$methods.addPrefixZero(this.curMonth) }
+      this.$api.checkin.getCheckin(params).then(res => {
+        // 已连续签到次数
+        this.days = res[res.length - 1].check_in_times
+
+        if (res && res.length > 0) {
+          let checkinDays = []
+          let invaildDays = []
+          let successDays = []
+          let recordDays = []
+          for (let item of res) {
+            let time = this.dateFormatter(item.check_in_time)
+            if (item.check_in_times > 0) {
+              checkinDays.push(time)
+            }
+
+            switch (item.status) {
+              case '已过期':
+                invaildDays.push(time)
+                break
+              case '已抽奖':
+                recordDays.push(time)
+                break
+              case '待抽奖':
+                successDays.push(time)
+                break
+              default:
+                break
+            }
+          }
+          // 已签到的日期
+          this.checkinDays = checkinDays
+          // 已过期的日期
+          this.invaildDays = invaildDays
+          // 已抽奖的日期
+          this.recordDays = recordDays
+          // 待抽奖的日期
+          this.successDays = successDays
+        }
+      })
+    },
+
+    // 时间格式转化 例如: 2019-06-08 => 201968
+    dateFormatter (date) {
+      let arr = date.split('-')
+      let str = '' + arr[0] + Number(arr[1]) + Number(arr[2])
+      return str
     },
 
     // 遍历日历
@@ -183,6 +225,8 @@ export default {
       }
 
       this.printCalendar(this.curYear, this.curMonth)
+
+      this.getCheckRecord()
     },
 
     // 下个月
@@ -197,30 +241,37 @@ export default {
       }
 
       this.printCalendar(this.curYear, this.curMonth)
+
+      this.getCheckRecord()
     },
 
     // 点击签到
     onCheckin () {
       if (this.checkinDays.indexOf(this.staticYMD) < 0) {
-        this.days++
-        let str = ''
-        if (this.days === 7) {
-          this.successDays.push(this.staticYMD)
-          str = '恭喜您已连续签到7天，有一次抽奖的机会'
-        } else {
-          str = '已连续签到' + this.days + '天，继续加油，签满7天可抽奖一次。'
-        }
-        this.successText = str
-        this.successControl = true
-        this.checkinDays.push(this.staticYMD)
+        this.$api.checkin.postCheckin().then(res => {
+          if (res.errorCode === 0) {
+            // 签到成功
+            this.days = res.check_num
+            let str = ''
+            if (this.days === 7) {
+              this.successDays.push(this.staticYMD)
+              str = '恭喜您已连续签到7天，有一次抽奖的机会'
+            } else {
+              str = '已连续签到' + this.days + '天，继续加油，签满7天可抽奖一次。'
+            }
+            this.successText = str
+            this.successControl = true
+            this.checkinDays.push(this.staticYMD)
+          }
+        })
       } else {
         this.$toast('今天已经签过到了, 记得明天再来哦!')
       }
     },
 
     // 去抽奖
-    goLottery () {
-      this.$router.push({ path: '/lottery' })
+    goLottery (date) {
+      this.$router.push({ path: '/lottery', query: { date: date } })
     },
 
     // 查看中奖纪录
@@ -235,8 +286,7 @@ export default {
       // }
       this.recordInfo = {
         hasPrize: true,
-        infoTitle: '恭喜您,中奖啦！',
-        infoImg: require('@images/checkin/pic_lottery_img1@3x.png'),
+        infoImg: '',
         infoText: '恭喜您抽中奖品: iPad一个',
         buttonText: '查看详情'
       }
@@ -380,7 +430,7 @@ export default {
       .record {
         color: #ffa8a6;
         .icon {
-          .bg-img("~@images/checkin/pic_checkin_turntable");
+          .bg-img("~@images/checkin/ic_checkin");
         }
       }
     }

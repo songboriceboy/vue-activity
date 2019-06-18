@@ -38,8 +38,7 @@
                  type="textarea"
                  label-width="100%"
                  placeholder="请填写详细地址"
-                 rows="5"
-                 autosize />
+                 rows="5" />
     </div>
     <van-button type="default"
                 class="is-radius-button-red"
@@ -57,14 +56,20 @@
                 @confirm="onConfirm"
                 @cancel="onCancel" />
     </van-popup>
+    <!-- 弹框 -->
+    <message-box :show="this.$store.state.messageShow"
+                 :title="messageTitle"
+                 :content="messageContent"></message-box>
   </div>
 </template>
 
 <script>
-import areaList from '@/common/js/area.js';
+import areaList from '@/common/js/area.js'
+import messageBox from '@/components/message/Message'
 
 export default {
   name: 'lotteryDetails',
+  components: { messageBox },
   data () {
     return {
       edit: this.$route.query.edit, // 是否可编辑
@@ -75,7 +80,12 @@ export default {
         phone: '',
         areas: '',
         address: '',
-      }
+      },
+      province: '', // 省
+      city: '', // 市
+      district: '', // 区
+      messageTitle: '', // 弹框提示
+      messageContent: '' // 提示内容
     }
   },
   created () {
@@ -85,7 +95,7 @@ export default {
   },
   computed: {
     readonly () {
-      return this.edit === '1' ? true : false;
+      return Number(this.edit) === 1 ? false : true;
     }
   },
   methods: {
@@ -101,6 +111,9 @@ export default {
 
     // 完成地区选择
     onConfirm (data) {
+      this.province = data[0].name
+      this.city = data[1].name
+      this.district = data[2].name
       if (data) {
         let arr = []
         for (let item of data) {
@@ -123,31 +136,50 @@ export default {
       if (!this.validate()) {
         return false
       }
+      const data = {
+        prize_name: this.$route.query.prizeName,
+        contact_name: this.infos.username,
+        contact_phone: this.infos.phone,
+        province: this.province,
+        city: this.city,
+        district: this.district,
+        address: this.infos.address
+      }
+      this.$api.checkin.postWinPrize(data).then(res => {
+        if (res.code === 0) {
+          this.showMessage('提交成功', '提交成功,您的奖品将会在近期寄出。')
+        } else if (res.code === 1) {
+          this.$toast(res.message)
+        }
+      })
+    },
+
+    // 显示提示
+    showMessage (title, content) {
+      this.$store.commit('setMessageShow', true)
+      this.messageTitle = title
+      this.messageContent = content
     },
 
     // 提交校验
     validate () {
       if (!this.infos.username) {
         this.$toast('请填写收件人!')
-        // this.$refs.username.focus()
         return false
       }
 
       if (!this.infos.phone) {
         this.$toast('请填写联系电话!')
-        // this.$refs.username.focus()
         return false
       }
 
       if (!this.infos.areas) {
         this.$toast('请选择所在地区!')
-        // this.$refs.username.focus()
         return false
       }
 
       if (!this.infos.address) {
         this.$toast('请填写详细地址!')
-        // this.$refs.username.focus()
         return false
       }
       return true

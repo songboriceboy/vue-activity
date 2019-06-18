@@ -19,11 +19,11 @@
                  v-for="(item,index) in prizeList"
                  :key="index">
               <div class="prize-type">
-                {{item.name}}
+                {{item.prizeName}}
               </div>
               <div class="prize-pic">
-                <img :src="item.icon"
-                     :alt="item.name">
+                <img :src="item.prizeImage"
+                     :alt="item.prizeName">
               </div>
             </div>
           </div>
@@ -32,8 +32,7 @@
     </div>
     <!-- 抽奖信息弹框 -->
     <info-dialog :show="toastControl"
-                 :title="infoTitle"
-                 :text="infoText"
+                 :prizeName="prizeName"
                  :hasPrize="hasPrize"
                  :infoImg="infoImg"
                  :key="toastControl"
@@ -48,38 +47,7 @@ export default {
   data () {
     return {
       lotteryTicket: 0, //抽奖次数
-      prizeList: [
-        {
-          icon: require('@images/checkin/pic_lottery_img1@3x.png'), // 奖品图片
-          name: 'Mac一台', // 奖品名称
-          isPrize: 1 // 该奖项是否为奖品
-        },
-        {
-          icon: require('@images/checkin/pic_lottery_img3@3x.png'),
-          name: '酒店50元消费券',
-          isPrize: 1
-        },
-        {
-          icon: require('@images/checkin/pic_lottery_@3x.png'),
-          name: '谢谢参与',
-          isPrize: 0
-        },
-        {
-          icon: require('@images/checkin/pic_lottery_img5@3x.png'),
-          name: 'Ipad一个',
-          isPrize: 1
-        },
-        {
-          icon: require('@images/checkin/pic_lottery_img4@3x.png'),
-          name: 'iPhone7手机一台',
-          isPrize: 1
-        },
-        {
-          icon: require('@images/checkin/pic_lottery_img2@3x.png'),
-          name: '奖励10枚金币',
-          isPrize: 1
-        }
-      ], //奖品列表
+      prizeList: [], //奖品列表
       toastControl: false, //抽奖结果弹出框控制器
       hasPrize: false, //是否中奖
       startRotatingDegree: 0, //初始旋转角度
@@ -89,38 +57,76 @@ export default {
       rotateTransition: 'transform 6s ease-in-out', //初始化选中的过度属性控制
       rotateTransitionPointer: 'transform 12s ease-in-out', //初始化指针过度属性控制
       clickFlag: true, //是否可以旋转抽奖
-      index: 0 // 指定每次旋转到的奖品下标
+      index: '', // 指定每次旋转到的奖品下标
+      prizeName: '', // 抽中的奖品名称
+      prizeImg: '' // 抽中的奖品图片
     };
   },
   created () {
-    this.initPrizeList();
+    this.initPrizeList()
   },
   computed: {
-    infoTitle () {
-      return this.hasPrize ? '恭喜您, 中奖啦!' : '未中奖, 很遗憾!';
-    },
-    infoText () {
-      return this.hasPrize ? '恭喜您抽中奖品: ' + this.prizeList[this.index].name : '您和奖品只差一丢丢, 继续签到下次再抽一次吧。';
-    },
     infoImg () {
-      return this.hasPrize ? require('@images/checkin/pic_lottery_img1@3x.png') : '';
+      return this.hasPrize ? this.prizeImg : ''
     },
     buttonText () {
-      return this.hasPrize ? '立即领取' : '返回首页';
+      return this.hasPrize ? '立即领取' : '返回首页'
     }
   },
   methods: {
-    //此方法为处理奖品数据
+    // 获取奖品列表
     initPrizeList () {
-      this.lotteryTicket = 1
+      this.$api.checkin.getPrize().then(res => {
+        if (res && res.length > 0) {
+          let arr = []
+          for (let item of res) {
+            arr.push({
+              id: item.id,
+              prizeName: item.prize_name,
+              prizeImage: item.prize_image,
+              selected: item.selected,
+              winning: item.winning
+            })
+          }
+          this.prizeList = arr
+        }
+      })
     },
 
+    // 获取该天的抽奖次数
+    getLotteryTimes () {
+      const date = this.$route.query.date
+      this.$api.checkin.getCheckin().then(res => {
+        if (res && res.length > 0) {
+          for (let item of res) {
+            let time = this.dateFormatter(item.check_in_time)
+            if (date === time) {
+              this.lotteryTicket = (item.check_in_times === 7) ? 1 : 0
+            }
+          }
+        }
+      })
+    },
+
+    // 点击开始
     rotateHandle () {
-      if (this.lotteryTicket > 0) {
-        this.index = 2
-        this.rotating();
-      } else {
-        this.$toast('您的抽奖次数用完了哦!');
+      let len = this.prizeList.length
+      if (len === 0) {
+        this.$toast('奖品不存在,无法抽奖!请联系管理员')
+        return false
+      }
+      if (this.lotteryTicket <= 0) {
+        this.$toast('您的抽奖次数用完了哦!')
+        return false
+      }
+      for (let i = 0; i < len; i++) {
+        if (this.prizeList[i].selected === 1) {
+          this.index = i
+          break
+        }
+      }
+      if (this.index !== '') {
+        this.rotating()
       }
     },
 
@@ -159,7 +165,9 @@ export default {
     // 结束
     gameOver () {
       this.toastControl = true;
-      this.hasPrize = this.prizeList[this.index].isPrize
+      this.hasPrize = this.prizeList[this.index].winning
+      this.prizeName = this.prizeList[this.index].name
+      this.prizeImg = this.prizeList[this.index].prizeImage
       this.lotteryTicket--
     },
 

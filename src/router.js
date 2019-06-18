@@ -76,6 +76,14 @@ export default new Router({
       }
     },
     {
+      path: '/lotteryDetails',
+      component: () => import('./view/checkin/Details'),
+      meta: {
+        title: '资料详情',
+        requireAuth: true
+      }
+    },
+    {
       path: '/activityDetail',
       component: () => import('./view/activity/Details'),
       meta: {
@@ -96,14 +104,6 @@ export default new Router({
       component: () => import('./view/trial/Details'),
       meta: {
         title: '试用详情',
-        requireAuth: true
-      }
-    },
-    {
-      path: '/lotteryDetails',
-      component: () => import('./view/checkin/Details'),
-      meta: {
-        title: '资料详情',
         requireAuth: true
       }
     },
@@ -152,6 +152,14 @@ export default new Router({
       component: () => import('./view/public/CommentDetails'),
       meta: {
         title: '详情',
+        requireAuth: true
+      }
+    },
+    {
+      path: '/write',
+      component: () => import('./view/public/Write'),
+      meta: {
+        title: '填写',
         requireAuth: true
       }
     },

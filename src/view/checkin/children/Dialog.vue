@@ -7,7 +7,7 @@
     <div class="info-img info-img-false"
          v-else></div>
     <div class="info-title">
-      {{ title }}
+      {{ infoTitle }}
       <span class="info-close"
             @click="closeInfoDialog"></span>
     </div>
@@ -17,7 +17,7 @@
              alt=""
              v-if="infoImg"
              class="content-img">
-        {{ text }}
+        {{ infoText }}
       </div>
       <van-button type="default"
                   class="is-radius-button-red"
@@ -33,15 +33,12 @@
 export default {
   name: 'infoDialog',
   props: {
-    title: {
-      default: '信息'
-    }, // 标题
     show: {
       default: false
     }, // 显示控制
-    text: {
+    prizeName: {
       default: ''
-    }, // 文字信息
+    }, // 奖品名称
     hasPrize: {
       default: false
     }, // 是否中奖
@@ -51,6 +48,14 @@ export default {
     buttonText: {
       default: ''
     } // 按钮文字
+  },
+  computed: {
+    infoTitle () {
+      return this.hasPrize ? '恭喜您, 中奖啦!' : '未中奖, 很遗憾!'
+    },
+    infoText () {
+      return this.hasPrize ? '恭喜您抽中奖品: ' + this.prizeName : '您和奖品只差一丢丢, 继续签到下次再抽一次吧。'
+    },
   },
   data () {
     return {
@@ -66,9 +71,9 @@ export default {
     // 跳转
     handleTo () {
       this.closeInfoDialog()
-      let isEdit = this.buttonText === '查看详情' ? 1 : 0;
-      let path = this.hasPrize ? '/lotteryDetails?edit=' + isEdit : '/checkin';
-      this.$router.push({ path: path })
+      let isEdit = this.buttonText === '查看详情' ? 0 : 1
+      let path = this.hasPrize ? '/lotteryDetails' : '/checkin'
+      this.$router.push({ path: path, query: { edit: isEdit, prizeName: this.prizeName } })
     }
   }
 };

@@ -15,12 +15,12 @@ import axios from '@/common/js/http'
 const checkin = {
   // 获取签到规则
   getRules() {
-    return axios.get(`/rule`)
+    return axios.get(`/check_in_rule`)
   },
 
   // 获取签到记录
-  getCheckin() {
-    return axios.get(`/check_in`)
+  getCheckin(params) {
+    return axios.get(`/check_in`, { params: params })
   },
 
   // 会员签到
@@ -35,12 +35,12 @@ const checkin = {
 
   // 中将资料填写
   postWinPrize(params) {
-    return axios.post(`/win_prize`, params)
+    return axios.post(`/winning_info`, params)
   },
 
   // 中奖纪录
-  getWinPrize(params) {
-    return axios.get(`/win_prize`, { params: params })
+  getWinPrize(id) {
+    return axios.get(`/winning/${id}`)
   }
 }
 
