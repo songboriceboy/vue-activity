@@ -263,6 +263,8 @@ export default {
             this.successText = str
             this.successControl = true
             this.checkinDays.push(this.staticYMD)
+          } else {
+            this.$toast(res.message)
           }
         })
       } else {

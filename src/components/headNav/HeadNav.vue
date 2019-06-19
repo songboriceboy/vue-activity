@@ -47,6 +47,12 @@ export default {
     }
   },
 
+  watch: {
+    '$route': function () {
+      this.active = this.$route.query.active
+    }
+  },
+
   methods: {
     // 跳转页面
     jump (index) {

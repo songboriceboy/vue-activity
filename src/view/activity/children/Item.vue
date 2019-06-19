@@ -8,11 +8,13 @@
       <h2>{{ itemData.title }}</h2>
       <div class="row">
         <div class="end-time">
-          <count-down :endTime="itemData.endTime"></count-down>
+          <count-down :endTime="itemData.endTime"
+                      :interval="60000"
+                      @change="timeEnd"></count-down>
         </div>
         <van-button type="default"
                     class="button is-radius-button-red"
-                    v-if="itemData.hasTime">报名</van-button>
+                    v-if="!over">报名</van-button>
         <van-button type="default"
                     class="button is-radius-button-gray"
                     v-else>已结束</van-button>
@@ -37,7 +39,7 @@ export default {
   },
   data () {
     return {
-
+      over: false // 是否已结束
     }
   },
   methods: {
@@ -50,6 +52,11 @@ export default {
     // 详情
     toDetails () {
       this.$router.push({ path: '/activityDetail', query: { id: this.itemData.id } })
+    },
+
+    // 时间结束
+    timeEnd () {
+      this.over = true
     }
   }
 };

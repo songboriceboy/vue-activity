@@ -38,6 +38,7 @@
 import commonTabs from '@/components/tabs/Tabs'
 import detailFooter from '@/components/footer/Footer'
 import emptyBox from '@/components/empty/Empty'
+
 export default {
   name: 'activityDetail',
   components: { commonTabs, detailFooter, emptyBox },
@@ -68,6 +69,48 @@ export default {
       ], // 详情
       footerData: {
         endTime: '2019-6-18 22:19:00',
+        label: '报名',
+        routerPath: '/activityApply'
+      },
+      id: this.$route.query.id
+    }
+  },
+
+  created () {
+    this.init()
+  },
+
+  methods: {
+    // 加载详情
+    init () {
+      this.$api.activity.getActivityDetail(this.id).then(res => {
+        if (res.code === 0) {
+          this.dataProcess(res.data)
+        } else {
+          this.$toast(res.message)
+          setTimeout(() => {
+            this.$router.back()
+          }, 1000);
+        }
+      })
+    },
+
+    // 处理数据
+    dataProcess (data) {
+      // 基本信息
+      this.details = {
+        id: data.id,
+        title: data.name,
+        imgSrc: data.front_cover,
+        applyed: data.signs_count.length,
+        total: data.limit,
+        address: data.address,
+        time: data.time // 还缺少参数
+      }
+
+      // 底部信息
+      this.footerData = {
+        endTime: data.apply_time_prompt,
         label: '报名',
         routerPath: '/activityApply'
       }

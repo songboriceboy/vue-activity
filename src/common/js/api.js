@@ -45,10 +45,10 @@ const checkin = {
 }
 
 // 活动模块
-const acticity = {
+const activity = {
   // 活动列表
-  getActivity() {
-    return axios.get(`/activity`)
+  getActivity(params) {
+    return axios.get(`/activity`, { params: params })
   },
 
   // 活动详情
@@ -194,7 +194,7 @@ const common = {
 
 export default {
   checkin,
-  acticity,
+  activity,
   trial,
   video,
   discuss,
