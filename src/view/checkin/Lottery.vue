@@ -101,7 +101,8 @@ export default {
           for (let item of res) {
             let time = this.dateFormatter(item.check_in_time)
             if (date === time) {
-              this.lotteryTicket = (item.check_in_times === 7) ? 1 : 0
+              // 该天已连续签到七天, 并且为待抽奖状态, 则可以抽奖一次
+              this.lotteryTicket = (item.check_in_times === 7 && item.status === 3) ? 1 : 0
             }
           }
         }
@@ -166,7 +167,7 @@ export default {
     gameOver () {
       this.toastControl = true;
       this.hasPrize = this.prizeList[this.index].winning
-      this.prizeName = this.prizeList[this.index].name
+      this.prizeName = this.prizeList[this.index].prizeName
       this.prizeImg = this.prizeList[this.index].prizeImage
       this.lotteryTicket--
     },

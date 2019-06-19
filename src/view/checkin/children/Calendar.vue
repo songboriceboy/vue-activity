@@ -162,14 +162,15 @@ export default {
               checkinDays.push(time)
             }
 
+            // 1 已过期, 2 已抽奖, 3 待抽奖
             switch (item.status) {
-              case '已过期':
+              case 1:
                 invaildDays.push(time)
                 break
-              case '已抽奖':
+              case 2:
                 recordDays.push(time)
                 break
-              case '待抽奖':
+              case 3:
                 successDays.push(time)
                 break
               default:

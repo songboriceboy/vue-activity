@@ -59,7 +59,8 @@
     <!-- 弹框 -->
     <message-box :show="this.$store.state.messageShow"
                  :title="messageTitle"
-                 :content="messageContent"></message-box>
+                 :content="messageContent"
+                 :path="messagePath"></message-box>
   </div>
 </template>
 
@@ -85,7 +86,8 @@ export default {
       city: '', // 市
       district: '', // 区
       messageTitle: '', // 弹框提示
-      messageContent: '' // 提示内容
+      messageContent: '', // 提示内容
+      messagePath: '' // 点击确定之后的跳转地址
     }
   },
   created () {
@@ -159,6 +161,7 @@ export default {
       this.$store.commit('setMessageShow', true)
       this.messageTitle = title
       this.messageContent = content
+      this.messagePath = './checkin'
     },
 
     // 提交校验

@@ -72,8 +72,12 @@ export default {
     handleTo () {
       this.closeInfoDialog()
       let isEdit = this.buttonText === '查看详情' ? 0 : 1
-      let path = this.hasPrize ? '/lotteryDetails' : '/checkin'
-      this.$router.push({ path: path, query: { edit: isEdit, prizeName: this.prizeName } })
+      if (this.hasPrize) {
+        this.$router.push({ path: '/lotteryDetails', query: { edit: isEdit, prizeName: this.prizeName } })
+      } else {
+        this.$router.push({ path: '/checkin' })
+      }
+
     }
   }
 };

@@ -26,7 +26,10 @@ export default {
     }, // 标题
     content: {
       default: ''
-    } // 信息
+    }, // 信息
+    path: {
+      default: ''
+    } // 确定之后的跳转地址
   },
   data () {
     return {
@@ -37,6 +40,9 @@ export default {
     // 关闭信息弹框
     handleClose () {
       this.$store.commit('setMessageShow', false)
+      if (this.path) {
+        this.$router.push({ path: this.path })
+      }
     },
   }
 };
