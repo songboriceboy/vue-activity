@@ -27,7 +27,9 @@ import {
   Actionsheet,
   Tabbar,
   TabbarItem,
-  Cell
+  List,
+  Cell,
+  PullRefresh
 } from 'vant'
 import 'vant/lib/index.css'
 
@@ -58,4 +60,6 @@ Vue.use(Icon)
 Vue.use(Actionsheet)
 Vue.use(Tabbar)
 Vue.use(TabbarItem)
+Vue.use(List)
 Vue.use(Cell)
+Vue.use(PullRefresh)

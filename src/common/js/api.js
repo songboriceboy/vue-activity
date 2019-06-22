@@ -111,8 +111,8 @@ const video = {
 // 话题讨论模块
 const discuss = {
   //  话题列表
-  getTopic() {
-    return axios.get(`/topic`)
+  getTopic(params) {
+    return axios.get(`/topic`, { params: params })
   },
 
   //  话题详情

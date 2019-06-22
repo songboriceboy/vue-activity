@@ -1,9 +1,17 @@
 <template>
-  <div class="discuss">
-    <discuss-item v-for="item of listData"
-                  :key="item.id"
-                  :itemData="item"></discuss-item>
-  </div>
+  <van-pull-refresh v-model="isLoading"
+                    @refresh="onRefresh">
+    <van-list v-model="loading"
+              class="discuss"
+              :finished="finished"
+              finished-text="没有更多了"
+              :offset="200"
+              @load="init">
+      <discuss-item v-for="item of listData"
+                    :key="item.id"
+                    :itemData="item"></discuss-item>
+    </van-list>
+  </van-pull-refresh>
 </template>
 
 <script>
@@ -14,46 +22,78 @@ export default {
   components: { discussItem },
   data () {
     return {
-      listData: [
-        {
-          id: '1',
-          title: '说说你家乡的秋天1',
-          imgSrc: 'http://192.168.100.14:8080/static/pic_discuss_list_1 copy@3x.png',
-          usersPic: [
-            'http://192.168.100.14:8080/static/pic.png',
-            'http://192.168.100.14:8080/static/pic.png',
-            'http://192.168.100.14:8080/static/pic.png',
-            'http://192.168.100.14:8080/static/pic.png',
-            'http://192.168.100.14:8080/static/pic.png'
-          ],
-        },
-        {
-          id: '2',
-          title: '说说你家乡的秋天2',
-          imgSrc: 'http://192.168.100.14:8080/static/pic_discuss_list_1@3x.png',
-          usersPic: [
-            'http://192.168.100.14:8080/static/pic.png',
-            'http://192.168.100.14:8080/static/pic.png',
-            'http://192.168.100.14:8080/static/pic.png'
-          ],
-        },
-        {
-          id: '3',
-          title: '说说你家乡的秋天3',
-          imgSrc: 'http://192.168.100.14:8080/static/pic_discuss_list_details_1@3x.png',
-          usersPic: [
-            'http://192.168.100.14:8080/static/pic.png',
-            'http://192.168.100.14:8080/static/pic.png',
-            'http://192.168.100.14:8080/static/pic.png',
-            'http://192.168.100.14:8080/static/pic.png',
-            'http://192.168.100.14:8080/static/pic.png'
-          ],
-        }
-      ]
+      isLoading: false, // 下拉刷新
+      listData: [], // 列表数据
+      loading: false, // 加载中
+      finished: false, // 是否已加载完所有数据
+      page: 1, // 当前页
+      pageSize: 5, // 每页请求的数量
+      total: 0 // 总数
     }
   },
-  methods: {
 
+  methods: {
+    // 初始化列表
+    init (refresh) {
+      if (this.finished) {
+        return false
+      }
+
+      // 参数
+      const params = {
+        page: this.page,
+        page_size: this.pageSize
+      }
+
+      // 获取列表
+      this.$api.discuss
+        .getTopic(params)
+        .then(res => {
+          // 下拉刷新
+          if (refresh) {
+            this.listData = []
+            this.dataProcessing(res.data)
+            this.isLoading = false
+            this.$toast('刷新成功')
+          } else {
+            this.dataProcessing(res.data)
+          }
+
+          this.total = res.total
+          this.page++
+
+          // 加载状态结束
+          this.loading = false
+
+          // 数据全部加载完成
+          if (this.listData.length >= this.total) {
+            this.finished = true
+          }
+        })
+    },
+
+    // 处理数据
+    dataProcessing (data) {
+      if (data && data.length > 0) {
+        for (let item of data) {
+          this.listData.push({
+            id: item.id,
+            title: item.title,
+            usersPic: (item.users.length < 6) ? item.users : item.users.slice(0, 5),
+            picLen: item.users.length,
+            imgSrc: item.front_cover
+          })
+        }
+      }
+    },
+
+    // 下拉刷新
+    onRefresh () {
+      this.finished = false
+      this.page = 1
+
+      this.init(true)
+    }
   }
 };
 </script>

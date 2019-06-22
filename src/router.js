@@ -116,6 +116,14 @@ export default new Router({
       }
     },
     {
+      path: '/discussDetail',
+      component: () => import('./view/discuss/Details'),
+      meta: {
+        title: '话题详情',
+        requireAuth: true
+      }
+    },
+    {
       path: '/editInfo',
       component: () => import('./view/mine/EditInfo'),
       meta: {

@@ -110,11 +110,11 @@ export default {
   methods: {
     // 加载详情
     init () {
-      this.$api.activity.getActivityDetail(this.id).then(res => {
-        if (res) {
+      this.$api.activity
+        .getActivityDetail(this.id)
+        .then(res => {
           this.dataProcess(res)
-        }
-      })
+        })
     },
 
     // 处理数据
@@ -124,7 +124,7 @@ export default {
         id: data.id,
         title: data.name,
         imgSrc: data.front_cover,
-        applyed: data.signs.length,
+        applyed: data.signs && data.signs.length,
         total: data.limit,
         address: data.address,
         time: data.time // 还缺少参数

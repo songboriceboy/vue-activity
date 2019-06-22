@@ -97,7 +97,6 @@ export default {
 </script>
 
 <style lang="less" scoped>
-@import url("~@/common/style/resetui.less");
 .details {
   .is-radius-button-red {
     .is-radius-button-red();

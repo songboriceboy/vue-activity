@@ -1,5 +1,6 @@
 <template>
-  <div class="item">
+  <div class="item"
+       @click="goDiscuss">
     <img :src="itemData.imgSrc"
          :alt="itemData.title"
          class="img" />
@@ -8,11 +9,11 @@
       <h2>{{ itemData.title }}</h2>
       <div class="row">
         <div class="users-box">
-          <users-pic :usersPic=itemData.usersPic></users-pic>
+          <users-pic :usersPic="itemData.usersPic"
+                     :picLen="itemData.picLen"></users-pic>
         </div>
         <van-button type="default"
-                    class="button is-radius-button-red"
-                    @click="goDiscuss">我有话说</van-button>
+                    class="button is-radius-button-red">我有话说</van-button>
       </div>
     </div>
   </div>
@@ -40,7 +41,7 @@ export default {
   methods: {
     // 我有话说
     goDiscuss () {
-
+      this.$router.push({ path: '/discussDetail', query: { id: this.itemData.id } })
     }
   }
 };
@@ -84,6 +85,7 @@ export default {
     display: flex;
     .users-box {
       flex: 1;
+      padding: 3px 0;
     }
     .is-radius-button-red {
       .is-radius-button-red();

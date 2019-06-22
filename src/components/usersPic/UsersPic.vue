@@ -4,14 +4,15 @@
       <li v-for="(item, index) of usersPic"
           :key="index">
         <img :src="item"
-             alt="图片">
+             alt="头像">
       </li>
       <li>
         <span class="more"></span>
       </li>
     </ul>
     <div class="label">
-      <span class="color">{{ usersPic.length }}</span>人参与
+      <span class="color">{{ usersPic.length }}</span>
+      <span class="text">人参与</span>
     </div>
   </div>
 </template>
@@ -22,7 +23,10 @@ export default {
   props: {
     usersPic: {
       default: {}
-    }
+    }, // 前五个头像数组
+    picLen: {
+      default: 0
+    } // 头像总数
   }
 }
 </script>
@@ -71,6 +75,10 @@ export default {
   .color {
     color: #ff4500;
     font-size: 27px;
+    vertical-align: middle;
+  }
+  .text {
+    vertical-align: middle;
   }
 }
 </style>
