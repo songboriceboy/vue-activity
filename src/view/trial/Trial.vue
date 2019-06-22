@@ -32,7 +32,55 @@ export default {
           hasTime: true
         },
         {
-          id: '2',
+          id: '23',
+          title: 'Armani官方阿玛尼满天星手表女镶钻星空手表 潮流女士腕表AR1926',
+          imgSrc: 'http://192.168.100.14:8080/static/pic_on_trial_commodity_2@3x.png',
+          price: '3938.0',
+          quantity: 1,
+          usersPic: [
+            'http://192.168.100.14:8080/static/pic.png',
+          ],
+          endTime: '2019-06-13',
+          hasTime: false
+        },
+        {
+          id: '24',
+          title: 'Armani官方阿玛尼满天星手表女镶钻星空手表 潮流女士腕表AR1926',
+          imgSrc: 'http://192.168.100.14:8080/static/pic_on_trial_commodity_2@3x.png',
+          price: '3938.0',
+          quantity: 1,
+          usersPic: [
+            'http://192.168.100.14:8080/static/pic.png',
+          ],
+          endTime: '2019-06-13',
+          hasTime: false
+        },
+        {
+          id: '42',
+          title: 'Armani官方阿玛尼满天星手表女镶钻星空手表 潮流女士腕表AR1926',
+          imgSrc: 'http://192.168.100.14:8080/static/pic_on_trial_commodity_2@3x.png',
+          price: '3938.0',
+          quantity: 1,
+          usersPic: [
+            'http://192.168.100.14:8080/static/pic.png',
+          ],
+          endTime: '2019-06-13',
+          hasTime: false
+        },
+        {
+          id: '232',
+          title: 'Armani官方阿玛尼满天星手表女镶钻星空手表 潮流女士腕表AR1926',
+          imgSrc: 'http://192.168.100.14:8080/static/pic_on_trial_commodity_2@3x.png',
+          price: '3938.0',
+          quantity: 1,
+          usersPic: [
+            'http://192.168.100.14:8080/static/pic.png',
+          ],
+          endTime: '2019-06-13',
+          hasTime: false
+        },
+        {
+          id: '2343',
           title: 'Armani官方阿玛尼满天星手表女镶钻星空手表 潮流女士腕表AR1926',
           imgSrc: 'http://192.168.100.14:8080/static/pic_on_trial_commodity_2@3x.png',
           price: '3938.0',
@@ -46,8 +94,18 @@ export default {
       ]
     }
   },
-  methods: {
 
+  created () {
+    this.init()
+  },
+
+  methods: {
+    // 初始化列表
+    init () {
+      this.$api.trial.getTryUse().then(res => {
+        console.log(res)
+      })
+    }
   }
 };
 </script>

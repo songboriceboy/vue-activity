@@ -20,13 +20,7 @@ export default {
   components: { activityItem },
   data () {
     return {
-      listData: [{
-        id: 1,
-        title: '招商春季踏青活动1',
-        endTime: '2019-06-21 00:31:00',
-        hasTime: true,
-        imgSrc: 'http://192.168.100.14:8080/static/pic_activity_1@3x.png',
-      }],
+      listData: [],
       pulldownMsg: '下拉刷新', // 下拉文字信息
       pullupMsg: '加载更多', // 上拉文字信息
       page: 1, // 当前页
@@ -49,15 +43,11 @@ export default {
 
       // 首次加载
       this.$api.activity.getActivity(params).then((res) => {
-        if (res.errorCode === 0) {
-          this.listData = this.dataProcessing(res.data)
-          this.page = 1
-          this.total = res.data.total
-          if (!res.data || res.data.length === 0) {
-            this.$toast('暂无活动,敬请期待!')
-          }
-        } else {
-          this.$toast('请求失败, 请检查网络后重试!')
+        this.listData = this.dataProcessing(res.data)
+        this.page = 1
+        this.total = res.data.total
+        if (!res.data || res.data.length === 0) {
+          this.$toast('暂无活动,敬请期待!')
         }
         // 刷新列表后，重新计算滚动区域高度
         this.scroll.refresh()
@@ -72,51 +62,39 @@ export default {
 
         // 滑动过程中事件
         this.scroll.on('scroll', (pos) => {
-          if (pos.y > 30) {
+          if (pos.y > 20) {
             this.pulldownMsg = '释放立即刷新'
           }
         })
 
         // 滑动结束松开事件
         this.scroll.on('touchEnd', (pos) => {
-          if (pos.y > 30) {
+          if (pos.y > 20) {
             // 下拉刷新
-            setTimeout(() => {
-              that.$api.activity.getActivity(params).then((res) => {
-                if (res.errorCode === 0) {
-                  this.listData = this.dataProcessing(res.data)
-                  that.page = 1
-                  that.total = res.data.total
-                  if (res.data.length === 0) {
-                    that.$toast('暂无活动,敬请期待!')
-                  }
-                } else {
-                  that.$toast('请求失败, 请检查网络后重试!')
-                }
+            that.$api.activity.getActivity(params).then((res) => {
+              this.listData = this.dataProcessing(res.data)
+              that.page = 1
+              that.total = res.data.total
+              if (res.data.length === 0) {
+                that.$toast('暂无活动,敬请期待!')
+              }
 
-                that.pulldownMsg = '下拉刷新'
+              that.pulldownMsg = '下拉刷新'
 
-                that.scroll.refresh()
-              })
-            }, 2000)
+              that.scroll.refresh()
+            })
           }
           else if (pos.y < (this.scroll.maxScrollY - 30)) {
             // 上拉加载
             if (this.listData.length < this.total) {
               this.page++
               this.pullupMsg = '加载中...'
-              setTimeout(() => {
-                that.$api.activity.getActivity(params).then((res) => {
-                  if (res.errorCode === 0) {
-                    this.listData = this.listData.concat(this.dataProcessing(res.data))
-                    that.total = res.data.total
-                    that.pullupMsg = '加载更多'
-                  } else {
-                    that.pullupMsg = '请求失败, 请检查网络后重试!'
-                  }
-                  that.scroll.refresh()
-                })
-              }, 2000)
+              that.$api.activity.getActivity(params).then((res) => {
+                this.listData = this.listData.concat(this.dataProcessing(res.data))
+                that.total = res.data.total
+                that.pullupMsg = '加载更多'
+                that.scroll.refresh()
+              })
             } else {
               this.pullupMsg = '已经到底了'
             }

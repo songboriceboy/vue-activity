@@ -7,11 +7,11 @@
       <div class="content">
         <h1>{{ details.title }}</h1>
         <div class="apply-box">
-          <span class="apply">已报名:{{ details.applyed }}/{{ details.total }}人</span>
+          <span class="apply">已报名：{{ details.applyed }}/{{ details.total }}人</span>
           <span class="share"></span>
         </div>
-        <div class="info">地点:{{ details.address }}</div>
-        <div class="info">时间:{{ details.time }}</div>
+        <div class="info">地点：{{ details.address }}</div>
+        <div class="info">时间：{{ details.time }}</div>
       </div>
     </div>
     <div class="detail-b">
@@ -21,9 +21,36 @@
                    :key="index"
                    :title="item.tab">
             <div class="tab-container"
-                 v-html="item.content"
-                 v-if="item.content"></div>
-            <empty-box v-else></empty-box>
+                 v-if="item.tab==='活动介绍'">
+              <div class="intro"
+                   v-if="item.intro.length > 0">
+                <img :src="img"
+                     v-for="(img, index) of item.intro"
+                     :key="index"
+                     alt="图片加载失败">
+              </div>
+              <empty-box v-else></empty-box>
+            </div>
+
+            <div class="tab-container"
+                 v-if="item.tab==='商户介绍'">
+              <div class="content"
+                   v-if="item.content"
+                   v-html="item.content"></div>
+              <empty-box v-else></empty-box>
+            </div>
+
+            <div class="tab-container"
+                 v-if="item.tab==='体验报告'">
+              <div class="reports"
+                   v-if="item.reports.length > 0">
+                <comment-li v-for="data of item.reports"
+                            :details="data"
+                            :key="data.id"
+                            :title="'试用产品: ' + details.title"></comment-li>
+              </div>
+              <empty-box v-else></empty-box>
+            </div>
           </van-tab>
         </template>
       </common-tabs>
@@ -45,30 +72,30 @@ export default {
   data () {
     return {
       details: {
-        id: 1,
-        title: '招商春季踏青活动1',
-        imgSrc: 'http://192.168.100.14:8080/static/pic_activity_details_1@3x.png',
-        applyed: 22,
-        total: 100,
-        address: '福田莲花山',
-        time: '2019年4月26日12:00-2019年4月27日12:00'
+        id: null,
+        title: '',
+        imgSrc: '',
+        applyed: 0,
+        total: 0,
+        address: '',
+        time: ''
       }, // 简介内容
       detailData: [
         {
           tab: '活动介绍',
-          content: '<img src="http://192.168.100.14:8080/static/pic_activity_details_1@3x.png" alt="title" />',
+          intro: []
         },
         {
           tab: '商户介绍',
-          content: '<p>商户介绍字段商户介绍字段商户介绍字段商户介绍字段商户介绍字段商户介绍字段商户介绍字段商户介绍字段商户介绍字段商户介绍字段商户介绍字段商户介绍字段商户介绍字段商户介绍字段商户介绍</p><img src="http://192.168.100.14:8080/static/pic_activity_details_1@3x.png" alt="title" />'
+          content: ''
         },
         {
           tab: '体验报告',
-          content: ''
+          reports: []
         }
       ], // 详情
       footerData: {
-        endTime: '2019-6-18 22:19:00',
+        endTime: '',
         label: '报名',
         routerPath: '/activityApply'
       },
@@ -84,13 +111,8 @@ export default {
     // 加载详情
     init () {
       this.$api.activity.getActivityDetail(this.id).then(res => {
-        if (res.code === 0) {
-          this.dataProcess(res.data)
-        } else {
-          this.$toast(res.message)
-          setTimeout(() => {
-            this.$router.back()
-          }, 1000);
+        if (res) {
+          this.dataProcess(res)
         }
       })
     },
@@ -102,7 +124,7 @@ export default {
         id: data.id,
         title: data.name,
         imgSrc: data.front_cover,
-        applyed: data.signs_count.length,
+        applyed: data.signs.length,
         total: data.limit,
         address: data.address,
         time: data.time // 还缺少参数
@@ -110,10 +132,26 @@ export default {
 
       // 底部信息
       this.footerData = {
-        endTime: data.apply_time_prompt,
+        endTime: data.apply_time_prompt, // 格式不正确
         label: '报名',
         routerPath: '/activityApply'
       }
+
+      // 活动介绍, 商户介绍, 体验报告
+      this.detailData = [
+        {
+          tab: '活动介绍',
+          intro: ["http://food.resource.lzdu.com/public/201906/21/ZEPUDn0YcnUew0SF9kTTSRIVyaxBTMFwVJrIQDte.png"] //data.activity_intro // 临时处理
+        },
+        {
+          tab: '商户介绍',
+          content: data.content
+        },
+        {
+          tab: '体验报告',
+          reports: data.reports
+        }
+      ]
     }
   }
 }
@@ -171,7 +209,12 @@ export default {
   }
   .detail-b {
     .tab-container {
-      padding: 16px 32px 126px;
+      padding: 32px 32px 126px;
+      .intro {
+        img {
+          width: 100%;
+        }
+      }
     }
   }
 }

@@ -4,17 +4,10 @@
     <div class="wrapper">
       <router-view />
     </div>
-    <!-- <div class="wrapper"
-         ref="wrapper">
-      <div class="scroll-content">
-        <router-view />
-      </div>
-    </div> -->
   </div>
 </template>
 
 <script>
-// import BScroll from 'better-scroll'
 
 export default {
   name: 'Content',
@@ -29,13 +22,6 @@ export default {
     }
   },
   mounted () {
-    // this.$nextTick(() => {
-    //   this.scroll = new BScroll(this.$refs.wrapper, {
-    //     probeType: 1,
-    //     click: true,
-    //     taps: true
-    //   })
-    // })
     this.redirect()
   },
   methods: {
@@ -57,11 +43,7 @@ export default {
   right: 0;
   bottom: 0;
   left: 0;
-  overflow: hidden;
+  overflow: auto;
   background-color: #fff;
 }
-// .scroll-content {
-//   min-height: 100%;
-//   background-color: #fff;
-// }
 </style>
