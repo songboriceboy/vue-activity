@@ -2,7 +2,6 @@
  * api 接口管理
  */
 import axios from '@/common/js/http'
-import { Z_HUFFMAN_ONLY } from 'zlib'
 // 根据需求是否导入qs模块
 // import qs from 'qs'
 
@@ -173,17 +172,20 @@ const mine = {
 
   // 填写报告
   postReport(params) {
-    return axios.post(`/my/report`, params)
+    return axios.post(`/report`, params)
   },
 
-  // 意见反馈
+  /**
+   * 意见反馈
+   * @param {*} params { user_name 姓名, user_tel 手机号, message 反馈内容 }
+   */
   postSuggest(params) {
-    return axios.post(`/my/suggest`, params)
+    return axios.post(`/suggest`, params)
   },
 
   // 关于我们
   getAboutUs() {
-    return axios.post(`/about/us`)
+    return axios.get(`/about_us`)
   }
 }
 
@@ -194,9 +196,14 @@ const common = {
     return axios.post(`/share`, params)
   },
 
-  // 图片上传
+  /**
+   * 图片上传
+   * @param {*} params { images [] }
+   */
   upload(params) {
-    return axios.post(`/upload`, params)
+    return axios.post(`/upload`, params, {
+      headers: { 'Content-Type': 'multipart/form-data' }
+    })
   },
 
   /**

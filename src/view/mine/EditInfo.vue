@@ -10,7 +10,7 @@
                   center
                   clickable
                   class="info info-avatar">
-          <img :src="avatar"
+          <img :src="userInfo.avatar"
                alt="头像"
                class="avatar"
                slot="right-icon" />
@@ -21,17 +21,18 @@
                 center
                 clickable
                 class="info info-username"
-                :value="username"
+                :value="userInfo.name"
                 @click="edit=true" />
       <div class="info-line"></div>
     </template>
     <template v-else>
-      <van-field v-model="username"
+      <van-field v-model="userInfo.name"
+                 maxlength="16"
                  placeholder="请填写您的昵称"
                  class="username-text" />
       <div class="info-line"></div>
       <van-button type="default"
-                  v-if="!username"
+                  v-if="!userInfo.name || userInfo.name.length > 16"
                   class="button is-radius-button-gray">保存</van-button>
       <van-button type="default"
                   v-else
@@ -46,40 +47,65 @@ export default {
   name: 'editInfo',
   data () {
     return {
-      avatar: 'http://192.168.100.14:8080/static/pic.png',
-      username: 'UOOU',
-      edit: false,
+      userInfo: null, // 个人信息
+      edit: false, // 是否可编辑
+      oldAvatar: '' // 存储当前头像
     }
   },
+  created () {
+    const userInfo = this.$store.state.userInfo || localStorage.getItem('user_info')
+    this.userInfo = JSON.parse(userInfo)
+  },
+
   methods: {
     // 保存
     onSubmit () {
+      if (!this.userInfo.name) {
+        this.$toast('请填写昵称!')
+      }
+      if (this.userInfo.name.length > 16) {
+        this.$toast('昵称长度超长!')
+      }
+
+      this.updateData()
+    },
+
+    // 提交数据
+    updateData () {
       this.$api.mine
         .patchInfo({
-          avatar: this.avatar,
-          name: this.username
+          avatar: this.userInfo.avatar,
+          user_name: this.userInfo.name
         })
         .then(res => {
           if (res.code === 0) {
             this.$toast('修改成功')
+            const userInfo = JSON.stringify(this.userInfo)
+            this.$store.commit('setUserInfo', userInfo)
+            this.edit = false
+            this.oldAvatar = ''
+          } else {
+            this.$toast(res.message)
+            if (this.oldAvatar) {
+              this.userInfo.avatar = this.oldAvatar
+            }
           }
         })
     },
 
-    // 将文件上传至服务器
+    // 将图片上传至服务器
     afterRead (file) {
       // 图片预览
-      const oldAvatar = this.avatar
-      this.avatar = file.content
+      this.oldAvatar = this.userInfo.avatar
+      this.userInfo.avatar = file.content
 
-      const params = [file]
+      const params = new FormData()
+      params.append('images[]', file.file)
       this.$api.common.upload(params)
         .then(res => {
-          if (res.code === 0) {
-            this.$toast('头像修改成功!')
-          } else {
-            this.$toast('头像修改失败!')
-            this.avatar = oldAvatar
+          if (res && res.length > 0) {
+            this.userInfo.avatar = res[0]
+            this.updateData()
           }
         })
     },
@@ -117,6 +143,10 @@ export default {
   }
   .info-username {
     padding: 30px 32px;
+    /deep/ .van-cell__title {
+      width: 90px;
+      flex: none;
+    }
   }
   .van-cell::after {
     border-bottom: none;
@@ -141,7 +171,7 @@ export default {
     margin: 0 32px;
   }
   .username-text {
-    padding: 44px 48px;
+    padding: 54px 48px 34px;
     box-sizing: border-box;
   }
   .is-radius-button-gray {

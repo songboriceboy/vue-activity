@@ -2,17 +2,19 @@
   <div class="details">
     <div class="details-form-row">
       <span class="count-len">{{ len }}/100</span>
-      <van-field v-model="infos.username"
+      <van-field v-model="username"
                  label="姓名:"
+                 maxlength="16"
                  input-align="right"
                  placeholder="请填写姓名" />
-      <van-field v-model="infos.phone"
+      <van-field v-model="phone"
                  type="number"
+                 maxlength="13"
                  input-align="right"
                  label="联系电话:"
                  placeholder="请填写电话号码" />
       <div class="details-form-row-label">反馈内容:</div>
-      <van-field v-model="infos.content"
+      <van-field v-model="content"
                  maxlength="100"
                  type="textarea"
                  label-width="100%"
@@ -37,11 +39,9 @@ export default {
   components: { messageBox },
   data () {
     return {
-      infos: {
-        username: '',
-        phone: '',
-        content: '',
-      },
+      username: '', // 姓名
+      phone: '', // 联系电话
+      content: '', // 反馈内容
       len: 0, // 已经输入的长度
       messageTitle: '', // 弹框提示
       messageContent: '' // 提示内容
@@ -58,7 +58,23 @@ export default {
         return false
       }
 
-      this.showMessage('提交成功', '您的意见已提交成功!')
+      const params = {
+        user_name: this.username,
+        user_tel: this.phone,
+        message: this.content
+      }
+
+      this.$api.mine.postSuggest(params)
+        .then(res => {
+          if (res.code === 0) {
+            this.showMessage('提交成功', '您的意见已提交成功!')
+            this.username = ''
+            this.phone = ''
+            this.content = ''
+          } else {
+            this.$toast(res.message)
+          }
+        })
     },
 
     // 显示提示
@@ -70,18 +86,28 @@ export default {
 
     // 提交校验
     validate () {
-      if (!this.infos.username) {
+      if (!this.username) {
         this.$toast('请填写姓名!')
         return false
       }
 
-      if (!this.infos.phone) {
+      if (this.username.length > 16) {
+        this.$toast('姓名过长!')
+        return false
+      }
+
+      if (!this.phone) {
         this.$toast('请填写电话号码!')
         return false
       }
 
-      if (!this.infos.content) {
+      if (!this.content) {
         this.$toast('请填写反馈内容!')
+        return false
+      }
+
+      if (this.content.length > 100) {
+        this.$toast('反馈内容过长!')
         return false
       }
       return true

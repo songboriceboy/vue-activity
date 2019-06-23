@@ -2,11 +2,11 @@
   <div class="mine">
     <section class="mine-content">
       <div class="avatar">
-        <img src="http://192.168.100.14:8080/static/pic.png"
+        <img :src="userInfo.avatar"
              alt="头像">
       </div>
       <div class="info">
-        <h1>UOOU</h1>
+        <h1>{{ userInfo.name | nameFilter }}</h1>
         <router-link tag="div"
                      class="edit"
                      to="/editInfo">
@@ -48,11 +48,26 @@ export default {
   name: 'Mine',
   data () {
     return {
-
+      userInfo: {}
     }
   },
-  methods: {
 
+  created () {
+    this.init()
+  },
+
+  methods: {
+    // 初始化
+    init () {
+      const userInfo = this.$store.state.userInfo || localStorage.getItem('user_info')
+      this.userInfo = JSON.parse(userInfo)
+    }
+  },
+
+  filters: {
+    nameFilter (val) {
+      return val.length > 8 ? val.slice(0, 8) + '...' : val
+    }
   }
 };
 </script>
@@ -85,6 +100,7 @@ export default {
     padding-top: 30px;
     h1 {
       height: 62px;
+      box-sizing: border-box;
       font-size: 45px;
       font-family: PingFangSC-Medium;
       font-weight: 500;
