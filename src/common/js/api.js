@@ -2,6 +2,7 @@
  * api 接口管理
  */
 import axios from '@/common/js/http'
+import { Z_HUFFMAN_ONLY } from 'zlib'
 // 根据需求是否导入qs模块
 // import qs from 'qs'
 
@@ -110,29 +111,36 @@ const video = {
 
 // 话题讨论模块
 const discuss = {
-  //  话题列表
+  /**
+   * 获取话题列表
+   * @param {*} params { page 页码, page_size 每页显示数 }
+   */
   getTopic(params) {
     return axios.get(`/topic`, { params: params })
   },
 
-  //  话题详情
+  /**
+   * 获取话题详情
+   * @param {*} id 话题id
+   */
   getTopicDetail(id) {
     return axios.get(`/topic/${id}`)
   },
 
-  //  话题评论列表
-  getTopicComment() {
-    return axios.get(`/topic/comment`)
-  },
-
-  //  添加话题评论
+  /**
+   * 添加话题评论
+   * @param {*} params { topic_id 话题id, comment 评论内容 }
+   */
   postTopicComment(params) {
-    return axios.get(`/topic/comment`, { params: params })
+    return axios.post(`/topic/comment`, params)
   },
 
-  //  删除话题评论
+  /**
+   * 删除话题评论
+   * @param {*} id 评论 id
+   */
   delTopicComment(id) {
-    return axios.get(`/topic/comment/${id}`)
+    return axios.delete(`/topic/comment/${id}`)
   }
 }
 
@@ -189,6 +197,14 @@ const common = {
   // 图片上传
   upload(params) {
     return axios.post(`/upload`, params)
+  },
+
+  /**
+   * 点赞
+   * @param {*} params { type 1：活动报告 2：试用报告 3：话题评论, type_id: 数据 id }
+   */
+  likes(params) {
+    return axios.post(`/zan`, params)
   }
 }
 

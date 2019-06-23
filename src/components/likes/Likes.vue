@@ -1,10 +1,11 @@
 <template>
-  <span class="likes">
+  <span class="likes"
+        @click="onLikes">
     <span class="liked"
-          v-if="myLike"></span>
+          v-if="num === 1"></span>
     <span class="like"
           v-else></span>
-    <span class="text">{{ likes }}</span>
+    <span class="text">{{ newLikes }}</span>
   </span>
 </template>
 
@@ -14,9 +15,50 @@ export default {
   props: {
     likes: {
       default: 0
-    },
+    }, // 点赞数量
     myLike: {
       default: false
+    }, // 是我点赞的
+    type: {
+      default: ''
+    }, // 类型 1：活动报告 2：试用报告 3：话题评论
+    typeId: {
+      default: ''
+    } // 数据id
+  },
+
+  data () {
+    return {
+      num: 0 // 我点赞的次数 0/1
+    }
+  },
+
+  computed: {
+    newLikes () {
+      return this.likes + this.num
+    }
+  },
+
+  created () {
+    // 如果是我点赞的
+    this.num = this.myLike ? 1 : 0
+  },
+
+  methods: {
+    // 点赞
+    onLikes () {
+      const params = {
+        type: this.type,
+        type_id: this.typeId
+      }
+      this.$api.common.likes(params)
+        .then(res => {
+          if (res.code === 0) {
+            this.num = (this.num === 1) ? 0 : 1
+          } else {
+            this.$toast(res.message)
+          }
+        })
     }
   }
 }

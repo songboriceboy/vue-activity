@@ -5,10 +5,10 @@ export default {
     localStorage['token'] = token
   },
 
-  // 设置 账号 id openid
-  setOpenid(state, openid) {
-    state.openid = openid
-    localStorage['openid'] = openid
+  // 设置 账号信息
+  setUserInfo(state, userInfo) {
+    state.userInfo = userInfo
+    localStorage['user_info'] = userInfo
   },
 
   // 重试次数计数
@@ -19,7 +19,7 @@ export default {
   // 设置登录跳转地址
   setLoginGo(state, path) {
     state.afterLoginGo = path
-    localStorage['afterLoginGo'] = path
+    localStorage['after_login_go'] = path
   },
 
   // 设置 message 弹框控制的状态

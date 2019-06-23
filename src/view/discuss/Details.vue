@@ -28,39 +28,45 @@
                  alt="头像"
                  class="img" />
             <div class="info-r">
-              <h5>{{ item.user.name }}</h5>
+              <h5>{{ item.user.name | nameFilter }}</h5>
               <p>{{ item.created_at }}</p>
             </div>
             <div class="handle">
               <div class="delete-btn"
                    v-if="item.is_owner"
-                   @click="deleteComment">
+                   @click="deleteComment(item.id)">
                 <i></i>
                 <span class="text">删除</span>
               </div>
               <div class="likes-box">
-                <likes-count :likes="item.like_times"></likes-count>
+                <likes-count :likes="item.like_times"
+                             :type="3"
+                             :typeId="item.id"></likes-count>
               </div>
             </div>
           </div>
-          <div class="comment-content">{{ comment }}</div>
+          <div class="comment-content">{{ item.comment }}</div>
         </li>
       </ul>
+      <div v-if="comments.length === 0"
+           class="empty">期待您的参与</div>
     </div>
+    <topic-children :id="details.id"></topic-children>
   </section>
 </template>
 
 <script>
 import usersPic from '@/components/usersPic/UsersPic'
 import likesCount from '@/components/likes/Likes'
+import topicChildren from './children/Topic'
 
 export default {
   name: 'discussDetail',
-  components: { usersPic, likesCount },
+  components: { usersPic, likesCount, topicChildren },
   data () {
     return {
       details: {
-        id: 1,
+        id: 0,
         title: '',
         imgSrc: '',
         usersPic: [],
@@ -95,6 +101,44 @@ export default {
           // 评论列表
           this.comments = res.comments
         })
+    },
+
+    // 删除评论
+    deleteComment (id) {
+      this.$dialog.confirm({
+        title: '提示',
+        message: '是否删除当前评论?'
+      }).then(() => {
+        this.$api.discuss
+          .delTopicComment(id)
+          .then(res => {
+            if (res.code === 0) {
+              this.$toast('删除成功!')
+              // 在评论列表中去掉该评论
+              const list = this.comments
+              if (list) {
+                let len = list.length
+                for (let i = 0; i < len; i++) {
+                  if (list[i].id === id) {
+                    list.splice(i, 1)
+                    break
+                  }
+                }
+              }
+            } else {
+              this.$toast(res.message)
+            }
+          })
+      }).catch(() => {
+        this.$toast('已取消删除!')
+      });
+    }
+  },
+
+  filters: {
+    // 名称过滤
+    nameFilter (val) {
+      return val.length > 10 ? val.slice(0, 8) + '...' : val
     }
   }
 }
@@ -154,7 +198,7 @@ export default {
     }
   }
   .detail-b {
-    padding: 50px 30px 126px;
+    padding: 50px 30px 150px;
     background-color: #fff;
     h2 {
       height: 42px;
@@ -163,6 +207,11 @@ export default {
       font-weight: 600;
       color: rgba(51, 51, 51, 1);
       line-height: 42px;
+    }
+    .empty {
+      color: #999;
+      font-size: 28px;
+      font-family: PingFangSC-Semibold;
     }
   }
   .comments {

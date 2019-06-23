@@ -43,7 +43,6 @@ const errorHandle = (status, other) => {
     // 清除token并跳转登录页
     case 403:
       tip('授权登录失效，请重新授权登录')
-      // localStorage.removeItem('token')
       store.commit('setToken', null)
       setTimeout(() => {
         toLogin()
@@ -102,23 +101,18 @@ instance.interceptors.response.use(
 const postTokenInfo = (code, next) => {
   axios.post('/login', { code }).then(res => {
     const result = res.data
-    if (result) {
-      if (result.errorCode === 0) {
-        // 设置 vuex 状态值
-        let token = result.data.token.accessToken
-        let openid = result.data.user.openid
-        store.commit('setToken', token)
-        store.commit('setOpenid', openid)
-        // 设置缓存
-        localStorage.setItem('token', token)
-        localStorage.setItem('openid', openid)
-        next()
-      } else {
-        tip(result.message)
-        next({
-          path: '/login'
-        })
-      }
+    if (result && result.errorCode === 0) {
+      // 设置 vuex 状态值
+      let token = result.data.token.accessToken
+      let userInfo = result.data.user
+      store.commit('setToken', token)
+      store.commit('setUserInfo', JSON.stringify(userInfo))
+      next()
+    } else {
+      tip(result.message)
+      next({
+        path: '/login'
+      })
     }
   })
 }
@@ -134,16 +128,14 @@ router.beforeEach((to, from, next) => {
     postTokenInfo(code, next)
   } else {
     // 临时注释
-    // if (!code && to.meta.requireAuth) {
-    if (code && to.meta.requireAuth) {
+    if (to.meta.requireAuth) {
+      // if (code && to.meta.requireAuth) {
       // 判断该路由是否需要登录权限
       if (localStorage.getItem('token')) {
         next()
       } else {
         // 设置状态
         store.commit('setLoginGo', to.fullPath)
-        // 设置缓存
-        localStorage.setItem('afterLoginGo', to.fullPath)
         next({
           path: '/login'
         })

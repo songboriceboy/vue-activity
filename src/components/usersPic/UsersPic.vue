@@ -3,7 +3,7 @@
     <ul class="users-list">
       <li v-for="(item, index) of usersPic"
           :key="index">
-        <img :src="item"
+        <img :src="item.avatar"
              alt="头像">
       </li>
       <li>
@@ -54,6 +54,7 @@ export default {
       display: block;
       width: 54px;
       height: 54px;
+      border-radius: 50%;
     }
     .more {
       display: block;

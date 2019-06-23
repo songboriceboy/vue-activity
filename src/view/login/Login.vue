@@ -35,9 +35,10 @@ export default {
   methods: {
     // init
     init () {
-      if (localStorage.getItem('token')) {
+      let token = this.$store.state.token || localStorage.getItem('token')
+      if (token) {
         let path = '/checkin?active=0'
-        let afterLoginGo = localStorage.getItem('afterLoginGo')
+        let afterLoginGo = localStorage.getItem('after_login_go')
         if (afterLoginGo) {
           path = afterLoginGo
         }
