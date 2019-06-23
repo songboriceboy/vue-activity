@@ -93,8 +93,8 @@ const trial = {
 // 视频模块
 const video = {
   // 视频模块列表
-  getVideoModule() {
-    return axios.get(`/video/module`)
+  getVideoModule(params) {
+    return axios.get(`/video`, { params: params })
   },
 
   // 视频列表

@@ -1,79 +1,99 @@
 <template>
-  <div class="video">
-    <video-item v-for="item of listData"
-                :key="item.id"
-                :itemData="item"></video-item>
-  </div>
+  <van-pull-refresh v-model="isLoading"
+                    @refresh="onRefresh">
+    <van-list v-model="loading"
+              class="discuss"
+              :finished="finished"
+              finished-text="没有更多了"
+              :offset="200"
+              @load="init">
+      <div class="video">
+        <children-item v-for="item of listData"
+                       :key="item.id"
+                       :itemData="item"></children-item>
+      </div>
+    </van-list>
+  </van-pull-refresh>
 </template>
 
 <script>
-import videoItem from './children/Item'
+import childrenItem from './children/Item'
 
 export default {
-  name: 'video',
-  components: { videoItem },
+  name: 'videoModule',
+  components: { childrenItem },
   data () {
     return {
-      listData: [
-        {
-          id: '1',
-          title: '深度实践核心技术篇',
-          number: 386,
-          imgSrc: 'http://192.168.100.14:8080/static/pic_video_list_1@3x.png',
-        },
-        {
-          id: '2',
-          title: '设计模式系统讲解与应...',
-          number: 233,
-          imgSrc: 'http://192.168.100.14:8080/static/pic_video_list_2@3x.png',
-        },
-        {
-          id: '3',
-          title: '深度实践核心技术篇',
-          number: 3453,
-          imgSrc: 'http://192.168.100.14:8080/static/pic_video_list_3@3x.png',
-        },
-        {
-          id: '4',
-          title: '设计模式系统讲解与应...',
-          number: 233,
-          imgSrc: 'http://192.168.100.14:8080/static/pic_video_list_2@3x.png',
-        },
-        {
-          id: '5',
-          title: '深度实践核心技术篇',
-          number: 3453,
-          imgSrc: 'http://192.168.100.14:8080/static/pic_video_list_3@3x.png',
-        },
-        {
-          id: '6',
-          title: '设计模式系统讲解与应...',
-          number: 233,
-          imgSrc: 'http://192.168.100.14:8080/static/pic_video_list_2@3x.png',
-        },
-        {
-          id: '7',
-          title: '深度实践核心技术篇',
-          number: 3453,
-          imgSrc: 'http://192.168.100.14:8080/static/pic_video_list_3@3x.png',
-        },
-        {
-          id: '8',
-          title: '设计模式系统讲解与应...',
-          number: 233,
-          imgSrc: 'http://192.168.100.14:8080/static/pic_video_list_2@3x.png',
-        },
-        {
-          id: '9',
-          title: '深度实践核心技术篇',
-          number: 3453,
-          imgSrc: 'http://192.168.100.14:8080/static/pic_video_list_3@3x.png',
-        }
-      ]
+      listData: [], // 列表数据
+      isLoading: false, // 下拉刷新
+      loading: false, // 加载中
+      finished: false, // 是否已加载完所有数据
+      page: 1, // 当前页
+      pageSize: 10, // 每页请求的数量
+      total: 0 // 总数
     }
   },
   methods: {
+    // 获取数据列表
+    init (refresh) {
+      // 已加载所有
+      if (this.finished) {
+        return false
+      }
 
+      // 参数
+      const params = {
+        page: this.page,
+        page_size: this.pageSize
+      }
+
+      // 获取列表
+      this.$api.video.getVideoModule(params)
+        .then(res => {
+          // 下拉刷新
+          if (refresh) {
+            this.listData = []
+            this.dataProcessing(res.data)
+            this.isLoading = false
+            this.$toast('刷新成功')
+          } else {
+            this.dataProcessing(res.data)
+          }
+
+          this.total = res.total
+          this.page++
+
+          // 加载状态结束
+          this.loading = false
+
+          // 数据全部加载完成
+          if (this.listData.length >= this.total) {
+            this.finished = true
+          }
+        })
+    },
+
+    // 处理数据
+    dataProcessing (data) {
+      if (data && data.length > 0) {
+        for (let item of data) {
+          this.listData.push({
+            id: item.id,
+            title: item.name,
+            number: item.watch_times,
+            imgSrc: item.front_cover
+          })
+        }
+      }
+    },
+
+    // 下拉刷新
+    onRefresh () {
+      this.finished = false
+      this.page = 1
+
+      this.init(true)
+    }
   }
 };
 </script>

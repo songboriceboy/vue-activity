@@ -16,7 +16,7 @@
 
 <script>
 export default {
-  name: 'activityItem',
+  name: 'videoItem',
   props: {
     itemData: {
       required: true,

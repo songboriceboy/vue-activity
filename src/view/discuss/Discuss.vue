@@ -18,7 +18,7 @@
 import discussItem from './children/Item'
 
 export default {
-  name: 'Discuss',
+  name: 'discuss',
   components: { discussItem },
   data () {
     return {
