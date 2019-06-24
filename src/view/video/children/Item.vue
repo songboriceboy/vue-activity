@@ -34,7 +34,7 @@ export default {
   methods: {
     // 跳转详情页
     rediectTo () {
-      this.$router.push({ path: '/videoList' })
+      this.$router.push({ path: '/videoList', query: { id: this.itemData.id } })
     }
   }
 };

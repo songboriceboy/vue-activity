@@ -93,7 +93,7 @@ export default {
             id: res.id,
             title: res.title,
             imgSrc: res.front_cover,
-            usersPic: res.users.length < 6 ? res.users : res.users.slice(0, 5),
+            usersPic: (res.users.length < 6) ? res.users : res.users.slice(0, 5),
             picLen: res.users.length,
             content: res.content
           }

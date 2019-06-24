@@ -2,7 +2,6 @@
   <van-pull-refresh v-model="isLoading"
                     @refresh="onRefresh">
     <van-list v-model="loading"
-              class="discuss"
               :finished="finished"
               finished-text="没有更多了"
               :offset="200"
@@ -53,6 +52,9 @@ export default {
 
           if (res.errorCode && res.errorCode !== 0) {
             this.$toast('数据获取失败!')
+            this.isLoading = false
+            this.loading = false
+            this.finished = true
             return false
           }
 
@@ -101,12 +103,13 @@ export default {
       this.init(true)
     }
   }
-};
+}
 </script>
 
 <style lang="less" scoped>
 .video {
   padding: 20px;
+  overflow: hidden;
   .clearfix();
 }
 </style>

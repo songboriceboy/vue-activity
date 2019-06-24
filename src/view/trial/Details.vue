@@ -9,11 +9,12 @@
         <div class="row-box">
           <div class="price-box">
             ¥<span class="price">{{ details.price }}</span>
-            <span class="text">提供{{ details.number }}份</span>
+            <span class="text">提供{{ details.stock }}份</span>
           </div>
           <div class="share"></div>
         </div>
-        <users-pic :usersPic="details.usersPic"></users-pic>
+        <users-pic :usersPic="details.usersPic"
+                   :picLen="details.picLen"></users-pic>
       </div>
     </div>
     <div class="detail-b">
@@ -23,8 +24,8 @@
                    :key="index"
                    :title="item.tab">
             <div class="tab-container"
-                 v-html="item.intro"
-                 v-if="item.intro"></div>
+                 v-html="item.content"
+                 v-if="item.content"></div>
             <div class="reports-container"
                  v-else-if="item.reports">
               <comment-li v-for="data of item.reports"
@@ -107,13 +108,13 @@ export default {
     dataProcess (data) {
       // 基本信息
       this.details = {
-        id: data.id,
-        title: data.name,
-        imgSrc: data.front_cover,
-        number: data.stock,
-        price: data.price,
-        usersPic: (data.signs.length < 6) ? data.signs : data.signs.slice(0, 5),
-        picLen: data.signs.length
+        id: data.id, // 产品id
+        title: data.name, // 产品名称
+        imgSrc: data.front_cover, // 产品图片
+        stock: data.stock, // 库存数量
+        price: data.price, // 产品价格
+        usersPic: (data.signs.length < 6) ? data.signs : data.signs.slice(0, 5), // 申请用户
+        picLen: data.signs.length // 申请用户总数
       }
 
       // 底部信息
@@ -126,12 +127,8 @@ export default {
       // 活动介绍, 商户介绍, 体验报告
       this.detailData = [
         {
-          tab: '活动介绍',
-          intro: data.activity_intro
-        },
-        {
-          tab: '商户介绍',
-          content: data.content
+          tab: '产品详情',
+          content: data.product_intro
         },
         {
           tab: '体验报告',
@@ -199,8 +196,6 @@ export default {
   }
   .detail-b {
     padding: 0 0 126px;
-    .tab-container {
-    }
     .reports-container {
       padding: 30px;
     }

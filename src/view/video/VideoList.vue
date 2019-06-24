@@ -1,31 +1,23 @@
 <template>
-  <section class="video-list">
-    <div class="video-item"
-         v-for="video of videoData"
-         :key="video.id">
-      <div class="video-box">
-        <!-- <video :src="video.videoSrc"
-               preload="auto"
-               webkit-playsinline
-               playsinline
-               x-webkit-airplay="allow"
-               x5-video-player-type="h5"
-               x5-video-player-fullscreen="true"
-               x5-video-orientation="portraint"
-               style="object-fit:fill">
-
-        </video> -->
-        <!-- <video id="video"
-               src="http://vjs.zencdn.net/v/oceans.mp4"
-               controls="controls"
-               height="100%"
-               width="100%">您的浏览器不支持。</video> -->
-        <my-video :sources="video.sources"
-                  :options="video.options"></my-video>
+  <van-pull-refresh v-model="isLoading"
+                    @refresh="onRefresh">
+    <van-list v-model="loading"
+              class="video-list"
+              :finished="finished"
+              finished-text="没有更多了"
+              :offset="200"
+              @load="init">
+      <div class="video-item"
+           v-for="video of videoData"
+           :key="video.id">
+        <div class="video-box">
+          <my-video :sources="video.sources"
+                    :options="video.options"></my-video>
+        </div>
+        <h3>{{ video.title }}</h3>
       </div>
-      <h3>{{ video.title }}</h3>
-    </div>
-  </section>
+    </van-list>
+  </van-pull-refresh>
 </template>
 
 <script>
@@ -36,40 +28,94 @@ export default {
   components: { myVideo },
   data () {
     return {
-      videoData: [
-        {
-          id: 1,
-          title: '1-让你学会言值爆表',
-          sources: [{
-            src: 'https://www.runoob.com/try/demo_source/mov_bbb.mp4',
-            type: 'video/mp4'
-          }],
-          options: {
-            autoplay: false,
-            volume: 0.6,
-            poster: 'http://192.168.100.14:8080/static/pic_video_list_play_bg_1@3x.png'
-          }
-        },
-        {
-          id: 2,
-          title: '2-让你学会如何管理团队',
-          sources: [{
-            src: 'https://www.runoob.com/try/demo_source/mov_bbb.mp4',
-            type: 'video/mp4'
-          }],
-          options: {
-            autoplay: false,
-            volume: 0.6,
-            poster: 'http://192.168.100.14:8080/static/pic_video_list_play_bg_3@3x.png'
-          }
-        }
-      ]
+      isLoading: false, // 下拉刷新
+      loading: false, // 加载中
+      finished: false, // 是否已加载完所有数据
+      page: 1, // 当前页
+      pageSize: 4, // 每页请求的数量
+      total: 0, // 总数
+      videoData: [], // 数据列表
+      id: this.$route.query.id // 视频模块的id
     }
   },
   methods: {
+    // 获取数据列表
+    init (refresh) {
+      // 已加载所有
+      if (this.finished) {
+        return false
+      }
 
+      // 参数
+      const params = {
+        page: this.page,
+        page_size: this.pageSize
+      }
+
+      // 获取列表
+      this.$api.video.getVideo(this.id, params)
+        .then(res => {
+          if (res.code && res.code !== 0) {
+            this.$toast('数据获取失败!')
+            this.isLoading = false
+            this.loading = false
+            this.finished = true
+            return false
+          }
+
+          // 下拉刷新
+          if (refresh) {
+            this.listData = []
+            this.dataProcessing(res.data)
+            this.isLoading = false
+            this.$toast('刷新成功')
+          } else {
+            this.dataProcessing(res.data)
+          }
+
+          this.total = res.total
+          this.page++
+
+          // 加载状态结束
+          this.loading = false
+
+          // 数据全部加载完成
+          if (this.listData.length >= this.total) {
+            this.finished = true
+          }
+        })
+    },
+
+    // 处理数据
+    dataProcessing (data) {
+      if (data && data.length > 0) {
+        for (let item of data) {
+          this.listData.push({
+            id: item.id,
+            title: item.title,
+            sources: [{
+              src: item.video,
+              type: 'video/mp4'
+            }],
+            options: {
+              autoplay: false, // 是否自动播放
+              volume: 0.4, // 音量降到40%
+              poster: '' // 默认封面图
+            }
+          })
+        }
+      }
+    },
+
+    // 下拉刷新
+    onRefresh () {
+      this.finished = false
+      this.page = 1
+
+      this.init(true)
+    }
   }
-};
+}
 </script>
 
 <style lang="less" scoped>

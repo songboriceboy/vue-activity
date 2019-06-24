@@ -107,19 +107,21 @@ const trial = {
 
 // 视频模块
 const video = {
-  // 视频模块列表
+  /**
+   * 视频模块
+   * @param {*} params { page 页码, page_size 每页显示数 }
+   */
   getVideoModule(params) {
     return axios.get(`/video`, { params: params })
   },
 
-  // 视频列表
-  getVideoList(id) {
-    return axios.get(`/video/module/${id}`)
-  },
-
-  // 视频详情
-  getVideoDetail(id) {
-    return axios.get(`/video/${id}`)
+  /**
+   * 视频列表
+   * @param {*} id 视频模块id
+   * @param {*} params { page 页码, page_size 每页显示数 }
+   */
+  getVideo(id, params) {
+    return axios.get(`/video/${id}`, { params: params })
   }
 }
 
