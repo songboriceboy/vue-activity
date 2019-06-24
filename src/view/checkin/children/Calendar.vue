@@ -158,22 +158,20 @@ export default {
           let recordDays = []
           for (let item of res) {
             let time = this.dateFormatter(item.check_in_time)
-            if (item.check_in_times > 0) {
-              checkinDays.push(time)
-            }
 
-            // 1 已过期, 2 已抽奖, 3 待抽奖
+            // -1 已过期, 0 正常签到, 1 待抽奖, 2 已抽奖
             switch (item.status) {
-              case 1:
+              case -1:
                 invaildDays.push(time)
+                break
+              case 1:
+                successDays.push(time)
                 break
               case 2:
                 recordDays.push(time)
                 break
-              case 3:
-                successDays.push(time)
-                break
               default:
+                checkinDays.push(time)
                 break
             }
           }

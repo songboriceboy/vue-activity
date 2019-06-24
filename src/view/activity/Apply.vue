@@ -4,10 +4,12 @@
       <span class="count-len">{{ len }}/100</span>
       <van-field v-model="infos.username"
                  label="姓名:"
+                 maxlength="16"
                  input-align="right"
                  placeholder="请填写姓名" />
       <van-field v-model="infos.phone"
                  type="number"
+                 maxlength="13"
                  input-align="right"
                  label="联系电话:"
                  placeholder="请填写电话号码" />
@@ -41,14 +43,15 @@ export default {
         username: '',
         phone: '',
         content: '',
-      },
+      }, // 表单内容
+      id: '', // 活动id
       len: 0, // 已经输入的长度
       messageTitle: '', // 弹框提示
       messageContent: '' // 提示内容
     }
   },
   created () {
-
+    this.id = this.$route.query.id
   },
   methods: {
 
@@ -58,8 +61,21 @@ export default {
         return false
       }
 
-      // this.showMessage('提交失败', '已提交报名申请，不能重复申请！')
-      this.showMessage('提交成功', '报名申请已提交成功，请耐心等待！')
+      const params = {
+        activity_id: this.id,
+        contact_name: this.infos.username,
+        contact_phone: this.infos.phone,
+        sign_up_reason: this.infos.content
+      }
+
+      this.$api.activity.postActivity(params)
+        .then(res => {
+          if (res.code === 0) {
+            this.showMessage('提交成功', '报名申请已提交成功，请耐心等待！')
+          } else {
+            this.showMessage('提交失败', '已提交报名申请，不能重复申请！')
+          }
+        })
     },
 
     // 显示提示
@@ -76,6 +92,11 @@ export default {
         return false
       }
 
+      if (this.infos.username.length > 16) {
+        this.$toast('姓名长度超长!')
+        return false
+      }
+
       if (!this.infos.phone) {
         this.$toast('请填写电话号码!')
         return false
@@ -85,6 +106,12 @@ export default {
         this.$toast('请填写报名理由!')
         return false
       }
+
+      if (this.infos.content.length > 100) {
+        this.$toast('报名理由字数不超过100位!')
+        return false
+      }
+
       return true
     },
 

@@ -51,7 +51,10 @@ const activity = {
     return axios.get(`/activity`, { params: params })
   },
 
-  // 活动详情
+  /**
+   * 活动详情
+   * @param {*} id 活动id
+   */
   getActivityDetail(id) {
     return axios.get(`/activity/${id}`)
   },
@@ -61,25 +64,37 @@ const activity = {
     return axios.get(`/activity/report/${id}`)
   },
 
-  // 活动报名
-  postActivityReportDetail(params) {
-    return axios.post(`/activity_sing_in`, params)
+  /**
+   * 活动报名
+   * @param {*} params { activity_id 活动id, contact_name 联系人, contact_phone 联系电话, sign_up_reason 申请理由 }
+   */
+  postActivity(params) {
+    return axios.post(`/activity_sign_up`, params)
   }
 }
 
 // 试用模块
 const trial = {
-  // 试用列表
+  /**
+   * 试用列表
+   * @param {*} params { page 页码, page_size 每页显示数 }
+   */
   getTryUse() {
     return axios.get(`/try_use`)
   },
 
-  // 试用详情
+  /**
+   * 试用详情
+   * @param {*} id 试用品id
+   */
   getTryUseDetail(id) {
     return axios.get(`/try_use/${id}`)
   },
 
-  // 试用体验报告详情
+  /**
+   * 试用体验报告详情
+   * @param {*} id 试用品id
+   */
   getTryUseReport(id) {
     return axios.get(`/try_use/report/${id}`)
   },

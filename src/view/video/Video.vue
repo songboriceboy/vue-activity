@@ -50,6 +50,12 @@ export default {
       // 获取列表
       this.$api.video.getVideoModule(params)
         .then(res => {
+
+          if (res.errorCode && res.errorCode !== 0) {
+            this.$toast('数据获取失败!')
+            return false
+          }
+
           // 下拉刷新
           if (refresh) {
             this.listData = []

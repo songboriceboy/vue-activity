@@ -14,7 +14,8 @@
       </div>
       <div class="row-flex">
         <div class="trial-users-box">
-          <users-pic :usersPic="itemData.usersPic"></users-pic>
+          <users-pic :usersPic="itemData.usersPic"
+                     :picLen="itemData.picLen"></users-pic>
         </div>
         <van-button type="default"
                     class="button is-radius-button-red"

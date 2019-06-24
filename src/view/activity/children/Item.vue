@@ -8,9 +8,10 @@
       <h2>{{ itemData.title }}</h2>
       <div class="row">
         <div class="end-time">
-          <count-down :endTime="itemData.endTime"
+          {{ itemData.endTime }}
+          <!-- <count-down :endTime="itemData.endTime"
                       :interval="60000"
-                      @change="timeEnd"></count-down>
+                      @change="timeEnd"></count-down> -->
         </div>
         <van-button type="default"
                     class="button is-radius-button-red"
@@ -24,10 +25,10 @@
 </template>
 
 <script>
-import countDown from '@/components/countDown/CountDown'
+// import countDown from '@/components/countDown/CountDown'
 export default {
   name: 'activityItem',
-  components: { countDown },
+  // components: { countDown },
   props: {
     itemData: {
       required: true,
@@ -44,10 +45,10 @@ export default {
   },
   methods: {
     // 报名
-    onApply () {
-      console.log('报名')
-      return false
-    },
+    // onApply () {
+    //   console.log('报名')
+    //   return false
+    // },
 
     // 详情
     toDetails () {
@@ -55,9 +56,9 @@ export default {
     },
 
     // 时间结束
-    timeEnd () {
-      this.over = true
-    }
+    // timeEnd () {
+    //   this.over = true
+    // }
   }
 };
 </script>

@@ -46,9 +46,14 @@ export default {
       }
 
       // 获取列表
-      this.$api.discuss
-        .getTopic(params)
+      this.$api.discuss.getTopic(params)
         .then(res => {
+
+          if (res.errorCode && res.errorCode !== 0) {
+            this.$toast('数据获取失败!')
+            return false
+          }
+
           // 下拉刷新
           if (refresh) {
             this.listData = []
@@ -95,7 +100,7 @@ export default {
       this.init(true)
     }
   }
-};
+}
 </script>
 
 <style lang="less" scoped>

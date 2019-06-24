@@ -92,7 +92,7 @@ export default {
       }
 
       if (this.username.length > 16) {
-        this.$toast('姓名过长!')
+        this.$toast('姓名长度超长!')
         return false
       }
 

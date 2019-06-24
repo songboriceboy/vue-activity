@@ -127,21 +127,21 @@ export default {
         applyed: data.signs && data.signs.length,
         total: data.limit,
         address: data.address,
-        time: data.time // 还缺少参数
+        time: data.activity_time
       }
 
       // 底部信息
       this.footerData = {
-        endTime: data.apply_time_prompt, // 格式不正确
+        endTime: data.activity_apply_end,
         label: '报名',
-        routerPath: '/activityApply'
+        routerPath: '/activityApply?id=' + data.id
       }
 
       // 活动介绍, 商户介绍, 体验报告
       this.detailData = [
         {
           tab: '活动介绍',
-          intro: ["http://food.resource.lzdu.com/public/201906/21/ZEPUDn0YcnUew0SF9kTTSRIVyaxBTMFwVJrIQDte.png"] //data.activity_intro // 临时处理
+          intro: data.activity_intro
         },
         {
           tab: '商户介绍',
@@ -199,7 +199,7 @@ export default {
       .bg-img("~@images/ic_activity_details_share");
     }
     .info {
-      font-size: 28px;
+      font-size: 26px;
       font-family: PingFangSC-Regular;
       font-weight: 400;
       color: rgba(163, 163, 163, 1);

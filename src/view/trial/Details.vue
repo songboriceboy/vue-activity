@@ -56,20 +56,7 @@ export default {
   components: { commonTabs, detailFooter, emptyBox, usersPic, commentLi },
   data () {
     return {
-      details: {
-        id: 1,
-        title: 'Armani官方阿玛尼满天星手表女镶钻星空手表潮流女士腕表AR1926',
-        imgSrc: 'http://192.168.100.14:8080/static/pci_on_trial_commodity_details_1@3x.png',
-        number: 2,
-        price: '3989.00',
-        usersPic: [
-          'http://192.168.100.14:8080/static/pic.png',
-          'http://192.168.100.14:8080/static/pic.png',
-          'http://192.168.100.14:8080/static/pic.png',
-          'http://192.168.100.14:8080/static/pic.png',
-          'http://192.168.100.14:8080/static/pic.png'
-        ]
-      }, // 简介内容
+      details: {}, // 简介内容
       detailData: [
         {
           tab: '产品详情',
@@ -97,11 +84,60 @@ export default {
           }]
         }
       ], // 详情
-      footerData: {
-        endTime: '2019-6-16 22:19:00',
-        label: '申请使用',
-        routerPath: '/trialApply'
+      footerData: {},
+      id: this.$route.query.id // 试用品id
+    }
+  },
+
+  created () {
+    this.init()
+  },
+
+  methods: {
+    // 加载详情
+    init () {
+      this.$api.trial
+        .getTryUseDetail(this.id)
+        .then(res => {
+          this.dataProcess(res)
+        })
+    },
+
+    // 处理数据
+    dataProcess (data) {
+      // 基本信息
+      this.details = {
+        id: data.id,
+        title: data.name,
+        imgSrc: data.front_cover,
+        number: data.stock,
+        price: data.price,
+        usersPic: (data.signs.length < 6) ? data.signs : data.signs.slice(0, 5),
+        picLen: data.signs.length
       }
+
+      // 底部信息
+      this.footerData = {
+        endTime: data.apply_end, // 截止时间
+        label: '申请使用', // 按钮文字
+        routerPath: '/trialApply?id=' + data.id // 跳转地址
+      }
+
+      // 活动介绍, 商户介绍, 体验报告
+      this.detailData = [
+        {
+          tab: '活动介绍',
+          intro: data.activity_intro
+        },
+        {
+          tab: '商户介绍',
+          content: data.content
+        },
+        {
+          tab: '体验报告',
+          reports: data.reports
+        }
+      ]
     }
   }
 }
