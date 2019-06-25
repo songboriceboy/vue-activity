@@ -2,9 +2,8 @@
   <div class="container">
     <div class="topic"
          v-show="!show">
-      <img :src="avatar"
-           alt="头像"
-           class="img">
+      <span class="img"
+            :style="{backgroundImage: 'url('+avatar+')'}"></span>
       <div class="controll"
            @click="openEdit">我有话说...</div>
     </div>
@@ -132,6 +131,9 @@ export default {
     width: 72px;
     height: 72px;
     border-radius: 50%;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
   }
   .controll {
     flex: 1;

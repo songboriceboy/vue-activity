@@ -56,7 +56,7 @@ export default {
       this.$api.video.getVideo(this.id, params)
         .then(res => {
           if (res.code && res.code !== 0) {
-            this.$toast('数据获取失败!')
+            this.$toast('暂无数据!')
             this.isLoading = false
             this.loading = false
             this.finished = true
@@ -65,7 +65,7 @@ export default {
 
           // 下拉刷新
           if (refresh) {
-            this.listData = []
+            this.videoData = []
             this.dataProcessing(res.data)
             this.isLoading = false
             this.$toast('刷新成功')
@@ -80,7 +80,7 @@ export default {
           this.loading = false
 
           // 数据全部加载完成
-          if (this.listData.length >= this.total) {
+          if (this.videoData.length >= this.total) {
             this.finished = true
           }
         })
@@ -90,7 +90,7 @@ export default {
     dataProcessing (data) {
       if (data && data.length > 0) {
         for (let item of data) {
-          this.listData.push({
+          this.videoData.push({
             id: item.id,
             title: item.title,
             sources: [{

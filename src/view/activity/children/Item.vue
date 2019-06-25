@@ -15,7 +15,7 @@
         </div>
         <van-button type="default"
                     class="button is-radius-button-red"
-                    v-if="!over">报名</van-button>
+                    v-if="itemData.hasTime">报名</van-button>
         <van-button type="default"
                     class="button is-radius-button-gray"
                     v-else>已结束</van-button>
@@ -40,7 +40,7 @@ export default {
   },
   data () {
     return {
-      over: false // 是否已结束
+      // over: false // 是否已结束
     }
   },
   methods: {

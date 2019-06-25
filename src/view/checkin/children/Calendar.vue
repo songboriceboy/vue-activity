@@ -147,44 +147,45 @@ export default {
     // 获取签到记录
     getCheckRecord (date) {
       let params = { date: date || this.curYear + '-' + this.$methods.addPrefixZero(this.curMonth) }
-      this.$api.checkin.getCheckin(params).then(res => {
-        // 已连续签到次数
-        this.days = res[res.length - 1].check_in_times
+      this.$api.checkin.getCheckin(params)
+        .then(res => {
 
-        if (res && res.length > 0) {
-          let checkinDays = []
-          let invaildDays = []
-          let successDays = []
-          let recordDays = []
-          for (let item of res) {
-            let time = this.dateFormatter(item.check_in_time)
+          if (res && res.length > 0) {
+            // 已连续签到次数
+            this.days = res[res.length - 1].check_in_times
+            let checkinDays = []
+            let invaildDays = []
+            let successDays = []
+            let recordDays = []
+            for (let item of res) {
+              let time = this.dateFormatter(item.check_in_time)
 
-            // -1 已过期, 0 正常签到, 1 待抽奖, 2 已抽奖
-            switch (item.status) {
-              case -1:
-                invaildDays.push(time)
-                break
-              case 1:
-                successDays.push(time)
-                break
-              case 2:
-                recordDays.push(time)
-                break
-              default:
-                checkinDays.push(time)
-                break
+              // -1 已过期, 0 正常签到, 1 待抽奖, 2 已抽奖
+              switch (item.status) {
+                case -1:
+                  invaildDays.push(time)
+                  break
+                case 1:
+                  successDays.push(time)
+                  break
+                case 2:
+                  recordDays.push(time)
+                  break
+                default:
+                  checkinDays.push(time)
+                  break
+              }
             }
+            // 已签到的日期
+            this.checkinDays = checkinDays
+            // 已过期的日期
+            this.invaildDays = invaildDays
+            // 已抽奖的日期
+            this.recordDays = recordDays
+            // 待抽奖的日期
+            this.successDays = successDays
           }
-          // 已签到的日期
-          this.checkinDays = checkinDays
-          // 已过期的日期
-          this.invaildDays = invaildDays
-          // 已抽奖的日期
-          this.recordDays = recordDays
-          // 待抽奖的日期
-          this.successDays = successDays
-        }
-      })
+        })
     },
 
     // 时间格式转化 例如: 2019-06-08 => 201968

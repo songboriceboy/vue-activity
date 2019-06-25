@@ -1,5 +1,6 @@
 <template>
-  <div class="item">
+  <div class="item"
+       @click="goTrialDetail">
     <img :src="itemData.imgSrc"
          :alt="itemData.title"
          class="img" />
@@ -19,7 +20,6 @@
         </div>
         <van-button type="default"
                     class="button is-radius-button-red"
-                    @click="goTrial"
                     v-if="itemData.hasTime">申请试用</van-button>
         <van-button type="default"
                     class="button is-radius-button-gray"
@@ -50,8 +50,8 @@ export default {
   },
   methods: {
     // 申请试用
-    goTrial () {
-      this.$router.push({ path: './trialDetail' })
+    goTrialDetail () {
+      this.$router.push({ path: './trialDetail', query: { id: this.itemData.id } })
     }
   }
 };

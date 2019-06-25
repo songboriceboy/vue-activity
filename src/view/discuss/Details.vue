@@ -24,9 +24,8 @@
         <li v-for="(item, index) of comments"
             :key="index">
           <div class="info">
-            <img :src="item.user.avatar"
-                 alt="头像"
-                 class="img" />
+            <span class="img"
+                  :style="{backgroundImage: 'url('+item.user.avatar+')'}"></span>
             <div class="info-r">
               <h5>{{ item.user.name | nameFilter }}</h5>
               <p>{{ item.created_at }}</p>
@@ -233,6 +232,10 @@ export default {
         width: 78px;
         height: 78px;
         border-radius: 50%;
+        overflow: hidden;
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: cover;
       }
       .info-r {
         flex: 1;

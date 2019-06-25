@@ -99,7 +99,10 @@ const trial = {
     return axios.get(`/try_use/report/${id}`)
   },
 
-  // 试用申请
+  /**
+   * 试用申请
+   * @param {*} params  { use_id	试用活动id, contact_name 小张, contact_phone 电话, province 广东省, city 深圳市, district 福田区 address }
+   */
   postTryUse(params) {
     return axios.post(`/try_use`, params)
   }

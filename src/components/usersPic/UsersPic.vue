@@ -3,8 +3,8 @@
     <ul class="users-list">
       <li v-for="(item, index) of usersPic"
           :key="index">
-        <img :src="item.avatar"
-             alt="头像">
+        <span class="img"
+              :style="{backgroundImage: 'url('+item.avatar+')'}"></span>
       </li>
       <li>
         <span class="more"></span>
@@ -22,7 +22,9 @@ export default {
   name: 'usersPic',
   props: {
     usersPic: {
-      default: {}
+      default: function () {
+        return []
+      }
     }, // 前五个头像数组
     picLen: {
       default: 0
@@ -50,11 +52,15 @@ export default {
     overflow: hidden;
     float: left;
     margin-left: -30px;
-    img {
+    .img {
       display: block;
       width: 54px;
       height: 54px;
+      overflow: hidden;
       border-radius: 50%;
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: cover;
     }
     .more {
       display: block;

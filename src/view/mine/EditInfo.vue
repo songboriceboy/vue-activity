@@ -10,10 +10,9 @@
                   center
                   clickable
                   class="info info-avatar">
-          <img :src="userInfo.avatar"
-               alt="头像"
-               class="avatar"
-               slot="right-icon" />
+          <span class="avatar"
+                slot="right-icon"
+                :style="{backgroundImage: 'url('+userInfo.avatar+')'}"></span>
         </van-cell>
       </van-uploader>
       <div class="info-line"></div>
@@ -164,6 +163,9 @@ export default {
     width: 76px;
     height: 76px;
     border-radius: 50%;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
   }
   .info-line {
     height: 1px;

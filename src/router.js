@@ -108,6 +108,14 @@ export default new Router({
       }
     },
     {
+      path: '/trialApply',
+      component: () => import('./view/trial/Apply'),
+      meta: {
+        title: '试用申请',
+        requireAuth: true
+      }
+    },
+    {
       path: '/videoList',
       component: () => import('./view/video/VideoList'),
       meta: {

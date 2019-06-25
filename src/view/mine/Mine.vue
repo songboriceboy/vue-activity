@@ -2,8 +2,8 @@
   <div class="mine">
     <section class="mine-content">
       <div class="avatar">
-        <img :src="userInfo.avatar"
-             alt="头像">
+        <span class="img"
+              :style="{backgroundImage: 'url('+userInfo.avatar+')'}"></span>
       </div>
       <div class="info">
         <h1>{{ userInfo.name | nameFilter }}</h1>
@@ -89,10 +89,15 @@ export default {
     border: 8px solid #fff;
     overflow: hidden;
     background-color: #fff;
-    img {
+    .img {
       display: block;
       width: 150px;
       height: 150px;
+      overflow: hidden;
+      border-radius: 50%;
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: cover;
     }
   }
   .info {

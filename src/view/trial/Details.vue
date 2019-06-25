@@ -24,16 +24,28 @@
                    :key="index"
                    :title="item.tab">
             <div class="tab-container"
-                 v-html="item.content"
-                 v-if="item.content"></div>
-            <div class="reports-container"
-                 v-else-if="item.reports">
-              <comment-li v-for="data of item.reports"
-                          :details="data"
-                          :key="data.id"
-                          :title="'试用产品: ' + details.title"></comment-li>
+                 v-if="item.tab==='产品详情'">
+              <div class="intro"
+                   v-if="item.content.length > 0">
+                <img v-for="(img, index) of item.content"
+                     :src="img"
+                     :key="index"
+                     alt="图片加载失败">
+              </div>
+              <empty-box v-else></empty-box>
             </div>
-            <empty-box v-else></empty-box>
+
+            <div class="tab-container"
+                 v-if="item.tab==='体验报告'">
+              <div class="reports-container"
+                   v-if="item.reports.length > 0">
+                <comment-li v-for="data of item.reports"
+                            :details="data"
+                            :key="data.id"
+                            :title="'试用产品: ' + details.title"></comment-li>
+              </div>
+              <empty-box v-else></empty-box>
+            </div>
           </van-tab>
         </template>
       </common-tabs>
@@ -61,28 +73,11 @@ export default {
       detailData: [
         {
           tab: '产品详情',
-          intro: '<img src="http://192.168.100.14:8080/static/pci_on_trial_commodity_details_2@3x.png" alt="图片" /><img src="http://192.168.100.14:8080/static/pci_on_trial_commodity_details_2@3x.png" alt="图片" />',
+          content: '', // 产品详情
         },
         {
           tab: '体验报告',
-          reports: [{
-            id: 3,
-            images: [
-              'http://192.168.100.14:8080/static/pic_activity_details_2@3x.png',
-              'http://192.168.100.14:8080/static/pic_activity_details_3@3x.png',
-              'http://192.168.100.14:8080/static/pic_activity_details_2@3x.png',
-              'http://192.168.100.14:8080/static/pic_activity_details_2@3x.png',
-              'http://192.168.100.14:8080/static/pic_activity_details_3@3x.png'
-            ],
-            content: 'asdasdsadasd111',
-            like_times: 123,
-            created_at: '9分钟前',
-            user: {
-              id: 1,
-              name: 'Everan',
-              avatar: 'http://192.168.100.14:8080/static/pic.png'
-            }
-          }]
+          reports: [] // 体验报告
         }
       ], // 详情
       footerData: {},
@@ -124,7 +119,7 @@ export default {
         routerPath: '/trialApply?id=' + data.id // 跳转地址
       }
 
-      // 活动介绍, 商户介绍, 体验报告
+      // 产品详情, 体验报告
       this.detailData = [
         {
           tab: '产品详情',
