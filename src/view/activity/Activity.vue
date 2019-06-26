@@ -98,6 +98,8 @@ export default {
     onRefresh () {
       this.finished = false
       this.page = 1
+      // 防止执行上拉加载
+      this.loading = true
 
       this.init(true)
     }

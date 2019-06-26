@@ -140,6 +140,14 @@ export default new Router({
       }
     },
     {
+      path: '/myActivity',
+      component: () => import('./view/mine/MyActivity'),
+      meta: {
+        title: '我的活动',
+        requireAuth: true
+      }
+    },
+    {
       path: '/myReport',
       component: () => import('./view/mine/Report'),
       meta: {

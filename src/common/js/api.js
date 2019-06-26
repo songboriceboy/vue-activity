@@ -46,7 +46,10 @@ const checkin = {
 
 // 活动模块
 const activity = {
-  // 活动列表
+  /**
+   * 活动列表
+   * @param {*} params { page 页码, page_size 每页显示数 }
+   */
   getActivity(params) {
     return axios.get(`/activity`, { params: params })
   },
@@ -79,8 +82,8 @@ const trial = {
    * 试用列表
    * @param {*} params { page 页码, page_size 每页显示数 }
    */
-  getTryUse() {
-    return axios.get(`/try_use`)
+  getTryUse(params) {
+    return axios.get(`/try_use`, { params: params })
   },
 
   /**
@@ -175,9 +178,12 @@ const mine = {
     return axios.patch(`/my/info`, params)
   },
 
-  // 我的活动列表
-  getMyActivity() {
-    return axios.get(`/my/activity`)
+  /**
+   * 我的活动列表
+   * @param {*} params { page 页码, page_size 每页显示数 }
+   */
+  getMyActivity(param) {
+    return axios.get(`/my/activity`, { param: param })
   },
 
   // 我的试用列表

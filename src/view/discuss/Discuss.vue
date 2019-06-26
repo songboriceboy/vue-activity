@@ -27,7 +27,7 @@ export default {
       loading: false, // 加载中
       finished: false, // 是否已加载完所有数据
       page: 1, // 当前页
-      pageSize: 5, // 每页请求的数量
+      pageSize: 3, // 每页请求的数量
       total: 0 // 总数
     }
   },
@@ -99,6 +99,8 @@ export default {
     onRefresh () {
       this.finished = false
       this.page = 1
+      // 防止执行上拉加载
+      this.loading = true
 
       this.init(true)
     }

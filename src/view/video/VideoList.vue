@@ -100,7 +100,7 @@ export default {
             options: {
               autoplay: false, // 是否自动播放
               volume: 0.4, // 音量降到40%
-              poster: '' // 默认封面图
+              poster: item.front_cover // 默认封面图
             }
           })
         }
@@ -111,6 +111,8 @@ export default {
     onRefresh () {
       this.finished = false
       this.page = 1
+      // 防止执行上拉加载
+      this.loading = true
 
       this.init(true)
     }
@@ -120,23 +122,22 @@ export default {
 
 <style lang="less" scoped>
 .video-list {
-  padding-top: 30px;
-}
-.video-item {
-  padding-bottom: 20px;
-  h3 {
-    height: 85px;
-    font-size: 32px;
-    font-family: PingFangSC-Medium;
-    font-weight: 500;
-    color: rgba(51, 51, 51, 1);
-    line-height: 85px;
-    padding: 0 30px;
-    .ellipsis();
+  .video-item {
+    padding-bottom: 20px;
+    h3 {
+      height: 85px;
+      font-size: 32px;
+      font-family: PingFangSC-Medium;
+      font-weight: 500;
+      color: rgba(51, 51, 51, 1);
+      line-height: 85px;
+      padding: 0 30px;
+      .ellipsis();
+    }
   }
-}
-.video-box {
-  background-color: #f3f3f3;
-  width: 100%;
+  .video-box {
+    background-color: #f3f3f3;
+    width: 100%;
+  }
 }
 </style>
