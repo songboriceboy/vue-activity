@@ -16,9 +16,7 @@ import { ImagePreview } from 'vant'
 export default {
   name: 'imgFlex',
   props: {
-    imgs: {
-      default: []
-    }
+    imgs: [Array]
   },
   methods: {
     // 查看大图

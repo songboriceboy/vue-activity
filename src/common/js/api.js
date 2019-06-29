@@ -76,11 +76,6 @@ const activity = {
     return axios.get(`/activity/${id}`)
   },
 
-  // 活动体验报告详情
-  getActivityReportDetail(id) {
-    return axios.get(`/activity/report/${id}`)
-  },
-
   /**
    * 活动报名
    * @param {*} params { activity_id 活动id, contact_name 联系人, contact_phone 联系电话, sign_up_reason 申请理由 }
@@ -106,14 +101,6 @@ const trial = {
    */
   getTryUseDetail(id) {
     return axios.get(`/try_use/${id}`)
-  },
-
-  /**
-   * 试用体验报告详情
-   * @param {*} id 试用品id
-   */
-  getTryUseReport(id) {
-    return axios.get(`/try_use/report/${id}`)
   },
 
   /**
@@ -277,6 +264,14 @@ const common = {
    */
   likes(params) {
     return axios.post(`/zan`, params)
+  },
+
+  /**
+   * 体验报告详情
+   * @param {*} id 报告id
+   */
+  getReport(id) {
+    return axios.get(`/report/${id}`)
   }
 }
 

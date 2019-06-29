@@ -58,6 +58,7 @@ export default {
   components: { messageBox },
   data () {
     return {
+      type: 0, // 类型 1：活动体验报告 2：试用体验报告
       title: '',
       imgSrc: '',
       message: '', //内容
@@ -70,6 +71,7 @@ export default {
 
   created () {
     this.title = this.$route.query.title
+    this.type = parseInt(this.$route.query.type)
     this.imgSrc = this.$route.query.img
   },
 
@@ -77,7 +79,7 @@ export default {
     // 提交
     onSubmit () {
       const params = {
-        type: parseInt(this.$route.query.type),
+        type: this.type,
         type_id: this.$route.query.id,
         content: this.message,
         images: this.imgs
@@ -87,6 +89,7 @@ export default {
         .then(res => {
           if (res && res.errorCode === 0) {
             this.showMessage('提交成功', '您的体验报告已提交成功!')
+            this.$router.push({ path: '/CommentDetails', query: { type: this.type, id: res.id } })
           }
         })
     },

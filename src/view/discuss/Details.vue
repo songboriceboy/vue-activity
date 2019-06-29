@@ -40,6 +40,7 @@
               <div class="likes-box">
                 <likes-count :likes="item.like_times"
                              :type="3"
+                             :myLike="item.has_zan"
                              :typeId="item.id"></likes-count>
               </div>
             </div>

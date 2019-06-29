@@ -11,7 +11,10 @@
         </div>
       </div>
       <div class="likes-box">
-        <likes-count :likes="details.likes"></likes-count>
+        <likes-count :likes="details.likes"
+                     :type="type"
+                     :myLike="details.hasZan"
+                     :typeId="id"></likes-count>
       </div>
     </div>
     <div class="comment">
@@ -31,22 +34,37 @@ export default {
   components: { likesCount, imgFlex },
   data () {
     return {
-      details: {
-        id: '1',
-        username: 'GY',
-        avatar: 'http://192.168.100.14:8080/static/pic.png',
-        time: '2分钟前',
-        likes: 1234,
-        title: '参与活动:招商春季踏青活动',
-        content: '我参加了2018年09月30日下午13:30，公司踏青活动回归自然，拥抱春天”城南湿地公园踏青活动，进一步丰富公司的的业余文化活动。当天，春风拂面、芳草如茵，100多名居民置身于湿地公园，令人顿感心旷神怡，精神焕发。通过此次活动，不仅增长见识、强身健体，同时也感受了春天的气息，丰富和活跃了大家的文体生活。',
-        imgs: [
-          'http://192.168.100.14:8080/static/pic_activity_details_2@3x.png',
-          'http://192.168.100.14:8080/static/pic_activity_details_3@3x.png',
-          'http://192.168.100.14:8080/static/pic_activity_details_2@3x.png',
-          'http://192.168.100.14:8080/static/pic_activity_details_2@3x.png',
-          'http://192.168.100.14:8080/static/pic_activity_details_3@3x.png'
-        ]
-      }
+      details: {},
+      type: 0, // 1：活动报告 2：试用报告 3：话题评论
+      id: 0 // 类型 报告 id
+    }
+  },
+
+  created () {
+    this.init()
+  },
+
+  methods: {
+    // 查询数据
+    init () {
+      this.type = parseInt(this.$route.query.type)
+      this.id = parseInt(this.$route.query.id)
+
+      this.$api.common.getReport(this.id)
+        .then(res => {
+          this.details = {
+            id: res.id,
+            username: res.user.name,
+            avatar: res.user.avatar,
+            time: res.created_at, // 时间
+            likes: res.like_times, // 点赞数
+            title: this.type === 1 ? '参与活动：' + res.activity_report.name : '试用产品：' + res.try_use_report.name,
+            content: res.content,
+            imgs: res.images,
+            hasZan: res.has_zan // 是否是我点赞的
+          }
+        })
+
     }
   }
 }

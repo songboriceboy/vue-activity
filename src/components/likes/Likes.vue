@@ -29,32 +29,29 @@ export default {
 
   data () {
     return {
-      num: 0 // 我点赞的次数 0/1
-    }
-  },
-
-  computed: {
-    newLikes () {
-      return this.likes + this.num
+      newLikes: 0, // 点赞数
+      num: 0 // -1/1
     }
   },
 
   created () {
     // 如果是我点赞的
-    this.num = this.myLike ? 1 : 0
+    this.num = this.myLike ? 1 : -1
+    this.newLikes = this.likes
   },
 
   methods: {
     // 点赞
     onLikes () {
       const params = {
-        type: this.type,
-        type_id: this.typeId
+        type: this.type, // 1：活动报告 2：试用报告 3：话题评论
+        type_id: this.typeId // 报告id
       }
       this.$api.common.likes(params)
         .then(res => {
-          if (res.errorCode === 0) {
-            this.num = (this.num === 1) ? 0 : 1
+          if (res && res.errorCode === 0) {
+            this.num = (this.num === 1) ? -1 : 1
+            this.newLikes = this.newLikes + this.num
           } else {
             this.$toast(res.message)
           }
