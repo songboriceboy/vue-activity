@@ -11,16 +11,21 @@
                  placeholder="请填写内容"
                  rows="4" />
     </div>
-    <div class="upload-img">
-      <van-uploader v-model="fileList"
-                    :after-read="afterRead"
-                    accept="image/gif,image/jpeg,image/jpg,image/png"
-                    multiple
-                    @oversize="oversize"
-                    :max-count="9">
-        上传
-      </van-uploader>
-    </div>
+    <ul class="upload-img">
+      <li v-for="(img, index) of imgList"
+          :key="index">
+        <span class="img"
+              :style="{backgroundImage: 'url('+ img +')'}"></span>
+      </li>
+      <li v-if="imgList.length < 10">
+        <van-uploader class="upload-button"
+                      :after-read="afterRead"
+                      accept="image/gif,image/jpeg,image/jpg,image/png"
+                      @oversize="oversize">
+          <i class="add-icon"></i>
+        </van-uploader>
+      </li>
+    </ul>
     <van-button type="default"
                 v-if="!message"
                 class="button is-radius-button-gray">提交</van-button>
@@ -36,12 +41,20 @@ export default {
   name: 'write',
   data () {
     return {
-      title: 'Armani官方阿玛尼满天星手表女镶钻星空手表',
-      imgSrc: 'http://192.168.100.14:8080/static/pic_on_trial_commodity_2@3x.png',
+      id: '',
+      title: '',
+      imgSrc: '',
       message: '', //内容
-      fileList: [] // 图片列表
+      imgList: [] // 图片列表
     }
   },
+
+  created () {
+    this.id = this.$route.query.id
+    this.title = this.$route.query.title
+    this.imgSrc = this.$route.query.img
+  },
+
   methods: {
     // 提交
     onSubmit () {
@@ -49,8 +62,8 @@ export default {
     },
 
     // 读取文件之后
-    afterRead () {
-
+    afterRead (file) {
+      this.imgList.push(file.content)
     },
 
     // 文件大小超过限制
@@ -105,6 +118,44 @@ export default {
     line-height: 40px;
   }
 }
+.upload-img {
+  padding-top: 30px;
+  .clearfix();
+  li {
+    width: 190px;
+    height: 190px;
+    position: relative;
+    margin: 0 20px 20px 0;
+    float: left;
+    .img {
+      display: block;
+      width: 190px;
+      height: 190px;
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: cover;
+    }
+  }
+  .upload-button {
+    position: relative;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    width: 190px;
+    height: 190px;
+    background-color: #f6f8fa;
+  }
+  .add-icon {
+    width: 56px;
+    height: 56px;
+    .bg-img("~@images/pic_mine_add");
+  }
+}
+
 .is-radius-button-gray {
   .is-radius-button-gray();
 }

@@ -37,7 +37,7 @@
                   <van-button type="default"
                               v-else
                               class="is-radius-button-red"
-                              @click="goWrite">未填写</van-button>
+                              @click="goWrite(data.id, data.name, data.frontCover)">未填写</van-button>
                 </div>
               </div>
             </div>
@@ -65,7 +65,7 @@
                   <van-button type="default"
                               v-else
                               class="is-radius-button-red"
-                              @click="goWrite">未填写</van-button>
+                              @click="goWrite(data.id, data.name, data.frontCover)">未填写</van-button>
                 </div>
               </div>
             </div>
@@ -184,8 +184,8 @@ export default {
     },
 
     // 去填写
-    goWrite () {
-
+    goWrite (id, title, img) {
+      this.$router.push({ path: 'write', query: { id: id, title: title, img: img } })
     }
   }
 }

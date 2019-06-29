@@ -180,18 +180,18 @@ export default new Router({
       }
     },
     {
-      path: '/commentDetails',
-      component: () => import('./view/public/CommentDetails'),
+      path: '/write',
+      component: () => import('./view/mine/Write'),
       meta: {
-        title: '详情',
+        title: '填写',
         requireAuth: true
       }
     },
     {
-      path: '/write',
-      component: () => import('./view/public/Write'),
+      path: '/commentDetails',
+      component: () => import('./view/public/CommentDetails'),
       meta: {
-        title: '填写',
+        title: '详情',
         requireAuth: true
       }
     },
