@@ -7,28 +7,21 @@
     <div class="content">
       <h2>{{ itemData.title }}</h2>
       <div class="row">
-        <div class="end-time">
-          {{ itemData.endTime }}
-          <!-- <count-down :endTime="itemData.endTime"
-                      :interval="60000"
-                      @change="timeEnd"></count-down> -->
-        </div>
-        <van-button type="default"
-                    class="button is-radius-button-red"
-                    v-if="itemData.hasTime">报名</van-button>
-        <van-button type="default"
-                    class="button is-radius-button-gray"
-                    v-else>已结束</van-button>
+        <div class="end-time">{{ itemData.endTime }}</div>
+        <span class="apply-status success"
+              v-if="itemData.applyStatus === 2">申请成功</span>
+        <span class="apply-status ing"
+              v-else-if="itemData.applyStatus === 1">申请中</span>
+        <span class="apply-status fail"
+              v-else>申请失败</span>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-// import countDown from '@/components/countDown/CountDown'
 export default {
   name: 'activityItem',
-  // components: { countDown },
   props: {
     itemData: {
       required: true,
@@ -38,27 +31,11 @@ export default {
       }
     }
   },
-  data () {
-    return {
-      // over: false // 是否已结束
-    }
-  },
   methods: {
-    // 报名
-    // onApply () {
-    //   console.log('报名')
-    //   return false
-    // },
-
     // 详情
     toDetails () {
-      this.$router.push({ path: '/activityDetail', query: { id: this.itemData.id } })
+      this.$router.push({ path: '/activityDetail', query: { id: this.itemData.id, from: 'mine' } })
     },
-
-    // 时间结束
-    // timeEnd () {
-    //   this.over = true
-    // }
   }
 };
 </script>
@@ -99,22 +76,25 @@ export default {
       line-height: 40px;
       float: left;
     }
-    .is-radius-button-red {
-      .is-radius-button-red();
-    }
-    .is-radius-button-gray {
-      .is-radius-button-gray();
-    }
-    .button {
-      width: 151px;
-      height: 57px;
-      line-height: 57px;
+    .apply-status {
       float: right;
-      border-radius: 29px;
-      font-size: 26px;
+      display: block;
+      padding-top: 9px;
+      height: 40px;
+      line-height: 40px;
+      font-size: 28px;
       font-family: PingFangSC-Medium;
       font-weight: 500;
-      color: rgba(255, 255, 255, 1);
+      color: rgba(51, 51, 51, 1);
+    }
+    .apply-status.success {
+      color: rgba(51, 51, 51, 1);
+    }
+    .apply-status.fail {
+      color: rgba(191, 188, 196, 1);
+    }
+    .apply-status.ing {
+      color: rgba(255, 69, 0, 1);
     }
   }
 }

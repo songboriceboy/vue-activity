@@ -3,29 +3,32 @@
     <van-tabs v-model="active"
               sticky
               animated
+              swipeable
               class="report-tabs"
               title-inactive-color="#333"
               title-active-color="#FF4500">
       <van-tab v-for="item of tabs"
                :title="item.name"
                :key="item.id">
-        <ul class="list">
-          <li v-for="data of lists[active]"
+        <van-list v-model="loading"
+                  class="list"
+                  :finished="tryFinished"
+                  finished-text="没有更多了"
+                  :offset="200"
+                  @load="init"
+                  v-if="active === 0">
+          <li v-for="data of tryUseData"
               :key="data.id">
             <div class="img"
-                 :style="{backgroundImage: 'url('+data.img+')'}"></div>
+                 :style="{backgroundImage: 'url('+data.frontCover+')'}"></div>
             <div class="content">
-              <h2>{{ data.title }}</h2>
-              <div class="trial-time"
-                   v-if="data.endTime">
-                <span class="end-time">{{ data.endTime }} 截止</span>
-                提供{{ data.number }}份
+              <h2>{{ data.name }}</h2>
+              <div class="trial-time">
+                <span class="end-time">{{ data.applyEnd }} 截止</span>
+                提供{{ data.stock }}份
               </div>
-              <div class="activity-time"
-                   v-if="data.time">{{ data.time }}</div>
               <div class="row">
-                <div class="row-l"
-                     v-if="data.price">
+                <div class="row-l">
                   ¥<span class="price">{{ data.price }}</span>
                 </div>
                 <div class="button-group">
@@ -39,7 +42,35 @@
               </div>
             </div>
           </li>
-        </ul>
+        </van-list>
+        <van-list v-model="loading"
+                  class="list"
+                  :finished="activityFinished"
+                  finished-text="没有更多了"
+                  :offset="200"
+                  @load="init"
+                  v-if="active === 1">
+          <li v-for="data of activityData"
+              :key="data.id">
+            <div class="img"
+                 :style="{backgroundImage: 'url('+data.frontCover+')'}"></div>
+            <div class="content">
+              <h2>{{ data.name }}</h2>
+              <div class="activity-time">{{ data.createdAt }}</div>
+              <div class="row">
+                <div class="row-l"></div>
+                <div class="button-group">
+                  <span class="is-write"
+                        v-if="data.isWrite">已填写</span>
+                  <van-button type="default"
+                              v-else
+                              class="is-radius-button-red"
+                              @click="goWrite">未填写</van-button>
+                </div>
+              </div>
+            </div>
+          </li>
+        </van-list>
       </van-tab>
     </van-tabs>
   </div>
@@ -52,110 +83,106 @@ export default {
     return {
       tabs: [
         {
-          id: '0',
+          id: 0,
           name: '参与试用'
         },
         {
-          id: '1',
+          id: 1,
           name: '参与活动'
         }
       ], // 选项
-      lists: {
-        '0': [
-          {
-            id: '1',
-            title: 'HFP金盏花舒缓爽肤水 控油收缩毛孔补水保湿健康',
-            img: 'http://192.168.100.14:8080/static/pic_on_trial_commodity_1@3x.png',
-            price: '430.00',
-            number: 4,
-            endTime: '2019-06-12',
-            isWrite: true
-          },
-          {
-            id: '2',
-            title: 'Armani官方阿玛尼满天星手表女镶钻星空手表 ',
-            img: 'http://192.168.100.14:8080/static/pic_on_trial_commodity_2@3x.png',
-            price: '430.00',
-            number: 4,
-            endTime: '2019-06-12',
-            isWrite: false
-          },
-          {
-            id: '22',
-            title: 'Armani官方阿玛尼满天星手表女镶钻星空手表 ',
-            img: 'http://192.168.100.14:8080/static/pic_on_trial_commodity_2@3x.png',
-            price: '430.00',
-            number: 4,
-            endTime: '2019-06-12',
-            isWrite: false
-          },
-          {
-            id: '24',
-            title: 'Armani官方阿玛尼满天星手表女镶钻星空手表 ',
-            img: 'http://192.168.100.14:8080/static/pic_on_trial_commodity_2@3x.png',
-            price: '430.00',
-            number: 4,
-            endTime: '2019-06-12',
-            isWrite: false
-          },
-          {
-            id: '245',
-            title: 'Armani官方阿玛尼满天星手表女镶钻星空手表 ',
-            img: 'http://192.168.100.14:8080/static/pic_on_trial_commodity_2@3x.png',
-            price: '430.00',
-            number: 4,
-            endTime: '2019-06-12',
-            isWrite: false
-          },
-          {
-            id: '26',
-            title: 'Armani官方阿玛尼满天星手表女镶钻星空手表 ',
-            img: 'http://192.168.100.14:8080/static/pic_on_trial_commodity_2@3x.png',
-            price: '430.00',
-            number: 4,
-            endTime: '2019-06-12',
-            isWrite: false
-          },
-          {
-            id: '27',
-            title: 'Armani官方阿玛尼满天星手表女镶钻星空手表 ',
-            img: 'http://192.168.100.14:8080/static/pic_on_trial_commodity_2@3x.png',
-            price: '430.00',
-            number: 4,
-            endTime: '2019-06-12',
-            isWrite: false
-          },
-          {
-            id: '29',
-            title: 'Armani官方阿玛尼满天星手表女镶钻星空手表 ',
-            img: 'http://192.168.100.14:8080/static/pic_on_trial_commodity_2@3x.png',
-            price: '430.00',
-            number: 4,
-            endTime: '2019-06-12',
-            isWrite: false
-          }
-        ],
-        '1': [
-          {
-            id: '1',
-            title: '招商春季踏青活动',
-            img: 'http://192.168.100.14:8080/static/pic_activity_1@3x.png',
-            time: '2018年09月30日',
-            isWrite: true
-          },
-          {
-            id: '2',
-            title: '招商秋季秋游活动',
-            img: 'http://192.168.100.14:8080/static/pic_activity_details_2@3x.png',
-            time: '2018年10月30日',
-            isWrite: false
-          }
-        ]
-      }, // 数据
-      active: 0
+      tryUseData: [], // 参与试用数据
+      activityData: [], // 参与活动数据
+      active: 0, // 0 参与试用 1 参与活动
+      loading: false, // 加载中
+      tryFinished: false, // 是否已加载完所有数据
+      activityFinished: false, // 是否已加载完所有数据
+      page: 1, // 当前页
+      pageSize: 5, // 每页请求的数量
+      tryTotals: 0, // 参与试用总数
+      activityTotals: 0 // 参与活动总数
     }
   },
   methods: {
+    // 初始化列表
+    init () {
+      if (this.active === 0 && this.tryFinished) {
+        return false
+      }
+
+      if (this.active === 1 && this.activityFinished) {
+        return false
+      }
+
+      // 参数
+      const params = {
+        page: this.page,
+        page_size: this.pageSize
+      }
+
+      // 获取列表
+      this.$api.mine.getMyReport(params)
+        .then((res) => {
+          if (res.errorCode && res.errorCode !== 0) {
+            this.$toast('数据获取失败!')
+            this.loading = false
+            this.tryFinished = true
+            this.activityFinished = true
+            return false
+          }
+
+          // 数据处理
+          this.dataProcessing(res)
+          this.tryTotals = res.try_use.total
+          this.activityTotals = res.activity.total
+          this.page++
+
+          // 加载状态结束
+          this.loading = false
+
+          // 数据全部加载完成
+          if (this.tryUseData.length >= this.tryTotals) {
+            this.tryFinished = true
+          }
+
+          // 数据全部加载完成
+          if (this.activityData.length >= this.activityTotals) {
+            this.activityFinished = true
+          }
+        })
+    },
+
+    // 处理数据
+    dataProcessing (result) {
+      const tryData = result.try_use.data
+      if (tryData && tryData.length > 0) {
+        for (let item of tryData) {
+          this.tryUseData.push({
+            id: item.id,
+            name: item.name, // 名称
+            frontCover: item.front_cover, // 图片
+            stock: item.stock, // 库存
+            price: item.price, // 价格
+            applyEnd: item.apply_end, // 截止日期
+            isWrite: item.is_write // 1 表示写了报告 0 表示未写
+          })
+        }
+      }
+
+      const activityData = result.activity.data
+      if (activityData && activityData.length > 0) {
+        for (let item of activityData) {
+          this.activityData.push({
+            id: item.id,
+            name: item.name,
+            frontCover: item.front_cover,
+            createdAt: item.created_at,
+            isWrite: item.is_write // 1 表示写了报告 0 表示未写
+          })
+        }
+      }
+    },
+
     // 去填写
     goWrite () {
 

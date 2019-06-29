@@ -53,20 +53,25 @@
     <!-- 报名条 -->
     <detail-footer :label="footerData.label"
                    :endTime="footerData.endTime"
-                   :routerPath="footerData.routerPath"></detail-footer>
+                   :routerPath="footerData.routerPath"
+                   v-if="applyStatus < 0"></detail-footer>
+    <!-- 我的申请状态 -->
+    <apply-status :applyStatus="applyStatus"
+                  v-else></apply-status>
   </section>
 </template>
 
 <script>
 import commonTabs from '@/components/tabs/Tabs'
 import detailFooter from '@/components/footer/Footer'
+import applyStatus from '@/components/applyStatus/ApplyStatus'
 import emptyBox from '@/components/empty/Empty'
 import usersPic from '@/components/usersPic/UsersPic'
 import commentLi from '@/view/public/Comment'
 
 export default {
   name: 'trialDetail',
-  components: { commonTabs, detailFooter, emptyBox, usersPic, commentLi },
+  components: { commonTabs, detailFooter, emptyBox, usersPic, commentLi, applyStatus },
   data () {
     return {
       details: {}, // 简介内容
@@ -81,6 +86,7 @@ export default {
         }
       ], // 详情
       footerData: {},
+      applyStatus: -1, // 我的申请状态
       id: this.$route.query.id // 试用品id
     }
   },
@@ -92,11 +98,20 @@ export default {
   methods: {
     // 加载详情
     init () {
-      this.$api.trial
-        .getTryUseDetail(this.id)
-        .then(res => {
-          this.dataProcess(res)
-        })
+      const from = this.$route.query.from // 来源, mine: 我的活动
+      if (from === 'mine') {
+        this.$api.mine
+          .getMyTryUseDetail(this.id)
+          .then(res => {
+            this.dataProcess(res)
+          })
+      } else {
+        this.$api.trial
+          .getTryUseDetail(this.id)
+          .then(res => {
+            this.dataProcess(res)
+          })
+      }
     },
 
     // 处理数据
@@ -111,6 +126,9 @@ export default {
         usersPic: (data.signs.length < 6) ? data.signs : data.signs.slice(0, 5), // 申请用户
         picLen: data.signs.length // 申请用户总数
       }
+
+      // 申请状态
+      this.applyStatus = (data.apply_status === undefined) ? -1 : data.apply_status
 
       // 底部信息
       this.footerData = {

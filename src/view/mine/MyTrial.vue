@@ -2,28 +2,28 @@
   <van-pull-refresh v-model="isLoading"
                     @refresh="onRefresh">
     <van-list v-model="loading"
-              class="activity"
+              class="trial"
               :finished="finished"
               finished-text="没有更多了"
               :offset="200"
               @load="init">
-      <activity-item v-for="item of listData"
-                     :key="item.id"
-                     :itemData="item"></activity-item>
+      <trial-item v-for="item of listData"
+                  :key="item.id"
+                  :itemData="item"></trial-item>
     </van-list>
   </van-pull-refresh>
 </template>
 
 <script>
-import activityItem from './children/ActivityItem'
+import trialItem from './children/TrialItem'
 
 export default {
-  name: 'activity',
-  components: { activityItem },
+  name: 'myTrial',
+  components: { trialItem },
   data () {
     return {
-      isLoading: false, // 下拉刷新
       listData: [], // 列表数据
+      isLoading: false, // 下拉刷新
       loading: false, // 加载中
       finished: false, // 是否已加载完所有数据
       page: 1, // 当前页
@@ -31,7 +31,9 @@ export default {
       total: 0 // 总数
     }
   },
+
   methods: {
+
     // 初始化列表
     init (refresh) {
       if (this.finished) {
@@ -45,9 +47,8 @@ export default {
       }
 
       // 获取列表
-      this.$api.mine.getMyActivity(params)
-        .then((res) => {
-
+      this.$api.mine.getMyTryUse(params)
+        .then(res => {
           if (res.errorCode && res.errorCode !== 0) {
             this.$toast('数据获取失败!')
             this.isLoading = false
@@ -84,11 +85,15 @@ export default {
       if (data && data.length > 0) {
         for (let item of data) {
           this.listData.push({
-            id: item.id,
-            title: item.name,
-            endTime: item.apply_time_prompt, // 结束时间
-            imgSrc: item.front_cover, // 图片
-            applyStatus: item.apply_status // 申请状态：0 申请失败，1 申请中，2 申请成功
+            id: item.id, // 试用id
+            title: item.name, // 标题
+            price: item.price, // 价格
+            quantity: item.stock, // 库存数量
+            usersPic: (item.signs.length < 6) ? item.signs : item.signs.slice(0, 5), // 前五个用户头像
+            picLen: item.signs.length, // 报名人数
+            endTime: item.apply_end, // 截止时间
+            hasTime: item.status === 1 ? true : false, // 是否还有时间
+            imgSrc: item.front_cover // 封面图片
           })
         }
       }
@@ -104,11 +109,11 @@ export default {
       this.init(true)
     }
   }
-}
+};
 </script>
 
-<style lang="less" scoped>
-.activity {
+<style lang="less">
+.trial {
   padding: 32px;
 }
 </style>

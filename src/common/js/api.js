@@ -13,27 +13,41 @@ import axios from '@/common/js/http'
 
 // 签到模块
 const checkin = {
-  // 获取签到规则
+  /**
+   * 获取签到规则
+   */
   getRules() {
     return axios.get(`/check_in_rule`)
   },
 
-  // 获取签到记录
+  /**
+   * 获取签到记录
+   * @param {*} params { date 年月: 2019-06 }
+   */
   getCheckin(params) {
     return axios.get(`/check_in`, { params: params })
   },
 
-  // 会员签到
-  postCheckin(params) {
-    return axios.post(`/check_in`, params)
+  /**
+   * 会员签到
+   * @param {*} params
+   */
+  postCheckin() {
+    return axios.post(`/check_in`)
   },
 
-  // 奖品列表
+  /**
+   * 奖品列表
+   */
   getPrize() {
     return axios.get(`/prize`)
   },
 
-  // 中将资料填写
+  /**
+   * 中将资料填写
+   * @param {*} params { prize_name 奖品名称, contact_name 小张, contact_phone 电话, province 省, city 市, district 区, address 详细地址 }
+ }
+   */
   postWinPrize(params) {
     return axios.post(`/winning_info`, params)
   },
@@ -168,12 +182,10 @@ const discuss = {
 
 // 个人中心模块
 const mine = {
-  // 个人信息
-  getInfo() {
-    return axios.get(`/my/info`)
-  },
-
-  // 更新个人信息
+  /**
+   * 更新个人信息
+   * @param {*} params { avatar 头像地址, name 昵称 }
+   */
   patchInfo(params) {
     return axios.patch(`/my/info`, params)
   },
@@ -182,16 +194,38 @@ const mine = {
    * 我的活动列表
    * @param {*} params { page 页码, page_size 每页显示数 }
    */
-  getMyActivity(param) {
-    return axios.get(`/my/activity`, { param: param })
+  getMyActivity(params) {
+    return axios.get(`/my/activity`, { params: params })
   },
 
-  // 我的试用列表
-  getMyTryUse() {
-    return axios.get(`/my/try_use`)
+  /**
+   * 我的活动详情
+   * @param {*} id 活动id
+   */
+  getMyActivityDetail(id) {
+    return axios.get(`/my/activity/${id}`)
   },
 
-  // 我的报告列表
+  /**
+   * 我的试用列表
+   * @param {*} params { page 页码, page_size 每页显示数 }
+   */
+  getMyTryUse(params) {
+    return axios.get(`/my/try_use`, { params: params })
+  },
+
+  /**
+   * 我的试用详情
+   * @param {*} id 试用产品id
+   */
+  getMyTryUseDetail(id) {
+    return axios.get(`/my/try_use/${id}`)
+  },
+
+  /**
+   * 我的报告列表
+   * @param {*} params { page 页码, page_size 每页显示数 }
+   */
   getMyReport() {
     return axios.get(`/my/report`)
   },
@@ -209,7 +243,9 @@ const mine = {
     return axios.post(`/suggest`, params)
   },
 
-  // 关于我们
+  /**
+   * 关于我们
+   */
   getAboutUs() {
     return axios.get(`/about_us`)
   }

@@ -148,6 +148,14 @@ export default new Router({
       }
     },
     {
+      path: '/myTrial',
+      component: () => import('./view/mine/MyTrial'),
+      meta: {
+        title: '我的试用',
+        requireAuth: true
+      }
+    },
+    {
       path: '/myReport',
       component: () => import('./view/mine/Report'),
       meta: {

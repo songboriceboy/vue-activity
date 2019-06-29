@@ -55,20 +55,26 @@
         </template>
       </common-tabs>
     </div>
+    <!-- 我的申请状态 -->
+    <apply-status :applyStatus="applyStatus"
+                  v-if="applyStatus > -1"></apply-status>
+    <!-- 报名条 -->
     <detail-footer :label="footerData.label"
                    :endTime="footerData.endTime"
-                   :routerPath="footerData.routerPath"></detail-footer>
+                   :routerPath="footerData.routerPath"
+                   v-else></detail-footer>
   </section>
 </template>
 
 <script>
 import commonTabs from '@/components/tabs/Tabs'
 import detailFooter from '@/components/footer/Footer'
+import applyStatus from '@/components/applyStatus/ApplyStatus'
 import emptyBox from '@/components/empty/Empty'
 
 export default {
   name: 'activityDetail',
-  components: { commonTabs, detailFooter, emptyBox },
+  components: { commonTabs, detailFooter, applyStatus, emptyBox },
   data () {
     return {
       details: {
@@ -99,7 +105,8 @@ export default {
         label: '报名',
         routerPath: '/activityApply'
       },
-      id: this.$route.query.id
+      applyStatus: -1, // 我的申请状态
+      id: this.$route.query.id, // 活动id
     }
   },
 
@@ -110,25 +117,37 @@ export default {
   methods: {
     // 加载详情
     init () {
-      this.$api.activity
-        .getActivityDetail(this.id)
-        .then(res => {
-          this.dataProcess(res)
-        })
+      const from = this.$route.query.from // 来源, mine: 我的活动
+      if (from === 'mine') {
+        this.$api.mine
+          .getMyActivityDetail(this.id)
+          .then(res => {
+            this.dataProcess(res)
+          })
+      } else {
+        this.$api.activity
+          .getActivityDetail(this.id)
+          .then(res => {
+            this.dataProcess(res)
+          })
+      }
     },
 
     // 处理数据
     dataProcess (data) {
       // 基本信息
       this.details = {
-        id: data.id,
-        title: data.name,
-        imgSrc: data.front_cover,
-        applyed: data.signs && data.signs.length,
-        total: data.limit,
-        address: data.address,
-        time: data.activity_time
+        id: data.id, // 活动 id
+        title: data.name, // 活动名称
+        imgSrc: data.front_cover, // 封面图片
+        applyed: data.signs && data.signs.length, // 已经申请的人数
+        total: data.limit, // 上限报名人数
+        address: data.address, // 活动地点
+        time: data.activity_time // 活动的时间
       }
+
+      // 申请状态
+      this.applyStatus = (data.apply_status === undefined) ? -1 : data.apply_status
 
       // 底部信息
       this.footerData = {

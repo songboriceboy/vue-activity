@@ -32,7 +32,6 @@ export default {
       if (!this.rulesText) {
         this.$api.checkin.getRules().then(res => {
           if (res) {
-            console.log(res.content)
             const textArr = res.content.split('\n')
             let text = ''
             if (textArr && textArr.length > 0) {
