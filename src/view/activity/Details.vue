@@ -8,7 +8,9 @@
         <h1>{{ details.title }}</h1>
         <div class="apply-box">
           <span class="apply">已报名：{{ details.applyed }}/{{ details.total }}人</span>
-          <span class="share"></span>
+          <span class="share">
+            <share-btn></share-btn>
+          </span>
         </div>
         <div class="info">地点：{{ details.address }}</div>
         <div class="info">时间：{{ details.time }}</div>
@@ -71,10 +73,11 @@ import commonTabs from '@/components/tabs/Tabs'
 import detailFooter from '@/components/footer/Footer'
 import applyStatus from '@/components/applyStatus/ApplyStatus'
 import emptyBox from '@/components/empty/Empty'
+import shareBtn from '@/components/shareBtn/ShareBtn'
 
 export default {
   name: 'activityDetail',
-  components: { commonTabs, detailFooter, applyStatus, emptyBox },
+  components: { commonTabs, detailFooter, applyStatus, emptyBox, shareBtn },
   data () {
     return {
       details: {
@@ -215,7 +218,6 @@ export default {
       float: right;
       width: 42px;
       height: 40px;
-      .bg-img("~@images/ic_activity_details_share");
     }
     .info {
       font-size: 26px;

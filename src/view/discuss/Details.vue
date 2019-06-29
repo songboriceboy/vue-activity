@@ -12,7 +12,7 @@
                        :picLen="details.picLen"></users-pic>
           </div>
           <div class="share">
-            <i></i>
+            <share-btn></share-btn>
           </div>
         </div>
         <div class="acticle">{{ details.content }}</div>
@@ -57,11 +57,12 @@
 <script>
 import usersPic from '@/components/usersPic/UsersPic'
 import likesCount from '@/components/likes/Likes'
+import shareBtn from '@/components/shareBtn/ShareBtn'
 import topicChildren from './children/Topic'
 
 export default {
   name: 'discussDetail',
-  components: { usersPic, likesCount, topicChildren },
+  components: { usersPic, likesCount, topicChildren, shareBtn },
   data () {
     return {
       details: {
@@ -181,12 +182,6 @@ export default {
       width: 42px;
       height: 40px;
       padding: 12px;
-      i {
-        display: block;
-        width: 42px;
-        height: 40px;
-        .bg-img("~@images/ic_activity_details_share");
-      }
     }
     .acticle {
       font-size: 28px;

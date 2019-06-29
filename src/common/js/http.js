@@ -83,7 +83,17 @@ instance.interceptors.request.use(
 // 响应拦截器
 instance.interceptors.response.use(
   // 请求成功
-  res => (res.status === 200 ? Promise.resolve(res.data) : Promise.reject(res)),
+  res => {
+    if (res.status === 200) {
+      // console.log(res.data.errorCode)
+      // if (res.data.errorCode === 10000) {
+      //   tip('token失效!')
+      // }
+      return Promise.resolve(res.data)
+    } else {
+      return Promise.reject(res)
+    }
+  },
   // 请求失败
   error => {
     const { response } = error

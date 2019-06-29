@@ -25,5 +25,10 @@ export default {
   // 设置 message 弹框控制的状态
   setMessageShow(state, show) {
     state.messageShow = show
+  },
+
+  // 设置 share 弹框控制状态
+  setShareShow(state, show) {
+    state.shareShow = show
   }
 }

@@ -11,7 +11,9 @@
             ¥<span class="price">{{ details.price }}</span>
             <span class="text">提供{{ details.stock }}份</span>
           </div>
-          <div class="share"></div>
+          <div class="share">
+            <share-btn></share-btn>
+          </div>
         </div>
         <users-pic :usersPic="details.usersPic"
                    :picLen="details.picLen"></users-pic>
@@ -68,10 +70,11 @@ import applyStatus from '@/components/applyStatus/ApplyStatus'
 import emptyBox from '@/components/empty/Empty'
 import usersPic from '@/components/usersPic/UsersPic'
 import commentLi from '@/view/public/Comment'
+import shareBtn from '@/components/shareBtn/ShareBtn'
 
 export default {
   name: 'trialDetail',
-  components: { commonTabs, detailFooter, emptyBox, usersPic, commentLi, applyStatus },
+  components: { commonTabs, detailFooter, emptyBox, usersPic, commentLi, applyStatus, shareBtn },
   data () {
     return {
       details: {}, // 简介内容
@@ -204,7 +207,6 @@ export default {
       float: right;
       width: 42px;
       height: 40px;
-      .bg-img("~@images/ic_activity_details_share");
     }
   }
   .detail-b {
