@@ -53,7 +53,7 @@ export default {
       }
       this.$api.common.likes(params)
         .then(res => {
-          if (res.code === 0) {
+          if (res.errorCode === 0) {
             this.num = (this.num === 1) ? 0 : 1
           } else {
             this.$toast(res.message)

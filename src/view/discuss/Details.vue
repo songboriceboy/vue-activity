@@ -111,7 +111,7 @@ export default {
         this.$api.discuss
           .delTopicComment(id)
           .then(res => {
-            if (res.code === 0) {
+            if (res.errorCode === 0) {
               this.$toast('删除成功!')
               // 在评论列表中去掉该评论
               const list = this.comments

@@ -12,13 +12,22 @@
                  rows="4" />
     </div>
     <ul class="upload-img">
-      <li v-for="(img, index) of imgList"
+      <li v-for="(item, index) of imgList"
           :key="index">
         <span class="img"
-              :style="{backgroundImage: 'url('+ img +')'}"></span>
+              @click="viewImg(index)"
+              :style="{backgroundImage: 'url('+ item.img +')'}"></span>
+        <van-loading class="upload-loading"
+                     type="spinner"
+                     color="white"
+                     v-if="item.loading" />
+        <span class="del"
+              @click="delImg(index)"
+              v-else></span>
       </li>
-      <li v-if="imgList.length < 10">
+      <li v-if="imgList.length < 9">
         <van-uploader class="upload-button"
+                      :max-size="5242880"
                       :after-read="afterRead"
                       accept="image/gif,image/jpeg,image/jpg,image/png"
                       @oversize="oversize">
@@ -33,24 +42,33 @@
                 v-else
                 class="button is-radius-button-red"
                 @click="onSubmit">提交</van-button>
+    <!-- 弹框 -->
+    <message-box :show="this.$store.state.messageShow"
+                 :title="messageTitle"
+                 :content="messageContent"></message-box>
   </div>
 </template>
 
 <script>
+import messageBox from '@/components/message/Message'
+import { ImagePreview } from 'vant'
+
 export default {
   name: 'write',
+  components: { messageBox },
   data () {
     return {
-      id: '',
       title: '',
       imgSrc: '',
       message: '', //内容
-      imgList: [] // 图片列表
+      imgList: [], // 图片预览列表
+      imgs: [], // 图片上传地址列表
+      messageTitle: '', // 弹框提示
+      messageContent: '' // 提示内容
     }
   },
 
   created () {
-    this.id = this.$route.query.id
     this.title = this.$route.query.title
     this.imgSrc = this.$route.query.img
   },
@@ -58,17 +76,80 @@ export default {
   methods: {
     // 提交
     onSubmit () {
+      const params = {
+        type: parseInt(this.$route.query.type),
+        type_id: this.$route.query.id,
+        content: this.message,
+        images: this.imgs
+      }
 
+      this.$api.mine.postReport(params)
+        .then(res => {
+          if (res && res.errorCode === 0) {
+            this.showMessage('提交成功', '您的体验报告已提交成功!')
+          }
+        })
+    },
+
+    // 显示提示
+    showMessage (title, content) {
+      this.$store.commit('setMessageShow', true)
+      this.messageTitle = title
+      this.messageContent = content
     },
 
     // 读取文件之后
     afterRead (file) {
-      this.imgList.push(file.content)
+      const len = this.imgList.push({
+        loading: true, // 上传中
+        img: file.content
+      })
+
+      this.uploadImg(file.file, len)
+    },
+
+    // 上传图片
+    uploadImg (file, len) {
+      const params = new FormData()
+      params.append('images[]', file)
+      this.$api.common.upload(params)
+        .then(res => {
+          if (res && res.length > 0) {
+            this.imgList[len - 1].loading = false
+            this.imgs.push(res[0])
+          }
+          // 解决请求取消(canceled)的问题
+          if (res === undefined) {
+            this.imgList.splice(len - 1, 1)
+            this.imgs.splice(len - 1, 1)
+          }
+        })
     },
 
     // 文件大小超过限制
     oversize () {
+      this.$toast('图片文件不能超过5M! 请重新选择图片')
+    },
 
+    // 查看图片
+    viewImg (index) {
+      let imgs = []
+      for (let item of this.imgList) {
+        imgs.push(item.img)
+      }
+      ImagePreview({
+        images: imgs,
+        startPosition: index,
+        onClose () {
+          // do something
+        }
+      })
+    },
+
+    // 删除图片
+    delImg (index) {
+      this.imgList.splice(index, 1)
+      this.imgs.splice(index, 1)
     }
   }
 }
@@ -125,7 +206,7 @@ export default {
     width: 190px;
     height: 190px;
     position: relative;
-    margin: 0 20px 20px 0;
+    margin: 0 30px 20px 0;
     float: left;
     .img {
       display: block;
@@ -134,6 +215,25 @@ export default {
       background-repeat: no-repeat;
       background-position: center;
       background-size: cover;
+    }
+    .upload-loading {
+      display: block;
+      padding: 50px;
+      width: 90px;
+      height: 90px;
+      position: absolute;
+      left: 0;
+      top: 0;
+      background-color: rgba(0, 0, 0, 0.6);
+    }
+    .del {
+      display: block;
+      width: 32px;
+      height: 32px;
+      .bg-img("~@images/pic_mine_close");
+      position: absolute;
+      right: -12px;
+      top: -12px;
     }
   }
   .upload-button {

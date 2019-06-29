@@ -226,11 +226,14 @@ const mine = {
    * 我的报告列表
    * @param {*} params { page 页码, page_size 每页显示数 }
    */
-  getMyReport() {
-    return axios.get(`/my/report`)
+  getMyReport(params) {
+    return axios.get(`/my/report`, { params: params })
   },
 
-  // 填写报告
+  /**
+   * 填写报告
+   * @param {*} params { type 1：活动体验报告 2：试用体验报告, type_id 活动id 或 试用id, content 心得内容, images 图片数组 }
+   */
   postReport(params) {
     return axios.post(`/report`, params)
   },

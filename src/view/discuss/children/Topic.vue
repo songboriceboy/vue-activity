@@ -98,7 +98,7 @@ export default {
 
       this.$api.discuss.postTopicComment(params)
         .then(res => {
-          if (res.code === 0) {
+          if (res.errorCode === 0) {
             this.$toast('发布成功!')
             // 清空文本框
             this.message = ''

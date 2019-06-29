@@ -2,9 +2,9 @@
   <div class="edit-info">
     <template v-if="!edit">
       <van-uploader class="avatar-uploader"
-                    :max-size="4194304"
+                    :max-size="2097152"
                     :after-read="afterRead"
-                    :max-count="1"
+                    accept="image/gif,image/jpeg,image/jpg,image/png"
                     @oversize="oversize">
         <van-cell title="头像"
                   center
@@ -77,7 +77,7 @@ export default {
           user_name: this.userInfo.name
         })
         .then(res => {
-          if (res.code === 0) {
+          if (res && res.errorCode === 0) {
             this.$toast('修改成功')
             const userInfo = JSON.stringify(this.userInfo)
             this.$store.commit('setUserInfo', userInfo)
@@ -111,7 +111,7 @@ export default {
 
     // 文件大小超过限制
     oversize () {
-      this.$toast('图片文件过大!请重新选择')
+      this.$toast('图片文件不能超过2M!请重新选择')
     }
   }
 }

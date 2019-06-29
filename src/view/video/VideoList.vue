@@ -55,7 +55,7 @@ export default {
       // 获取列表
       this.$api.video.getVideo(this.id, params)
         .then(res => {
-          if (res.code && res.code !== 0) {
+          if (res.errorCode && res.errorCode !== 0) {
             this.$toast('暂无数据!')
             this.isLoading = false
             this.loading = false

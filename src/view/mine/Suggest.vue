@@ -66,7 +66,7 @@ export default {
 
       this.$api.mine.postSuggest(params)
         .then(res => {
-          if (res.code === 0) {
+          if (res.errorCode === 0) {
             this.showMessage('提交成功', '您的意见已提交成功!')
             this.username = ''
             this.phone = ''

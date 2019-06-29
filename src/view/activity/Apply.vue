@@ -70,9 +70,9 @@ export default {
 
       this.$api.activity.postActivity(params)
         .then(res => {
-          if (res.code === 0) {
+          if (res.errorCode === 0) {
             this.showMessage('提交成功', '报名申请已提交成功，请耐心等待！')
-          } else if (res.code === 1) {
+          } else if (res.errorCode === 1) {
             this.showMessage('提交失败', '已提交报名申请，不能重复申请！')
           } else {
             this.showMessage('提交失败', res.message)

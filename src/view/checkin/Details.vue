@@ -148,9 +148,9 @@ export default {
         address: this.infos.address
       }
       this.$api.checkin.postWinPrize(data).then(res => {
-        if (res.code === 0) {
+        if (res.errorCode === 0) {
           this.showMessage('提交成功', '提交成功,您的奖品将会在近期寄出。')
-        } else if (res.code === 1) {
+        } else if (res.errorCode === 1) {
           this.$toast(res.message)
         }
       })
