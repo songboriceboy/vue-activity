@@ -18,7 +18,7 @@ module.exports = {
         ws: false, // proxy websockets
         pathRewrite: {
           //重写路径
-          '^/api': '/api'
+          // '^/api': '/api'
         }
       }
     }

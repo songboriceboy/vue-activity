@@ -58,7 +58,7 @@ const errorHandle = (status, other) => {
 }
 
 // 创建axios实例
-var instance = axios.create({ timeout: 1000 * 12 })
+var instance = axios.create({ timeout: 1000 * 12, withCredentials: true })
 // 设置post请求头
 instance.defaults.headers.post['Content-Type'] =
   'application/x-www-form-urlencoded'
@@ -108,7 +108,7 @@ instance.interceptors.response.use(
  * 获取 token 和用户信息
  */
 const postTokenInfo = (code, next) => {
-  axios.post('/login', { code }).then(res => {
+  instance.post('/login', { code }).then(res => {
     const result = res.data
     if (result && result.errorCode === 0) {
       // 设置 vuex 状态值
