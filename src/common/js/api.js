@@ -254,7 +254,10 @@ const mine = {
 
 // 公共接口
 const common = {
-  // 分享
+  /**
+   * 分享
+   * @param {*} params { type 1：活动 2：试用, type_id 活动id / 试用id }
+   */
   share(params) {
     return axios.post(`/share`, params)
   },

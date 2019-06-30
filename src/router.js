@@ -46,7 +46,7 @@ export default new Router({
           component: () => import('./view/video/Video'),
           meta: {
             title: '视频',
-            requireAuth: true
+            requireAuth: false
           }
         },
         {
@@ -120,7 +120,7 @@ export default new Router({
       component: () => import('./view/video/VideoList'),
       meta: {
         title: '视频列表',
-        requireAuth: true
+        requireAuth: false
       }
     },
     {

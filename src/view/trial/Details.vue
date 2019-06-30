@@ -73,9 +73,14 @@ import usersPic from '@/components/usersPic/UsersPic'
 import commentLi from '@/view/public/Comment'
 import shareBtn from '@/components/shareBtn/ShareBtn'
 
+import wxapi from '@/common/js/wxapi.js'
+
 export default {
   name: 'trialDetail',
   components: { commonTabs, detailFooter, emptyBox, usersPic, commentLi, applyStatus, shareBtn },
+  mounted () {
+    wxapi.wxRegister(this.wxRegCallback)
+  },
   data () {
     return {
       details: {}, // 简介内容
@@ -152,6 +157,33 @@ export default {
           reports: data.reports
         }
       ]
+    },
+
+    // wxRegCallback 用于微信JS-SDK回调
+    wxRegCallback () {
+      this.wxShareTimeline()
+    },
+
+    // wxShareTimeline 微信自定义分享到朋友圈
+    wxShareTimeline () {
+      let opstion = {
+        title: this.details.title, // 分享标题
+        link: location.href.split('/#/')[0], // 分享链接
+        imgUrl: this.details.imgSrc, // 分享图标
+        success: function () {
+          this.$api.common.share({
+            type: 2,
+            type_id: this.details.id
+          }).then(res => {
+            this.$toast('分享成功!')
+          })
+        },
+        error: function () {
+          this.$toast('分享失败')
+        }
+      }
+      // 将配置注入通用方法
+      wxapi.ShareTimeline(opstion)
     }
   }
 }
