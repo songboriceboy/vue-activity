@@ -5,6 +5,8 @@ const path = require('path')
 module.exports = {
   publicPath: './',
 
+  productionSourceMap: false, // 生产环境下不启用 SourceMap
+
   // 配置 axios 代理请求
   devServer: {
     // port: '8080', //代理端口
@@ -16,7 +18,7 @@ module.exports = {
         ws: false, // proxy websockets
         pathRewrite: {
           //重写路径
-          // '^/api': ''
+          '^/api': '/api'
         }
       }
     }
