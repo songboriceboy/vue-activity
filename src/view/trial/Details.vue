@@ -168,7 +168,7 @@ export default {
     wxShareTimeline () {
       let opstion = {
         title: this.details.title, // 分享标题
-        link: location.href.split('/#/')[0], // 分享链接
+        link: window.location.href, // 分享链接
         imgUrl: this.details.imgSrc, // 分享图标
         success: function () {
           this.$api.common.share({
@@ -185,6 +185,30 @@ export default {
       }
       // 将配置注入通用方法
       wxapi.ShareTimeline(opstion)
+    },
+
+    // 微信自定义分享给朋友
+    wxShareAppMessage () {
+      let option = {
+        title: this.details.title, // 分享标题, 
+        // desc: '', // 分享描述, 
+        link: window.location.href, // 分享链接
+        imgUrl: this.details.imgSrc, // 分享图标, ，需要绝对路径
+        success: () => {
+          this.$api.common.share({
+            type: 2,
+            type_id: this.details.id
+          }).then(res => {
+            console.log(res)
+            this.$toast('分享成功!')
+          })
+        },
+        error: () => {
+          this.$toast('分享失败')
+        }
+      }
+      // 将配置注入通用方法
+      wxapi.ShareAppMessage(option)
     }
   }
 }
