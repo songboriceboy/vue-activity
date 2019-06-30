@@ -32,11 +32,8 @@
     </div>
     <!-- 抽奖信息弹框 -->
     <info-dialog :show="toastControl"
-                 :prizeName="prizeName"
-                 :hasPrize="hasPrize"
-                 :infoImg="infoImg"
                  :key="toastControl"
-                 :buttonText="buttonText"
+                 :info="recordInfo"
                  @close="closeToast"></info-dialog>
   </div>
 </template>
@@ -58,55 +55,57 @@ export default {
       rotateTransitionPointer: 'transform 12s ease-in-out', //初始化指针过度属性控制
       clickFlag: true, //是否可以旋转抽奖
       index: '', // 指定每次旋转到的奖品下标
-      prizeName: '', // 抽中的奖品名称
-      prizeImg: '' // 抽中的奖品图片
+      recordInfo: {} // 弹框中奖信息
     };
   },
   created () {
     this.initPrizeList()
   },
-  computed: {
-    infoImg () {
-      return this.hasPrize ? this.prizeImg : ''
-    },
-    buttonText () {
-      return this.hasPrize ? '立即领取' : '返回首页'
-    }
-  },
   methods: {
     // 获取奖品列表
     initPrizeList () {
-      this.$api.checkin.getPrize().then(res => {
-        if (res && res.length > 0) {
-          let arr = []
-          for (let item of res) {
-            arr.push({
-              id: item.id,
-              prizeName: item.prize_name,
-              prizeImage: item.prize_image,
-              selected: item.selected,
-              winning: item.winning
-            })
+      this.$api.checkin.getPrize()
+        .then(res => {
+          if (res && res.length > 0) {
+            let arr = []
+            for (let item of res) {
+              arr.push({
+                id: item.id,
+                prizeName: item.prize_name,
+                prizeImage: item.prize_image,
+                selected: item.selected,
+                winning: item.winning
+              })
+            }
+            this.prizeList = arr
           }
-          this.prizeList = arr
-        }
-      })
+        })
+
+      this.getLotteryTimes()
     },
 
     // 获取该天的抽奖次数
     getLotteryTimes () {
       const date = this.$route.query.date
-      this.$api.checkin.getCheckin().then(res => {
-        if (res && res.length > 0) {
-          for (let item of res) {
-            let time = this.dateFormatter(item.check_in_time)
-            if (date === time) {
-              // 该天已连续签到七天, 并且为待抽奖状态, 则可以抽奖一次
-              this.lotteryTicket = (item.check_in_times === 7 && item.status === 3) ? 1 : 0
+      this.$api.checkin.getCheckin()
+        .then(res => {
+          if (res && res.length > 0) {
+            for (let item of res) {
+              let time = this.dateFormatter(item.check_in_time)
+              if (date === time) {
+                // 该天已连续签到七天, 并且为待抽奖状态, 则可以抽奖一次
+                this.lotteryTicket = (item.check_in_times === 7 && item.status === 1) ? 1 : 0
+              }
             }
           }
-        }
-      })
+        })
+    },
+
+    // 时间格式转化 例如: 2019-06-08 => 201968
+    dateFormatter (date) {
+      let arr = date.split('-')
+      let str = '' + arr[0] + Number(arr[1]) + Number(arr[2])
+      return str
     },
 
     // 点击开始
@@ -132,32 +131,32 @@ export default {
     },
 
     rotating () {
-      if (!this.clickFlag) return;
-      var type = 0; // 默认为 0  转盘转动 1 箭头和转盘都转动(暂且遗留)
-      var duringTime = 5; // 默认为1s
-      // var random = Math.floor(Math.random() * 7);
-      var resultIndex = this.index; // 最终要旋转到哪一块，对应 prizeList 的下标
-      var resultAngle = [3, 300, 240, 180, 120, 60]; //最终会旋转到下标的位置所需要的度数
-      var randCircle = 6; // 附加多转几圈，2-3
-      this.clickFlag = false; // 旋转结束前，不允许再次触发
+      if (!this.clickFlag) return
+      var type = 0 // 默认为 0  转盘转动 1 箭头和转盘都转动(暂且遗留)
+      var duringTime = 5 // 默认为1s
+      // var random = Math.floor(Math.random() * 7)
+      var resultIndex = this.index // 最终要旋转到哪一块，对应 prizeList 的下标
+      var resultAngle = [3, 300, 240, 180, 120, 60] //最终会旋转到下标的位置所需要的度数
+      var randCircle = 6 // 附加多转几圈，2-3
+      this.clickFlag = false // 旋转结束前，不允许再次触发
       if (type == 0) {
         // 转动盘子
         var rotateAngle =
           this.startRotatingDegree +
           randCircle * 360 +
           resultAngle[resultIndex] -
-          this.startRotatingDegree % 360;
-        this.startRotatingDegree = rotateAngle;
-        this.rotateAngle = 'rotate(' + rotateAngle + 'deg)';
+          this.startRotatingDegree % 360
+        this.startRotatingDegree = rotateAngle
+        this.rotateAngle = 'rotate(' + rotateAngle + 'deg)'
         // // //转动指针
-        // this.rotateAnglePointer = 'rotate(' + this.startRotatingDegreePointer + 360 * randCircle + 'deg)';
-        // this.startRotatingDegreePointer = 360 * randCircle;
-        var that = this;
+        // this.rotateAnglePointer = 'rotate(' + this.startRotatingDegreePointer + 360 * randCircle + 'deg)'
+        // this.startRotatingDegreePointer = 360 * randCircle
+        var that = this
         // 旋转结束后，允许再次触发
         setTimeout(function () {
-          that.clickFlag = true;
-          that.gameOver();
-        }, duringTime * 1000 + 1500); // 延时，保证转盘转完
+          that.clickFlag = true
+          that.gameOver()
+        }, duringTime * 1000 + 1500) // 延时，保证转盘转完
       } else {
         //
       }
@@ -165,16 +164,20 @@ export default {
 
     // 结束
     gameOver () {
-      this.toastControl = true;
-      this.hasPrize = this.prizeList[this.index].winning
-      this.prizeName = this.prizeList[this.index].prizeName
-      this.prizeImg = this.prizeList[this.index].prizeImage
+      const data = this.prizeList[this.index]
+      this.recordInfo = {
+        prizeName: data.prizeName,
+        hasPrize: data.winning,
+        infoImg: data.winning ? data.infoImg : '',
+        buttonText: data.winning ? '立即领取' : '返回首页'
+      }
       this.lotteryTicket--
+      this.toastControl = true
     },
 
     //关闭弹窗
     closeToast () {
-      this.toastControl = false;
+      this.toastControl = false
     }
   }
 };

@@ -26,28 +26,28 @@
         <ul class="list">
           <template v-for="num in firstDay">
             <li v-if="num < firstDay"
-                :key="'0_0'+num"></li>
+                :key="'0_0' + num"></li>
           </template>
           <li v-for="num in curMonthDays"
               :key="num"
-              :class="{red: staticYMD === ''+curYear+curMonth+num}">
+              :class="{red: staticYMD === '' + curYear + curMonth + num}">
             {{ num }}
             <span class="checked"
-                  v-if="checkinDays.indexOf(''+curYear+curMonth+num) > -1"></span>
+                  v-if="checkinDays.indexOf('' + curYear + curMonth + num) > -1"></span>
             <span class="record"
-                  @click="viewRecord(''+curYear+curMonth+num)"
-                  v-if="recordDays.indexOf(''+curYear+curMonth+num) > -1">
+                  @click="viewRecord(curYear + '-' + curMonth + '-' + num)"
+                  v-if="recordDays.indexOf('' + curYear + curMonth + num) > -1">
               <i class="icon"></i>
               中奖纪录
             </span>
             <span class="invalid"
-                  v-if="invaildDays.indexOf(''+curYear+curMonth+num) > -1">
+                  v-if="invaildDays.indexOf('' + curYear + curMonth + num) > -1">
               <i class="icon"></i>
               已过期
             </span>
             <span class="success"
-                  @click="goLottery(''+curYear+curMonth+num)"
-                  v-if="successDays.indexOf(''+curYear+curMonth+num) > -1">
+                  @click="goLottery('' + curYear + curMonth + num)"
+                  v-if="successDays.indexOf('' + curYear + curMonth + num) > -1">
               <i class="icon"></i>
               去抽奖
             </span>
@@ -70,11 +70,7 @@
     <!-- 抽奖信息弹框 -->
     <info-dialog :show="toastControl"
                  :key="'0_0'+toastControl"
-                 :title="recordInfo.infoTitle"
-                 :text="recordInfo.infoText"
-                 :hasPrize="recordInfo.hasPrize"
-                 :infoImg="recordInfo.infoImg"
-                 :buttonText="recordInfo.buttonText"
+                 :info="recordInfo"
                  @close="closeToast"></info-dialog>
   </div>
 </template>
@@ -102,13 +98,7 @@ export default {
       days: 0, // 连续签到的天数
       successControl: false, // 签到成功信息弹框控制
       successText: '', // 签到成功信息
-      recordInfo: {
-        hasPrize: false, // 是否中奖
-        infoTitle: '', // 中奖标题
-        infoImg: '', // 中奖图片
-        infoText: '', // 中奖信息
-        buttonText: '' // 按钮文字
-      }, // 中奖纪录信息
+      recordInfo: {}, // 中奖纪录信息
       toastControl: false // 详情控制
     }
   },
@@ -125,7 +115,7 @@ export default {
       } else if (days > 0 && days < 7) {
         str = '已连续签到 ' + days + ' 天, 距离幸运又近了一步!'
       } else if (days === 7) {
-        str = '已连续签到 7 天, 点击"去抽奖"可以参与抽奖!'
+        str = '已连续签到 7 天, 获得了一次抽奖机会'
       }
       return str;
     }
@@ -159,7 +149,7 @@ export default {
             let recordDays = []
             for (let item of res) {
               let time = this.dateFormatter(item.check_in_time)
-
+              checkinDays.push(time)
               // -1 已过期, 0 正常签到, 1 待抽奖, 2 已抽奖
               switch (item.status) {
                 case -1:
@@ -172,7 +162,6 @@ export default {
                   recordDays.push(time)
                   break
                 default:
-                  checkinDays.push(time)
                   break
               }
             }
@@ -277,22 +266,24 @@ export default {
     },
 
     // 查看中奖纪录
-    viewRecord () {
-      // console.log(date)
-      // this.recordInfo = {
-      //   hasPrize: false,
-      //   infoTitle: '未中奖,很遗憾！',
-      //   infoImg: '',
-      //   infoText: '您和奖品只差一丢丢，继续签到下次再抽一次吧。',
-      //   buttonText: '返回首页'
-      // }
-      this.recordInfo = {
-        hasPrize: true,
-        infoImg: '',
-        infoText: '恭喜您抽中奖品: iPad一个',
-        buttonText: '查看详情'
+    viewRecord (date) {
+
+      const arr = date.split('-')
+      const str = arr[0] + '-' + this.$methods.addPrefixZero(arr[1]) + '-' + this.$methods.addPrefixZero(arr[2])
+      const params = {
+        date: str
       }
-      this.toastControl = true
+      this.$api.checkin.getWinRecord(params)
+        .then(res => {
+          this.recordInfo = {
+            hasPrize: true, // 是否中奖
+            infoImg: '', // 奖品图片
+            prizeName: res.prize_name, // 奖品名称
+            buttonText: '查看详情', // 按钮文字
+            date: str // 日期
+          }
+          this.toastControl = true
+        })
     },
 
     // 关闭签到成功的信息弹框
@@ -404,7 +395,7 @@ export default {
         display: block;
         width: 74px;
         height: 58px;
-        margin: 6px 0 0 10px;
+        margin: 0 0 0 10px;
       }
       .invalid,
       .success,
@@ -445,7 +436,7 @@ export default {
     line-height: 88px;
     border-radius: 44px;
     display: block;
-    margin: 10px auto 0;
+    margin: 15px auto 0;
     font-size: 0;
   }
   .calendar-icon {

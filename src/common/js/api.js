@@ -52,9 +52,12 @@ const checkin = {
     return axios.post(`/winning_info`, params)
   },
 
-  // 中奖纪录
-  getWinPrize(id) {
-    return axios.get(`/winning/${id}`)
+  /**
+   * 中奖纪录
+   * @param {*} params 查询日期
+   */
+  getWinRecord(params) {
+    return axios.get(`/winning_info`, { params: params })
   }
 }
 

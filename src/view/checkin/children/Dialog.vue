@@ -3,7 +3,7 @@
               :showConfirmButton="false"
               className="info-dialog">
     <div class="info-img info-img-true"
-         v-if="hasPrize"></div>
+         v-if="this.info.hasPrize"></div>
     <div class="info-img info-img-false"
          v-else></div>
     <div class="info-title">
@@ -13,9 +13,9 @@
     </div>
     <div class="container">
       <div class="content">
-        <img :src="infoImg"
+        <img :src="this.info.infoImg"
              alt=""
-             v-if="infoImg"
+             v-if="this.info.infoImg"
              class="content-img">
         {{ infoText }}
       </div>
@@ -23,7 +23,7 @@
                   class="is-radius-button-red"
                   @click="handleTo">
         <i class="calendar-icon"></i>
-        <span class="button-text">{{ buttonText }}</span>
+        <span class="button-text">{{ this.info.buttonText }}</span>
       </van-button>
     </div>
   </van-dialog>
@@ -36,25 +36,29 @@ export default {
     show: {
       default: false
     }, // 显示控制
-    prizeName: {
-      default: ''
-    }, // 奖品名称
-    hasPrize: {
-      default: false
-    }, // 是否中奖
-    infoImg: {
-      default: ''
-    }, // 奖品图片
-    buttonText: {
-      default: ''
-    } // 按钮文字
+    info: {
+      default: function () {
+        return {
+          prizeName: '', // 奖品名称
+          hasPrize: false, // 是否中奖
+          infoImg: '', // 奖品图片
+          buttonText: '', // 按钮文字,
+          date: '' // 日期
+        }
+      }
+    }, // 信息
+    adress: {
+      default: function () {
+        return {}
+      }
+    }
   },
   computed: {
     infoTitle () {
-      return this.hasPrize ? '恭喜您, 中奖啦!' : '未中奖, 很遗憾!'
+      return this.info.hasPrize ? '恭喜您, 中奖啦!' : '未中奖, 很遗憾!'
     },
     infoText () {
-      return this.hasPrize ? '恭喜您抽中奖品: ' + this.prizeName : '您和奖品只差一丢丢, 继续签到下次再抽一次吧。'
+      return this.info.hasPrize ? '恭喜您抽中奖品: ' + this.info.prizeName : '您和奖品只差一丢丢, 继续签到下次再抽一次吧。'
     },
   },
   data () {
@@ -71,11 +75,11 @@ export default {
     // 跳转
     handleTo () {
       this.closeInfoDialog()
-      let isEdit = this.buttonText === '查看详情' ? 0 : 1
-      if (this.hasPrize) {
-        this.$router.push({ path: '/lotteryDetails', query: { edit: isEdit, prizeName: this.prizeName } })
+      let isEdit = this.info.buttonText === '查看详情' ? 0 : 1
+      if (this.info.hasPrize) {
+        this.$router.push({ path: '/lotteryDetails', query: { edit: isEdit, date: this.info.date } })
       } else {
-        this.$router.push({ path: '/checkin' })
+        this.$router.push({ path: '/checkin?active=0' })
       }
 
     }

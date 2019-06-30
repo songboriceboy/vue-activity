@@ -4,11 +4,13 @@
       <van-field v-model="infos.username"
                  ref="username"
                  label="收件人"
+                 maxlength="16"
                  input-align="right"
                  :readonly="readonly"
                  placeholder="请填写收件人" />
       <van-field v-model="infos.phone"
                  type="number"
+                 maxlength="13"
                  input-align="right"
                  :readonly="readonly"
                  label="联系电话"
@@ -35,6 +37,7 @@
            class="readonly-address">{{ infos.address }}</div>
       <van-field v-model="infos.address"
                  v-else
+                 maxlength="100"
                  type="textarea"
                  label-width="100%"
                  placeholder="请填写详细地址"
@@ -103,12 +106,24 @@ export default {
   methods: {
     // 获取提交的资料
     init () {
-      this.infos = {
-        username: 'GY',
-        phone: '13510748888',
-        areas: '深圳市南山区西丽街道',
-        address: '西丽地铁站',
-      }
+      const date = this.$route.query.date // 查询日期
+      const params = { date: date }
+      this.$api.checkin.getWinRecord(params)
+        .then(res => {
+          let areas = ''
+          if (res.province === res.city) {
+            areas = res.province + res.city + res.district
+          } else {
+            areas = res.province + res.district
+          }
+          this.infos = {
+            username: res.contact_name, // 收件人
+            phone: res.contact_phone, // 联系电话
+            areas: areas, // 中奖省市区
+            address: res.address // 详细地址
+          }
+          this.toastControl = true
+        })
     },
 
     // 完成地区选择
@@ -168,6 +183,11 @@ export default {
     validate () {
       if (!this.infos.username) {
         this.$toast('请填写收件人!')
+        return false
+      }
+
+      if (this.infos.username.length > 16) {
+        this.$toast('收件人字数过多!')
         return false
       }
 

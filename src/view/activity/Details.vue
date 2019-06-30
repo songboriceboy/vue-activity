@@ -73,11 +73,12 @@ import commonTabs from '@/components/tabs/Tabs'
 import detailFooter from '@/components/footer/Footer'
 import applyStatus from '@/components/applyStatus/ApplyStatus'
 import emptyBox from '@/components/empty/Empty'
+import commentLi from '@/view/public/Comment'
 import shareBtn from '@/components/shareBtn/ShareBtn'
 
 export default {
   name: 'activityDetail',
-  components: { commonTabs, detailFooter, applyStatus, emptyBox, shareBtn },
+  components: { commonTabs, detailFooter, applyStatus, emptyBox, shareBtn, commentLi },
   data () {
     return {
       details: {
