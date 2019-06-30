@@ -132,6 +132,14 @@ const video = {
    */
   getVideo(id, params) {
     return axios.get(`/video/${id}`, { params: params })
+  },
+
+  /**
+   * 观看次数
+   * @param {*} params { video_id 视频id }
+   */
+  postWatch(params) {
+    return axios.post(`/watch`, params)
   }
 }
 

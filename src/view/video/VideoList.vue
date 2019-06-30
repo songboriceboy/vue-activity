@@ -12,7 +12,7 @@
            :key="video.id">
         <div class="video-box">
           <video-player class="video-player vjs-custom-skin"
-                        @play="onPlayerPlay($event)"
+                        @play="onPlayerPlay($event, video.id)"
                         @pause="onPlayerPause($event)"
                         @loadeddata="onPlayerLoadeddata($event)"
                         :playsinline="true"
@@ -142,9 +142,14 @@ export default {
     },
 
     // 开始播放
-    onPlayerPlay () {
-      // console.log('player play!', player)
+    onPlayerPlay (player, videoId) {
+      console.log('player play!', player)
       this.playing = true
+
+      this.$api.video.postWatch({ video_id: videoId })
+        .then(res => {
+          console.log(res)
+        })
     },
 
     // 暂停
@@ -181,6 +186,9 @@ export default {
     background-color: #f3f3f3;
     position: relative;
     width: 100%;
+    /deep/ .vjs-poster {
+      background-size: cover;
+    }
     /deep/ .video-js .vjs-big-play-button {
       width: 100px;
       height: 100px;
