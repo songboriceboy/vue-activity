@@ -40,6 +40,7 @@ const wxApi = {
         console.log(error)
       })
     wx.ready(res => {
+      console.log(res)
       // 如果需要定制ready回调方法
       if (callback) {
         callback()

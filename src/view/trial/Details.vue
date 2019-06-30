@@ -175,6 +175,7 @@ export default {
             type: 2,
             type_id: this.details.id
           }).then(res => {
+            console.log(res)
             this.$toast('分享成功!')
           })
         },
@@ -246,6 +247,12 @@ export default {
     padding: 0 0 126px;
     .reports-container {
       padding: 30px;
+      /deep/ .comment {
+        border-bottom: 1px solid #e5e5e5;
+      }
+      /deep/ .comment:last-child {
+        border-bottom: none;
+      }
     }
   }
 }

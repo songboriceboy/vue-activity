@@ -17,11 +17,12 @@
                      :typeId="details.id"></likes-count>
       </div>
     </div>
-    <div class="content">
+    <div class="content"
+         @click="toCommentDetails">
       <h2>{{ title }}</h2>
-      <p>{{ details.content }}</p>
+      <p>{{ details.content | contentFormatter }}</p>
     </div>
-    <img-flex :imgs="details.images"></img-flex>
+    <img-flex :imgs="images"></img-flex>
   </div>
 </template>
 
@@ -39,6 +40,23 @@ export default {
     title: {
       default: ''
     } // 标题
+  },
+  computed: {
+    images () {
+      return this.details.images.slice(0, 3)
+    }
+  },
+  methods: {
+    // 跳转
+    toCommentDetails () {
+      this.$router.push({ path: '/CommentDetails', query: { type: this.type, id: this.details.id } })
+    }
+  },
+  filters: {
+    // 内容截取
+    contentFormatter (str) {
+      return str.length < 50 ? str : str.slice(0, 50) + '...'
+    }
   }
 }
 </script>
@@ -46,7 +64,6 @@ export default {
 <style lang="less" scoped>
 .comment {
   padding: 34px 0 32px;
-  border-bottom: 1px solid #e5e5e5;
 }
 .comment-head {
   display: flex;

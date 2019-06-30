@@ -104,7 +104,6 @@ export default {
                 this.lotteryTicket = (item.check_in_times === 7 && item.status === 1) ? 1 : 0
               }
             }
-            this.lotteryTicket = 8
           }
         })
     },
@@ -189,7 +188,8 @@ export default {
       if (!data.winning) {
         // 提交未中奖结果
         const params = {
-          prize_name: '',
+          prize_name: data.prizeName,
+          prize_img: data.prizeImg,
           prize_status: 0,
           contact_name: '',
           contact_phone: '',

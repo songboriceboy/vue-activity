@@ -200,6 +200,7 @@ export default {
             type: 1,
             type_id: this.details.id
           }).then(res => {
+            console.log(res)
             this.$toast('分享成功!')
           })
         },
@@ -275,4 +276,3 @@ export default {
   }
 }
 </style>
-

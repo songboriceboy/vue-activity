@@ -12,6 +12,7 @@
       </div>
       <div class="likes-box">
         <likes-count :likes="details.likes"
+                     v-if="details.id"
                      :type="type"
                      :myLike="details.hasZan"
                      :typeId="id"></likes-count>
@@ -117,15 +118,14 @@ export default {
 .comment {
   padding-top: 36px;
   h1 {
-    height: 48px;
     font-size: 30px;
     font-family: PingFangSC-Medium;
-    font-weight: 500;
+    font-weight: bold;
     color: rgba(68, 68, 68, 1);
     line-height: 48px;
   }
   .content {
-    padding-top: 6px;
+    padding-top: 10px;
     font-size: 28px;
     font-family: PingFangSC-Regular;
     font-weight: 400;
