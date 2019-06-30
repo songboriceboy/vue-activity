@@ -147,13 +147,15 @@ export default {
       this.playing = true
     },
 
+    // 暂停
     onPlayerPause () {
       // console.log('player pause!', player)
     },
 
     // 加载完成
-    onPlayerLoadeddata (player) {
+    onPlayerLoadeddata () {
       // console.log(player)
+      // 视频时长
       // console.log(player.duration())
     }
   }
