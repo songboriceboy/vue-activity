@@ -22,7 +22,7 @@
                 {{item.prizeName}}
               </div>
               <div class="prize-pic">
-                <img :src="item.prizeImage"
+                <img :src="item.prizeImg"
                      :alt="item.prizeName">
               </div>
             </div>
@@ -56,14 +56,20 @@ export default {
       clickFlag: true, //是否可以旋转抽奖
       index: '', // 指定每次旋转到的奖品下标
       recordInfo: {} // 弹框中奖信息
-    };
+    }
   },
   created () {
-    this.initPrizeList()
+    this.init()
   },
   methods: {
+    // 初始化
+    init () {
+      this.getPrizeList()
+      this.getLotteryTimes()
+    },
+
     // 获取奖品列表
-    initPrizeList () {
+    getPrizeList (callBack) {
       this.$api.checkin.getPrize()
         .then(res => {
           if (res && res.length > 0) {
@@ -72,16 +78,17 @@ export default {
               arr.push({
                 id: item.id,
                 prizeName: item.prize_name,
-                prizeImage: item.prize_image,
+                prizeImg: item.prize_image,
                 selected: item.selected,
                 winning: item.winning
               })
             }
             this.prizeList = arr
+            if (callBack) {
+              callBack()
+            }
           }
         })
-
-      this.getLotteryTimes()
     },
 
     // 获取该天的抽奖次数
@@ -97,6 +104,7 @@ export default {
                 this.lotteryTicket = (item.check_in_times === 7 && item.status === 1) ? 1 : 0
               }
             }
+            this.lotteryTicket = 8
           }
         })
     },
@@ -110,28 +118,33 @@ export default {
 
     // 点击开始
     rotateHandle () {
-      let len = this.prizeList.length
-      if (len === 0) {
-        this.$toast('奖品不存在,无法抽奖!请联系管理员')
-        return false
-      }
+      if (!this.clickFlag) return
+
       if (this.lotteryTicket <= 0) {
         this.$toast('您的抽奖次数用完了哦!')
         return false
       }
-      for (let i = 0; i < len; i++) {
-        if (this.prizeList[i].selected === 1) {
-          this.index = i
-          break
+
+      const vm = this
+      this.getPrizeList(function () {
+        let len = vm.prizeList.length
+        if (len === 0) {
+          vm.$toast('奖品不存在,无法抽奖!请联系管理员')
+          return false
         }
-      }
-      if (this.index !== '') {
-        this.rotating()
-      }
+        for (let i = 0; i < len; i++) {
+          if (vm.prizeList[i].selected === 1) {
+            vm.index = i
+            break
+          }
+        }
+        if (vm.index !== '') {
+          vm.rotating()
+        }
+      })
     },
 
     rotating () {
-      if (!this.clickFlag) return
       var type = 0 // 默认为 0  转盘转动 1 箭头和转盘都转动(暂且遗留)
       var duringTime = 5 // 默认为1s
       // var random = Math.floor(Math.random() * 7)
@@ -168,11 +181,31 @@ export default {
       this.recordInfo = {
         prizeName: data.prizeName,
         hasPrize: data.winning,
-        infoImg: data.winning ? data.infoImg : '',
+        infoImg: data.winning ? data.prizeImg : '',
         buttonText: data.winning ? '立即领取' : '返回首页'
       }
       this.lotteryTicket--
       this.toastControl = true
+      if (!data.winning) {
+        // 提交未中奖结果
+        const params = {
+          prize_name: '',
+          prize_status: 0,
+          contact_name: '',
+          contact_phone: '',
+          province: '',
+          city: '',
+          district: '',
+          address: ''
+        }
+        this.$api.checkin.postWinPrize(params)
+          .then(res => {
+            if (res && res.errorCode !== 0) {
+              this.$toast(res.message)
+            }
+          })
+      }
+
     },
 
     //关闭弹窗

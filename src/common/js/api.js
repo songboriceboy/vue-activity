@@ -44,8 +44,8 @@ const checkin = {
   },
 
   /**
-   * 中将资料填写
-   * @param {*} params { prize_name 奖品名称, contact_name 小张, contact_phone 电话, province 省, city 市, district 区, address 详细地址 }
+   * 中奖资料填写
+   * @param {*} params { prize_name 奖品名称, prize_img 奖品图片, prize_status 奖品状态, contact_name 小张, contact_phone 电话, province 省, city 市, district 区, address 详细地址 }
  }
    */
   postWinPrize(params) {

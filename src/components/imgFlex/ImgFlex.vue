@@ -49,7 +49,6 @@ export default {
   margin-bottom: 2%;
   padding-bottom: 32%;
   overflow: hidden;
-  background-color: #f3f3f3;
   text-align: center;
   color: #fff;
   font-size: 50px;

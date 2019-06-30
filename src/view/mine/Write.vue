@@ -8,6 +8,7 @@
     <div class="textarea-box">
       <van-field v-model="message"
                  type="textarea"
+                 maxlength="500"
                  placeholder="请填写内容"
                  rows="4" />
     </div>
@@ -78,6 +79,10 @@ export default {
   methods: {
     // 提交
     onSubmit () {
+      if (this.message.length > 500) {
+        this.$toast('内容过多!请检查后重新提交')
+        return false
+      }
       const params = {
         type: this.type,
         type_id: this.$route.query.id,

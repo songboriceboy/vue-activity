@@ -43,6 +43,7 @@
                    v-if="item.reports.length > 0">
                 <comment-li v-for="data of item.reports"
                             :details="data"
+                            :type="2"
                             :key="data.id"
                             :title="'试用产品: ' + details.title"></comment-li>
               </div>

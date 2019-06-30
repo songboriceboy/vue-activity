@@ -275,12 +275,26 @@ export default {
       }
       this.$api.checkin.getWinRecord(params)
         .then(res => {
-          this.recordInfo = {
-            hasPrize: true, // 是否中奖
-            infoImg: '', // 奖品图片
-            prizeName: res.prize_name, // 奖品名称
-            buttonText: '查看详情', // 按钮文字
-            date: str // 日期
+          if (res && res.errorCode !== 0) {
+            this.$toast(res.message)
+            return false
+          }
+
+          if (res.prize_status === 1) {
+            this.recordInfo = {
+              hasPrize: true, // 是否中奖
+              infoImg: res.prize_img, // 奖品图片
+              prizeName: res.prize_name, // 奖品名称
+              buttonText: '查看详情', // 按钮文字
+              date: str // 日期
+            }
+          } else {
+            this.recordInfo = {
+              hasPrize: false,
+              infoImg: '',
+              prizeName: '',
+              buttonText: '返回首页'
+            }
           }
           this.toastControl = true
         })
@@ -436,7 +450,7 @@ export default {
     line-height: 88px;
     border-radius: 44px;
     display: block;
-    margin: 15px auto 0;
+    margin: 20px auto 0;
     font-size: 0;
   }
   .calendar-icon {

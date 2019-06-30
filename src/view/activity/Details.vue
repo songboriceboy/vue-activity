@@ -48,8 +48,9 @@
                    v-if="item.reports.length > 0">
                 <comment-li v-for="data of item.reports"
                             :details="data"
+                            :type="1"
                             :key="data.id"
-                            :title="'试用产品: ' + details.title"></comment-li>
+                            :title="'参与活动: ' + details.title"></comment-li>
               </div>
               <empty-box v-else></empty-box>
             </div>

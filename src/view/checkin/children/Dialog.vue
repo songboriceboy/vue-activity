@@ -58,7 +58,7 @@ export default {
       return this.info.hasPrize ? '恭喜您, 中奖啦!' : '未中奖, 很遗憾!'
     },
     infoText () {
-      return this.info.hasPrize ? '恭喜您抽中奖品: ' + this.info.prizeName : '您和奖品只差一丢丢, 继续签到下次再抽一次吧。'
+      return this.info.hasPrize ? '抽中奖品: ' + this.info.prizeName : '您和奖品只差一丢丢, 继续签到下次再抽一次吧。'
     },
   },
   data () {
@@ -77,7 +77,7 @@ export default {
       this.closeInfoDialog()
       let isEdit = this.info.buttonText === '查看详情' ? 0 : 1
       if (this.info.hasPrize) {
-        this.$router.push({ path: '/lotteryDetails', query: { edit: isEdit, date: this.info.date } })
+        this.$router.push({ path: '/lotteryDetails', query: { edit: isEdit, date: this.info.date, prizeName: this.info.prizeName, prizeImg: this.info.infoImg } })
       } else {
         this.$router.push({ path: '/checkin?active=0' })
       }

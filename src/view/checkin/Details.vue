@@ -155,6 +155,8 @@ export default {
       }
       const data = {
         prize_name: this.$route.query.prizeName,
+        prize_img: this.$route.query.prizeImg,
+        prize_status: 1,
         contact_name: this.infos.username,
         contact_phone: this.infos.phone,
         province: this.province,
@@ -162,13 +164,14 @@ export default {
         district: this.district,
         address: this.infos.address
       }
-      this.$api.checkin.postWinPrize(data).then(res => {
-        if (res.errorCode === 0) {
-          this.showMessage('提交成功', '提交成功,您的奖品将会在近期寄出。')
-        } else if (res.errorCode === 1) {
-          this.$toast(res.message)
-        }
-      })
+      this.$api.checkin.postWinPrize(data)
+        .then(res => {
+          if (res && res.errorCode === 0) {
+            this.showMessage('提交成功', '提交成功,您的奖品将会在近期寄出。')
+          } else if (res.errorCode === 1) {
+            this.$toast(res.message)
+          }
+        })
     },
 
     // 显示提示
