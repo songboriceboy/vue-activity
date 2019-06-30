@@ -85,10 +85,9 @@ instance.interceptors.response.use(
   // 请求成功
   res => {
     if (res.status === 200) {
-      // console.log(res.data.errorCode)
-      // if (res.data.errorCode === 10000) {
-      //   tip('token失效!')
-      // }
+      if (res.data.errorCode === 10000) {
+        tip('token失效!')
+      }
       return Promise.resolve(res.data)
     } else {
       return Promise.reject(res)
@@ -137,9 +136,7 @@ router.beforeEach((to, from, next) => {
     // 获取用户信息和 token
     postTokenInfo(code, next)
   } else {
-    // 临时注释
     if (to.meta.requireAuth) {
-      // if (code && to.meta.requireAuth) {
       // 判断该路由是否需要登录权限
       if (localStorage.getItem('token')) {
         next()
