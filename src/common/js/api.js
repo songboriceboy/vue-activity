@@ -3,7 +3,7 @@
  */
 import axios from '@/common/js/http'
 // 根据需求是否导入qs模块
-// import qs from 'qs'
+import qs from 'qs'
 
 // 示例
 // return axios.get(`/login`)
@@ -49,7 +49,7 @@ const checkin = {
  }
    */
   postWinPrize(params) {
-    return axios.post(`/winning_info`, params)
+    return axios.post(`/winning_info`, qs.stringify(params))
   },
 
   /**
@@ -84,7 +84,7 @@ const activity = {
    * @param {*} params { activity_id 活动id, contact_name 联系人, contact_phone 联系电话, sign_up_reason 申请理由 }
    */
   postActivity(params) {
-    return axios.post(`/activity_sign_up`, params)
+    return axios.post(`/activity_sign_up`, qs.stringify(params))
   }
 }
 
@@ -111,7 +111,7 @@ const trial = {
    * @param {*} params  { use_id	试用活动id, contact_name 小张, contact_phone 电话, province 广东省, city 深圳市, district 福田区 address }
    */
   postTryUse(params) {
-    return axios.post(`/try_use`, params)
+    return axios.post(`/try_use`, qs.stringify(params))
   }
 }
 
@@ -139,7 +139,7 @@ const video = {
    * @param {*} params { video_id 视频id }
    */
   postWatch(params) {
-    return axios.post(`/watch`, params)
+    return axios.post(`/watch`, qs.stringify(params))
   }
 }
 
@@ -166,7 +166,7 @@ const discuss = {
    * @param {*} params { topic_id 话题id, comment 评论内容 }
    */
   postTopicComment(params) {
-    return axios.post(`/topic/comment`, params)
+    return axios.post(`/topic/comment`, qs.stringify(params))
   },
 
   /**
@@ -185,7 +185,7 @@ const mine = {
    * @param {*} params { avatar 头像地址, name 昵称 }
    */
   patchInfo(params) {
-    return axios.patch(`/my/info`, params)
+    return axios.patch(`/my/info`, qs.stringify(params))
   },
 
   /**
@@ -233,7 +233,7 @@ const mine = {
    * @param {*} params { type 1：活动体验报告 2：试用体验报告, type_id 活动id 或 试用id, content 心得内容, images 图片数组 }
    */
   postReport(params) {
-    return axios.post(`/report`, params)
+    return axios.post(`/report`, qs.stringify(params))
   },
 
   /**
@@ -241,7 +241,7 @@ const mine = {
    * @param {*} params { user_name 姓名, user_tel 手机号, message 反馈内容 }
    */
   postSuggest(params) {
-    return axios.post(`/suggest`, params)
+    return axios.post(`/suggest`, qs.stringify(params))
   },
 
   /**
@@ -259,7 +259,7 @@ const common = {
    * @param {*} params { type 1：活动 2：试用, type_id 活动id / 试用id }
    */
   share(params) {
-    return axios.post(`/share`, params)
+    return axios.post(`/share`, qs.stringify(params))
   },
 
   /**
@@ -267,7 +267,7 @@ const common = {
    * @param {*} params { images [] }
    */
   upload(params) {
-    return axios.post(`/upload`, params, {
+    return axios.post(`/upload`, qs.stringify(params), {
       headers: { 'Content-Type': 'multipart/form-data' }
     })
   },
@@ -277,7 +277,7 @@ const common = {
    * @param {*} params { type 1：活动报告 2：试用报告 3：话题评论, type_id: 数据 id }
    */
   likes(params) {
-    return axios.post(`/zan`, params)
+    return axios.post(`/zan`, qs.stringify(params))
   },
 
   /**

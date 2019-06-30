@@ -6,6 +6,7 @@ import axios from 'axios'
 import router from '../../router'
 import store from '../../store/index'
 import { Toast } from 'vant'
+import qs from 'qs'
 
 /**
  * 提示函数
@@ -58,10 +59,14 @@ const errorHandle = (status, other) => {
 }
 
 // 创建axios实例
-var instance = axios.create({ timeout: 1000 * 12 })
+var instance = axios.create({
+  baseURL: 'http://merchants.lzdu.com/api',
+  timeout: 1000 * 12, 
+  withCredentials: true 
+})
 // 设置post请求头
 instance.defaults.headers.post['Content-Type'] =
-  'application/x-www-form-urlencoded'
+  'application/x-www-form-urlencoded;charset=utf-8'
 
 /**
  * 请求拦截器
@@ -108,12 +113,11 @@ instance.interceptors.response.use(
  * 获取 token 和用户信息
  */
 const postTokenInfo = (code, next) => {
-  axios.post('/login', { code }).then(res => {
-    const result = res.data
-    if (result && result.errorCode === 0) {
+  instance.post('/login', qs.stringify({code})).then(res => {
+    if (res.errorCode === 0) {
       // 设置 vuex 状态值
-      let token = result.data.token.accessToken
-      let userInfo = result.data.user
+      let token = res.data.token.accessToken
+      let userInfo = res.data.user
       store.commit('setToken', token)
       store.commit('setUserInfo', JSON.stringify(userInfo))
       next()
@@ -133,8 +137,13 @@ router.beforeEach((to, from, next) => {
   // 获取 code
   const code = to.query.code
   if (code) {
-    // 获取用户信息和 token
-    postTokenInfo(code, next)
+    if (localStorage.token) {
+      // 防刷新
+      next()
+    } else {
+      // 获取用户信息和 token
+      postTokenInfo(code, next)
+    }
   } else {
     if (to.meta.requireAuth) {
       // 判断该路由是否需要登录权限

@@ -8,21 +8,21 @@ module.exports = {
   productionSourceMap: false, // 生产环境下不启用 SourceMap
 
   // 配置 axios 代理请求
-  devServer: {
-    // port: '8080', //代理端口
-    proxy: {
-      '/': {
-        //代理api
-        target: 'http://merchants.lzdu.com/api/', //服务器api地址
-        changeOrigin: true, //是否跨域
-        ws: false, // proxy websockets
-        pathRewrite: {
-          //重写路径
-          '^/api': '/api'
-        }
-      }
-    }
-  },
+  // devServer: {
+  //   // port: '8080', //代理端口
+  //   proxy: {
+  //     '/': {
+  //       //代理api
+  //       target: 'http://merchants.lzdu.com/api', //服务器api地址
+  //       changeOrigin: true, //是否跨域
+  //       ws: false, // proxy websockets
+  //       pathRewrite: {
+  //         //重写路径
+  //         '^/api': '/api'
+  //       }
+  //     }
+  //   }
+  // },
 
   css: {
     loaderOptions: {

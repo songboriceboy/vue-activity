@@ -48,8 +48,8 @@ export default {
 
     // 允许授权登录
     onLogin () {
-      let url = 'http://mh5.lzdu.com/#/checkin?active=0'
-      location.href = 'http://merchants.lzdu.com/api/oauth?back_url=' + url
+      let url = 'http://mh5.lzdu.com/checkin?active=0'
+      location.href = 'http://merchants.lzdu.com/api/oauth?back_url=' + encodeURIComponent(url)
     }
   }
 }
