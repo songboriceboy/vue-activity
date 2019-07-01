@@ -90,9 +90,9 @@ instance.interceptors.response.use(
   // 请求成功
   res => {
     if (res.status === 200) {
-      if (res.data.errorCode === 10000) {
-        tip('token失效!')
-      }
+      // if (res.data.errorCode === 10000) {
+      //   tip('token失效!')
+      // }
       return Promise.resolve(res.data)
     } else {
       return Promise.reject(res)
@@ -122,7 +122,7 @@ const postTokenInfo = (code, next) => {
       store.commit('setUserInfo', JSON.stringify(userInfo))
       next()
     } else {
-      tip(result.message)
+      tip(res.message)
       next({
         path: '/login'
       })
