@@ -89,11 +89,22 @@ instance.interceptors.request.use(
 instance.interceptors.response.use(
   // 请求成功
   res => {
+    // 判断一下响应中是否有 token，如果有就直接使用此 token 替换掉本地的 token。你可以根据你的业务需求自己编写更新 token 的逻辑
+    let token = res.headers.authorization
+    if (token) {
+      // 如果 header 中存在 token，那么就替换本地的 token
+      store.commit('setToken', token)
+    }
     if (res.status === 200) {
-      // if (res.data.errorCode === 10000) {
-      //   tip('token失效!')
-      // }
-      return Promise.resolve(res.data)
+      if (res.data.message === 'The token has been blacklisted') {
+        tip('身份信息已过期')
+        store.commit('setToken', null)
+        setTimeout(() => {
+          toLogin()
+        }, 1500)
+      } else {
+        return Promise.resolve(res.data)
+      }
     } else {
       return Promise.reject(res)
     }
