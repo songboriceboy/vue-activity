@@ -96,12 +96,17 @@ instance.interceptors.response.use(
       store.commit('setToken', token)
     }
     if (res.status === 200) {
-      if (res.data.message === 'The token has been blacklisted') {
+      if (res.data.message === 'The token has been blacklisted' ||
+      res.data.message === 'token could not be parsed from the request.') {
         tip('身份信息已过期')
         store.commit('setToken', null)
-        setTimeout(() => {
-          toLogin()
-        }, 1500)
+        try {
+            setTimeout(() => {
+                toLogin()
+            }, 1500)
+        } catch (e) {
+            tip(e)
+        }
       } else {
         return Promise.resolve(res.data)
       }
