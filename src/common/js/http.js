@@ -60,7 +60,7 @@ const errorHandle = (status, other) => {
 
 // 创建axios实例
 var instance = axios.create({
-  baseURL: 'http://merchants.lzdu.com/api',
+  baseURL: 'https://merchants.lzdu.com/api',
   timeout: 1000 * 12, 
   withCredentials: true 
 })
