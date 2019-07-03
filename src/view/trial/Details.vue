@@ -57,10 +57,11 @@
     <detail-footer :label="footerData.label"
                    :endTime="footerData.endTime"
                    :routerPath="footerData.routerPath"
-                   v-if="applyStatus < 0"></detail-footer>
+                   v-if="status === 1"></detail-footer>
     <!-- 我的申请状态 -->
     <apply-status :applyStatus="applyStatus"
-                  v-else></apply-status>
+                  :status="status"
+                  v-if="status === 2"></apply-status>
   </section>
 </template>
 
@@ -96,7 +97,8 @@ export default {
       ], // 详情
       footerData: {},
       applyStatus: -1, // 我的申请状态
-      id: this.$route.query.id // 试用品id
+      id: this.$route.query.id, // 试用品id
+      status: 0 // 试用状态  1进行中 2已结束
     }
   },
 
@@ -138,6 +140,9 @@ export default {
 
       // 申请状态
       this.applyStatus = (data.apply_status === undefined) ? -1 : data.apply_status
+
+      // 试用状态
+      this.status = data.status
 
       // 底部信息
       this.footerData = {

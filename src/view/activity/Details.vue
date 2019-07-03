@@ -58,14 +58,15 @@
         </template>
       </common-tabs>
     </div>
-    <!-- 我的申请状态 -->
-    <apply-status :applyStatus="applyStatus"
-                  v-if="applyStatus > -1"></apply-status>
     <!-- 报名条 -->
     <detail-footer :label="footerData.label"
                    :endTime="footerData.endTime"
                    :routerPath="footerData.routerPath"
-                   v-else></detail-footer>
+                   v-if="activityStatus === 1"></detail-footer>
+    <!-- 我的申请状态 -->
+    <apply-status :applyStatus="applyStatus"
+                  :activityStatus="activityStatus"
+                  v-if="activityStatus === 2"></apply-status>
   </section>
 </template>
 
@@ -107,12 +108,9 @@ export default {
           reports: []
         }
       ], // 详情
-      footerData: {
-        endTime: '',
-        label: '报名',
-        routerPath: '/activityApply'
-      },
+      footerData: {}, // 报名条
       applyStatus: -1, // 我的申请状态
+      activityStatus: 0, // 活动进行状态 // 1进行中、2已结束
       id: this.$route.query.id, // 活动id
     }
   },
@@ -159,6 +157,9 @@ export default {
 
       // 申请状态
       this.applyStatus = (data.apply_status === undefined) ? -1 : data.apply_status
+
+      // 活动进行状态
+      this.activityStatus = data.activity_apply_status
 
       // 底部信息
       this.footerData = {
@@ -223,14 +224,13 @@ export default {
         link: window.location.href, // 分享链接
         imgUrl: this.details.imgSrc, // 分享图标, ，需要绝对路径
         success: () => {
-          this.$toast('分享成功!')
-          // this.$api.common.share({
-          //   type: 1,
-          //   type_id: this.details.id
-          // }).then(res => {
-          //   console.log(res)
-          //   this.$toast('分享成功!')
-          // })
+          this.$api.common.share({
+            type: 1,
+            type_id: this.details.id
+          }).then(res => {
+            console.log(res)
+            this.$toast('分享成功!')
+          })
         },
         error: () => {
           this.$toast('分享失败')
