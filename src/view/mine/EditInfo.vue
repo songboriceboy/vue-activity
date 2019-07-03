@@ -71,11 +71,13 @@ export default {
 
     // 提交数据
     updateData () {
+      let params = {
+        avatar: this.userInfo.avatar,
+        user_name: this.userInfo.name
+      }
+      console.log(params)
       this.$api.mine
-        .patchInfo({
-          avatar: this.userInfo.avatar,
-          user_name: this.userInfo.name
-        })
+        .patchInfo(params)
         .then(res => {
           if (res && res.errorCode === 0) {
             this.$toast('修改成功')

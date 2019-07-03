@@ -267,7 +267,7 @@ const common = {
    * @param {*} params { images [] }
    */
   upload(params) {
-    return axios.post(`/upload`, qs.stringify(params), {
+    return axios.post(`/upload`, params, {
       headers: { 'Content-Type': 'multipart/form-data' }
     })
   },
