@@ -92,7 +92,7 @@ export default {
             usersPic: (item.signs.length < 6) ? item.signs : item.signs.slice(0, 5), // 前五个用户头像
             picLen: item.signs.length, // 报名人数
             endTime: item.apply_end, // 截止时间
-            hasTime: item.status === 1 ? true : false, // 是否还有时间
+            applyStatus: item.apply_status, // 申请状态：0 申请失败，1 申请中，2 申请成功
             imgSrc: item.front_cover // 封面图片
           })
         }

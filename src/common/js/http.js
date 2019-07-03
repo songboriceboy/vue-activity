@@ -80,8 +80,19 @@ instance.interceptors.request.use(
     // 而后我们可以在响应拦截器中，根据状态码进行一些统一的操作。
     // const token = store.state.token
     const token =
-      'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvbWVyY2hhbnRzLmx6ZHUuY29tXC9hcGlcL2xvZ2luIiwiaWF0IjoxNTYyMTUzNzY0LCJleHAiOjE1NjIxNjA5NjQsIm5iZiI6MTU2MjE1Mzc2NCwianRpIjoiN1VNaDVEUUtNdHRNQTRSNiIsInN1YiI6MiwicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyJ9.cN1uDk4NqvexFAPNOALazAzTSpyDBhNm8YdX47qp2E0'
+      'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvbWVyY2hhbnRzLmx6ZHUuY29tXC9hcGlcL2xvZ2luIiwiaWF0IjoxNTYyMTYxMDgzLCJleHAiOjE1NjIxNjgyODMsIm5iZiI6MTU2MjE2MTA4MywianRpIjoiSWhiakZPaHlxOVBSR1JVSCIsInN1YiI6MiwicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyJ9.T3ynSupDoT9rL4wBpFyF8WE2esp40D3MYzT9AINlORg'
     token && (config.headers.Authorization = token)
+    store.commit('setToken', token)
+    store.commit(
+      'setUserInfo',
+      JSON.stringify({
+        name: '种子的信仰之八月',
+        sex: 1,
+        avatar:
+          'http://food.resource.lzdu.com/apply/ThPbr5rWIGN4nmK2OP4686vG0VnNoOKEfP5HPtUz.png',
+        openid: 'oT9bx04CfaPT5d4FdjXRy0oUbrjo'
+      })
+    )
     return config
   },
   error => Promise.error(error)

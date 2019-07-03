@@ -172,22 +172,22 @@ export default {
 
     // wxShareTimeline 微信自定义分享到朋友圈
     wxShareTimeline () {
+      let that = this
       let opstion = {
         title: this.details.title, // 分享标题
         link: window.location.href, // 分享链接
         imgUrl: this.details.imgSrc, // 分享图标
         success: function () {
-          this.$toast('分享成功!')
-          // this.$api.common.share({
-          //   type: 2,
-          //   type_id: this.details.id
-          // }).then(res => {
-          //   console.log(res)
-          //   this.$toast('分享成功!')
-          // })
+          that.$api.common.share({
+            type: 2,
+            type_id: that.details.id
+          }).then(res => {
+            console.log(res)
+            that.$toast('分享成功!')
+          })
         },
         error: function () {
-          this.$toast('分享失败')
+          that.$toast('分享失败')
         }
       }
       // 将配置注入通用方法
@@ -202,14 +202,13 @@ export default {
         link: window.location.href, // 分享链接
         imgUrl: this.details.imgSrc, // 分享图标, ，需要绝对路径
         success: () => {
-          this.$toast('分享成功!')
-          // this.$api.common.share({
-          //   type: 2,
-          //   type_id: this.details.id
-          // }).then(res => {
-          //   console.log(res)
-          //   this.$toast('分享成功!')
-          // })
+          this.$api.common.share({
+            type: 2,
+            type_id: this.details.id
+          }).then(res => {
+            console.log(res)
+            this.$toast('分享成功!')
+          })
         },
         error: () => {
           this.$toast('分享失败')
