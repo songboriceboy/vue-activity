@@ -26,7 +26,8 @@ export default {
     return {
       title: '掌上生活',
       name: '深圳招商银行',
-      imgSrc: './logo.png'
+      imgSrc: './logo.png',
+      afterLoginGo: '' // 登录前访问的地址
     }
   },
   mounted () {
@@ -35,20 +36,18 @@ export default {
   methods: {
     // init
     init () {
+      this.afterLoginGo = localStorage.getItem('after_login_go')
       let token = this.$store.state.token || localStorage.getItem('token')
       if (token) {
-        let path = '/checkin'
-        let afterLoginGo = localStorage.getItem('after_login_go')
-        if (afterLoginGo) {
-          path = afterLoginGo
-        }
+        let path = this.afterLoginGo || '/checkin'
         this.$router.push({ path: path })
       }
     },
 
     // 允许授权登录
     onLogin () {
-      let url = 'http://mh5.lzdu.com/checkin'
+      let path = this.afterLoginGo || '/checkin'
+      let url = 'http://mh5.lzdu.com' + path
       location.href = 'http://merchants.lzdu.com/api/oauth?back_url=' + encodeURIComponent(url)
     }
   }

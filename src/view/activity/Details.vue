@@ -199,7 +199,6 @@ export default {
         link: window.location.href, // 分享链接
         imgUrl: this.details.imgSrc, // 分享图标
         success: function () {
-          this.$toast('分享成功!')
           this.$api.common.share({
             type: 1,
             type_id: this.details.id
@@ -209,7 +208,7 @@ export default {
           })
         },
         error: function () {
-          this.$toast('分享失败')
+          this.$toast('已取消分享')
         }
       }
       // 将配置注入通用方法
@@ -233,7 +232,7 @@ export default {
           })
         },
         error: () => {
-          this.$toast('分享失败')
+          this.$toast('已取消分享')
         }
       }
       // 将配置注入通用方法

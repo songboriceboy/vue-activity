@@ -8,11 +8,13 @@
                  input-align="right"
                  placeholder="请填写收件人" />
       <van-field v-model="infos.phone"
-                 type="number"
+                 ref="phone"
+                 type="text"
                  maxlength="13"
                  input-align="right"
                  label="联系电话"
-                 placeholder="请填写联系电话" />
+                 placeholder="请填写联系电话"
+                 @blur="telNumValidate" />
       <van-field readonly
                  input-align="right"
                  clickable
@@ -154,6 +156,10 @@ export default {
         return false
       }
 
+      if (!this.telNumValidate()) {
+        return false
+      }
+
       if (!this.infos.areas) {
         this.$toast('请选择所在地区!')
         return false
@@ -161,6 +167,16 @@ export default {
 
       if (!this.infos.address) {
         this.$toast('请填写详细地址!')
+        return false
+      }
+      return true
+    },
+
+    // 电话号码校验
+    telNumValidate () {
+      if (!this.$methods.telNumValidate(this.infos.phone)) {
+        this.$toast('电话号码格式不正确')
+        this.$refs.phone.focus()
         return false
       }
       return true

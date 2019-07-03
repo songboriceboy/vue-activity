@@ -62,11 +62,11 @@ export default {
 
     // 跳转到申请页
     redirectTo () {
-      if (this.limited) {
-        this.$toast('报名人数已达到上限, 请关注其他活动')
-      } else {
-        this.$router.push(this.routerPath)
-      }
+      // if (this.limited) {
+      //   this.$toast('报名人数已达到上限, 请关注其他活动')
+      // } else {
+      // }
+      this.$router.push(this.routerPath)
     }
   }
 }

@@ -8,11 +8,13 @@
                  input-align="right"
                  placeholder="请填写姓名" />
       <van-field v-model="phone"
-                 type="number"
+                 ref="phone"
+                 type="text"
                  maxlength="13"
                  input-align="right"
                  label="联系电话:"
-                 placeholder="请填写电话号码" />
+                 placeholder="请填写电话号码"
+                 @blur="telNumValidate" />
       <div class="details-form-row-label">反馈内容:</div>
       <van-field v-model="content"
                  maxlength="100"
@@ -71,6 +73,7 @@ export default {
             this.username = ''
             this.phone = ''
             this.content = ''
+            this.len = 0
           } else {
             this.$toast(res.message)
           }
@@ -101,6 +104,10 @@ export default {
         return false
       }
 
+      if (!this.telNumValidate()) {
+        return false
+      }
+
       if (!this.content) {
         this.$toast('请填写反馈内容!')
         return false
@@ -116,6 +123,16 @@ export default {
     // 输入计算长度
     inputCountLen (val) {
       this.len = val.length
+    },
+
+    // 电话号码校验
+    telNumValidate () {
+      if (!this.$methods.telNumValidate(this.phone)) {
+        this.$toast('电话号码格式不正确')
+        this.$refs.phone.focus()
+        return false
+      }
+      return true
     }
   }
 }

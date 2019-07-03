@@ -187,7 +187,7 @@ export default {
           })
         },
         error: function () {
-          that.$toast('分享失败')
+          that.$toast('已取消分享')
         }
       }
       // 将配置注入通用方法
@@ -211,7 +211,7 @@ export default {
           })
         },
         error: () => {
-          this.$toast('分享失败')
+          this.$toast('已取消分享')
         }
       }
       // 将配置注入通用方法

@@ -80,7 +80,7 @@ instance.interceptors.request.use(
     // 而后我们可以在响应拦截器中，根据状态码进行一些统一的操作。
     // const token = store.state.token
     const token =
-      'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvbWVyY2hhbnRzLmx6ZHUuY29tXC9hcGlcL2xvZ2luIiwiaWF0IjoxNTYyMTYxMDgzLCJleHAiOjE1NjIxNjgyODMsIm5iZiI6MTU2MjE2MTA4MywianRpIjoiSWhiakZPaHlxOVBSR1JVSCIsInN1YiI6MiwicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyJ9.T3ynSupDoT9rL4wBpFyF8WE2esp40D3MYzT9AINlORg'
+      'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvbWVyY2hhbnRzLmx6ZHUuY29tXC9hcGlcL2xvZ2luIiwiaWF0IjoxNTYyMTY4NDgxLCJleHAiOjE1NjIxNzU2ODEsIm5iZiI6MTU2MjE2ODQ4MSwianRpIjoiRUZudWVyUEoyaDllbHFEOCIsInN1YiI6MiwicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyJ9.Yahh7cVWjHZOKpJLDxinlhmT26qrR3OBrTs5zoaYpfY'
     token && (config.headers.Authorization = token)
     store.commit('setToken', token)
     store.commit(

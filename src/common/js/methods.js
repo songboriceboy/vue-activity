@@ -44,5 +44,18 @@ export default {
     } else {
       return `0${number}`
     }
+  },
+
+  /**
+   * 电话号码格式校验 支持 手机 和 座机电话
+   * @param {*} str 电话号码
+   */
+  telNumValidate(str) {
+    let reg = new RegExp(/^\d{3,4}-\d{7,8}$|^[1][3,4,5,6,7,8,9][0-9]{9}$/)
+    if (str && !reg.test(str)) {
+      return false
+    }
+
+    return true
   }
 }
