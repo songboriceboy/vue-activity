@@ -44,7 +44,7 @@ const errorHandle = (status, other) => {
     // 清除token并跳转登录页
     case 403:
       tip('授权登录失效，请重新授权登录')
-      store.commit('setToken', null)
+      store.commit('setToken', '')
       setTimeout(() => {
         toLogin()
       }, 1000)
@@ -61,8 +61,8 @@ const errorHandle = (status, other) => {
 // 创建axios实例
 var instance = axios.create({
   baseURL: 'https://merchants.lzdu.com/api',
-  timeout: 1000 * 12, 
-  withCredentials: true 
+  timeout: 1000 * 12,
+  withCredentials: true
 })
 // 设置post请求头
 instance.defaults.headers.post['Content-Type'] =
@@ -78,7 +78,9 @@ instance.interceptors.request.use(
     // 但是即使token存在，也有可能token是过期的，所以在每次的请求头中携带token
     // 后台根据携带的token判断用户的登录情况，并返回给我们对应的状态码
     // 而后我们可以在响应拦截器中，根据状态码进行一些统一的操作。
-    const token = store.state.token
+    // const token = store.state.token
+    const token =
+      'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvbWVyY2hhbnRzLmx6ZHUuY29tXC9hcGlcL2xvZ2luIiwiaWF0IjoxNTYyMTUzNzY0LCJleHAiOjE1NjIxNjA5NjQsIm5iZiI6MTU2MjE1Mzc2NCwianRpIjoiN1VNaDVEUUtNdHRNQTRSNiIsInN1YiI6MiwicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyJ9.cN1uDk4NqvexFAPNOALazAzTSpyDBhNm8YdX47qp2E0'
     token && (config.headers.Authorization = token)
     return config
   },
@@ -96,16 +98,18 @@ instance.interceptors.response.use(
       store.commit('setToken', token)
     }
     if (res.status === 200) {
-      if (res.data.message === 'The token has been blacklisted' ||
-      res.data.message === 'token could not be parsed from the request.') {
+      let message = res.data.message
+      let blacklisted = 'The token has been blacklisted'
+      let notBeParesed = 'Token could not be parsed from the request.'
+      if (message === blacklisted || message === notBeParesed) {
         tip('身份信息已过期')
-        store.commit('setToken', null)
+        store.commit('setToken', '')
         try {
-            setTimeout(() => {
-                toLogin()
-            }, 1500)
+          setTimeout(() => {
+            toLogin()
+          }, 1500)
         } catch (e) {
-            tip(e)
+          tip(e)
         }
       } else {
         return Promise.resolve(res.data)
@@ -129,7 +133,7 @@ instance.interceptors.response.use(
  * 获取 token 和用户信息
  */
 const postTokenInfo = (code, next) => {
-  instance.post('/login', qs.stringify({code})).then(res => {
+  instance.post('/login', qs.stringify({ code })).then(res => {
     if (res.errorCode === 0) {
       // 设置 vuex 状态值
       let token = res.data.token.accessToken
@@ -161,7 +165,8 @@ router.beforeEach((to, from, next) => {
       postTokenInfo(code, next)
     }
   } else {
-    if (to.meta.requireAuth) {
+    // if (to.meta.requireAuth) {
+    if (0 && to.meta.requireAuth) {
       // 判断该路由是否需要登录权限
       if (localStorage.getItem('token')) {
         next()

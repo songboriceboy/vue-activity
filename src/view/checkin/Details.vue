@@ -168,7 +168,7 @@ export default {
         .then(res => {
           if (res && res.errorCode === 0) {
             this.showMessage('提交成功', '提交成功,您的奖品将会在近期寄出。')
-          } else if (res.errorCode === 1) {
+          } else if (res && res.errorCode === 1) {
             this.$toast(res.message)
           }
         })

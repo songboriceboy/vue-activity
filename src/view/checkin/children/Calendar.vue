@@ -275,7 +275,7 @@ export default {
       }
       this.$api.checkin.getWinRecord(params)
         .then(res => {
-          if (res && res.errorCode !== 0) {
+          if (res.errorCode && res.errorCode !== 0) {
             this.$toast(res.message)
             return false
           }
@@ -291,8 +291,8 @@ export default {
           } else {
             this.recordInfo = {
               hasPrize: false,
-              infoImg: '',
-              prizeName: '',
+              infoImg: res.prize_img,
+              prizeName: res.prize_name,
               buttonText: '返回首页'
             }
           }

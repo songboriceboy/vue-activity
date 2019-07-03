@@ -162,6 +162,7 @@ export default {
     // wxRegCallback 用于微信JS-SDK回调
     wxRegCallback () {
       this.wxShareTimeline()
+      this.wxShareAppMessage()
     },
 
     // wxShareTimeline 微信自定义分享到朋友圈
@@ -171,13 +172,14 @@ export default {
         link: window.location.href, // 分享链接
         imgUrl: this.details.imgSrc, // 分享图标
         success: function () {
-          this.$api.common.share({
-            type: 2,
-            type_id: this.details.id
-          }).then(res => {
-            console.log(res)
-            this.$toast('分享成功!')
-          })
+          this.$toast('分享成功!')
+          // this.$api.common.share({
+          //   type: 2,
+          //   type_id: this.details.id
+          // }).then(res => {
+          //   console.log(res)
+          //   this.$toast('分享成功!')
+          // })
         },
         error: function () {
           this.$toast('分享失败')
@@ -195,13 +197,14 @@ export default {
         link: window.location.href, // 分享链接
         imgUrl: this.details.imgSrc, // 分享图标, ，需要绝对路径
         success: () => {
-          this.$api.common.share({
-            type: 2,
-            type_id: this.details.id
-          }).then(res => {
-            console.log(res)
-            this.$toast('分享成功!')
-          })
+          this.$toast('分享成功!')
+          // this.$api.common.share({
+          //   type: 2,
+          //   type_id: this.details.id
+          // }).then(res => {
+          //   console.log(res)
+          //   this.$toast('分享成功!')
+          // })
         },
         error: () => {
           this.$toast('分享失败')

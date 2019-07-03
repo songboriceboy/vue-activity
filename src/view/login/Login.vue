@@ -37,7 +37,7 @@ export default {
     init () {
       let token = this.$store.state.token || localStorage.getItem('token')
       if (token) {
-        let path = '/checkin?active=0'
+        let path = '/checkin'
         let afterLoginGo = localStorage.getItem('after_login_go')
         if (afterLoginGo) {
           path = afterLoginGo
@@ -48,7 +48,7 @@ export default {
 
     // 允许授权登录
     onLogin () {
-      let url = 'http://mh5.lzdu.com/checkin?active=0'
+      let url = 'http://mh5.lzdu.com/checkin'
       location.href = 'http://merchants.lzdu.com/api/oauth?back_url=' + encodeURIComponent(url)
     }
   }

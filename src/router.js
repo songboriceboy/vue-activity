@@ -201,10 +201,8 @@ export default new Router({
       redirect: '/login',
       meta: {
         title: '授权登录',
-        requireAuth: true
+        requireAuth: false
       }
     }
   ]
-  // mode: 'history',
-  // base: '/'
 })

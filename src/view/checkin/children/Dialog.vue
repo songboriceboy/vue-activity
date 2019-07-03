@@ -79,7 +79,7 @@ export default {
       if (this.info.hasPrize) {
         this.$router.push({ path: '/lotteryDetails', query: { edit: isEdit, date: this.info.date, prizeName: this.info.prizeName, prizeImg: this.info.infoImg } })
       } else {
-        this.$router.push({ path: '/checkin?active=0' })
+        this.$router.push({ path: '/checkin' })
       }
 
     }
