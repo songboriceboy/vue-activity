@@ -164,7 +164,8 @@ export default {
       this.footerData = {
         endTime: data.activity_apply_end,
         label: '报名',
-        routerPath: '/activityApply?id=' + data.id
+        routerPath: '/activityApply?id=' + data.id,
+        limited: data.signs.length > data.limit ? true : false
       }
 
       // 活动介绍, 商户介绍, 体验报告

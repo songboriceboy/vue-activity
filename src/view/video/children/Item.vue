@@ -60,6 +60,7 @@ export default {
     .label {
       width: 96px;
       height: 40px;
+      line-height: 40px;
       text-align: center;
       background: linear-gradient(
         180deg,
@@ -71,6 +72,9 @@ export default {
       font-family: PingFangSC-Regular;
       font-weight: 400;
       color: rgba(255, 255, 255, 1);
+      position: absolute;
+      right: 3px;
+      top: 0;
     }
   }
 }

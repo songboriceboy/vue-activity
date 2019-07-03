@@ -43,13 +43,13 @@ export default {
           path: '/mine'
         }
       ], // 列表
-      active: this.$route.params.active || 0
+      active: this.$route.query.active || 0
     }
   },
 
   watch: {
     '$route': function () {
-      this.active = this.$route.params.active || 0
+      this.active = this.$route.query.active || 0
     }
   },
 
@@ -57,7 +57,7 @@ export default {
     // 跳转页面
     jump (index) {
       const path = this.navList[index].path
-      this.$router.push({ path: path, params: { active: index } })
+      this.$router.push({ path: path, query: { active: index } })
     }
   }
 }
