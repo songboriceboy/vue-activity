@@ -7,7 +7,8 @@
       <div class="content">
         <h1>{{ details.title }}</h1>
         <div class="apply-box">
-          <span class="apply">已报名：{{ details.applyed }}/{{ details.total }}人</span>
+          <!-- <span class="apply">已报名：{{ details.applyed }}/{{ details.total }}人</span> -->
+          <span class="apply">报名上限人数：{{ details.total }}人</span>
           <span class="share">
             <share-btn></share-btn>
           </span>
