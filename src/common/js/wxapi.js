@@ -55,6 +55,7 @@ const wxApi = {
    * @param {[type]} error   [失败回调]
    */
   ShareTimeline(opstion) {
+    console.log('opstion', opstion)
     wx.onMenuShareTimeline({
       title: opstion.title, // 分享标题
       link: opstion.link, // 分享链接
@@ -76,6 +77,7 @@ const wxApi = {
    * @param {[type]} error   [失败回调]
    */
   ShareAppMessage(option) {
+    console.log('option', option)
     wx.onMenuShareAppMessage({
       title: option.title, // 分享标题
       // desc: option.desc, // 分享描述

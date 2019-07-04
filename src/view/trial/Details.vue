@@ -79,9 +79,6 @@ import wxapi from '@/common/js/wxapi.js'
 export default {
   name: 'trialDetail',
   components: { commonTabs, detailFooter, emptyBox, usersPic, commentLi, applyStatus, shareBtn },
-  mounted () {
-    wxapi.wxRegister(this.wxRegCallback)
-  },
   data () {
     return {
       details: {}, // 简介内容
@@ -162,6 +159,9 @@ export default {
           reports: data.reports
         }
       ]
+
+      // 初始化分享内容
+      wxapi.wxRegister(this.wxRegCallback)
     },
 
     // wxRegCallback 用于微信JS-SDK回调
@@ -178,7 +178,6 @@ export default {
         link: window.location.href, // 分享链接
         imgUrl: this.details.imgSrc, // 分享图标
         success: function () {
-          console.log('分享')
           that.$api.common.share({
             type: 2,
             type_id: that.details.id
@@ -197,22 +196,23 @@ export default {
 
     // 微信自定义分享给朋友
     wxShareAppMessage () {
+      let that = this
       let option = {
         title: this.details.title, // 分享标题, 
         // desc: '', // 分享描述, 
         link: window.location.href, // 分享链接
         imgUrl: this.details.imgSrc, // 分享图标, ，需要绝对路径
         success: () => {
-          this.$api.common.share({
+          that.$api.common.share({
             type: 2,
-            type_id: this.details.id
+            type_id: that.details.id
           }).then(res => {
             console.log(res)
-            this.$toast('分享成功!')
+            that.$toast('分享成功!')
           })
         },
         error: () => {
-          this.$toast('已取消分享')
+          that.$toast('已取消分享')
         }
       }
       // 将配置注入通用方法

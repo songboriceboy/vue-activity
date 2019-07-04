@@ -101,7 +101,7 @@ export default {
               let time = this.dateFormatter(item.check_in_time)
               if (date === time) {
                 // 该天已连续签到七天, 并且为待抽奖状态, 则可以抽奖一次
-                this.lotteryTicket = (item.check_in_times === 3 && item.status === 1) ? 1 : 0
+                this.lotteryTicket = (item.check_in_times === 7 && item.status === 1) ? 1 : 0
               }
             }
           }
