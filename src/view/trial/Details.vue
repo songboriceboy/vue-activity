@@ -178,6 +178,7 @@ export default {
         link: window.location.href, // 分享链接
         imgUrl: this.details.imgSrc, // 分享图标
         success: function () {
+          console.log('分享')
           that.$api.common.share({
             type: 2,
             type_id: that.details.id

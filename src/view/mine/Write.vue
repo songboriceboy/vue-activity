@@ -46,7 +46,9 @@
     <!-- 弹框 -->
     <message-box :show="this.$store.state.messageShow"
                  :title="messageTitle"
-                 :content="messageContent"></message-box>
+                 :content="messageContent"
+                 :path="messagePath"
+                 :query="messageQuery"></message-box>
   </div>
 </template>
 
@@ -66,7 +68,9 @@ export default {
       imgList: [], // 图片预览列表
       imgs: [], // 图片上传地址列表
       messageTitle: '', // 弹框提示
-      messageContent: '' // 提示内容
+      messageContent: '', // 提示内容
+      messagePath: '', // 跳转地址
+      messageQuery: '', // 参数
     }
   },
 
@@ -93,17 +97,18 @@ export default {
       this.$api.mine.postReport(params)
         .then(res => {
           if (res && res.errorCode === 0) {
-            this.showMessage('提交成功', '您的体验报告已提交成功!')
-            this.$router.push({ path: '/CommentDetails', query: { type: this.type, id: res.id } })
+            this.showMessage('提交成功', '您的体验报告已提交成功!', '/CommentDetails', { type: this.type, id: res.id })
           }
         })
     },
 
     // 显示提示
-    showMessage (title, content) {
+    showMessage (title, content, path, query) {
       this.$store.commit('setMessageShow', true)
       this.messageTitle = title
       this.messageContent = content
+      this.messagePath = path
+      this.messageQuery = query
     },
 
     // 读取文件之后
