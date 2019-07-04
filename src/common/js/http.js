@@ -151,7 +151,7 @@ instance.interceptors.response.use(
  */
 const postTokenInfo = (code, next) => {
   instance.post('/login', qs.stringify({ code })).then(res => {
-    const code = res.errorCode
+    const code = res.errorCode ? res.errorCode : ''
     if (code === 0) {
       // 设置 vuex 状态值
       let token = res.data.token.accessToken
