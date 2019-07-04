@@ -146,7 +146,7 @@ export default {
 
       // 底部信息
       this.footerData = {
-        endTime: data.apply_end, // 截止时间
+        endTime: data.apply_end.replace(/-/g, '/'), // 截止时间
         label: '申请试用', // 按钮文字
         routerPath: '/trialApply?id=' + data.id // 跳转地址
       }

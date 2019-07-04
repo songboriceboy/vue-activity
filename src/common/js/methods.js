@@ -9,7 +9,6 @@ export default {
       self.over = true
       return false
     }
-
     // 截止时间
     const endTime = new Date(self.endTime)
 

@@ -163,7 +163,7 @@ export default {
 
       // 底部信息
       this.footerData = {
-        endTime: data.activity_apply_end,
+        endTime: data.activity_apply_end.replace(/-/g, '/'),
         label: '报名',
         routerPath: '/activityApply?id=' + data.id,
         limited: data.signs.length > data.limit ? true : false

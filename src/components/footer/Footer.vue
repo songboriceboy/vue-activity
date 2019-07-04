@@ -45,6 +45,7 @@ export default {
     return {
       over: false, // 是否已结束
       leftTime: ['00', '00', '00', '00'], // 剩余时间数组 天时分秒
+      timer: null // 定时器
     }
   },
   mounted () {
@@ -52,9 +53,9 @@ export default {
   },
   methods: {
     init () {
-      let timer = setInterval(() => {
+      this.timer = setInterval(() => {
         if (this.over) {
-          clearInterval(timer)
+          clearInterval(this.timer)
         }
         this.leftTime = this.$methods.countDown(this)
       }, 1000)
@@ -67,6 +68,13 @@ export default {
       // } else {
       // }
       this.$router.push(this.routerPath)
+    }
+  },
+
+  beforeDestroy () {
+    // 离开页面清除定时器
+    if (this.timer) {
+      clearInterval(this.timer)
     }
   }
 }
