@@ -22,7 +22,8 @@
       <h2>{{ title }}</h2>
       <p>{{ details.content | contentFormatter }}</p>
     </div>
-    <img-flex :imgs="images"></img-flex>
+    <img-flex :imgs="images"
+              v-if="images && images.length > 0"></img-flex>
   </div>
 </template>
 
@@ -43,7 +44,7 @@ export default {
   },
   computed: {
     images () {
-      return this.details.images.slice(0, 3)
+      return this.details.images && this.details.images.slice(0, 3)
     }
   },
   methods: {
