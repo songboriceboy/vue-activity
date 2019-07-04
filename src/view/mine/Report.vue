@@ -37,7 +37,7 @@
                   <van-button type="default"
                               v-else
                               class="is-radius-button-red"
-                              @click="goWrite(data.id, data.name, data.frontCover, 2)">未填写</van-button>
+                              @click="goWrite(data.id, data.name, data.frontCover, 2, data.signId)">未填写</van-button>
                 </div>
               </div>
             </div>
@@ -65,7 +65,7 @@
                   <van-button type="default"
                               v-else
                               class="is-radius-button-red"
-                              @click="goWrite(data.id, data.name, data.frontCover, 1)">未填写</van-button>
+                              @click="goWrite(data.id, data.name, data.frontCover, 1, data.signId)">未填写</van-button>
                 </div>
               </div>
             </div>
@@ -163,6 +163,7 @@ export default {
             frontCover: item.front_cover, // 图片
             stock: item.stock, // 库存
             price: item.price, // 价格
+            signId: item.sign_id, // 报名的id
             applyEnd: item.apply_end, // 截止日期
             isWrite: item.is_write // 1 表示写了报告 0 表示未写
           })
@@ -177,6 +178,7 @@ export default {
             name: item.name,
             frontCover: item.front_cover,
             createdAt: item.created_at,
+            signId: item.sign_id, // 报名的id
             isWrite: item.is_write // 1 表示写了报告 0 表示未写
           })
         }
@@ -184,8 +186,8 @@ export default {
     },
 
     // 去填写
-    goWrite (id, title, img, type) {
-      this.$router.push({ path: 'write', query: { id: id, title: title, img: img, type: type } })
+    goWrite (id, title, img, type, signId) {
+      this.$router.push({ name: 'write', params: { id: id, title: title, img: img, type: type, signId: signId } })
     }
   }
 }

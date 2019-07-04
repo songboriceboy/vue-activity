@@ -75,9 +75,9 @@ export default {
   },
 
   created () {
-    this.title = this.$route.query.title
-    this.type = parseInt(this.$route.query.type)
-    this.imgSrc = this.$route.query.img
+    this.title = this.$route.params.title
+    this.type = parseInt(this.$route.params.type)
+    this.imgSrc = this.$route.params.img
   },
 
   methods: {
@@ -89,7 +89,8 @@ export default {
       }
       const params = {
         type: this.type,
-        type_id: this.$route.query.id,
+        type_id: this.$route.params.id,
+        sign_id: this.$route.params.signId,
         content: this.message,
         images: this.imgs
       }
@@ -98,6 +99,8 @@ export default {
         .then(res => {
           if (res && res.errorCode === 0) {
             this.showMessage('提交成功', '您的体验报告已提交成功!', '/CommentDetails', { type: this.type, id: res.id })
+          } else {
+            this.$toast(res.message)
           }
         })
     },

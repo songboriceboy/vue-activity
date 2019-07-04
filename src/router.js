@@ -182,6 +182,7 @@ export default new Router({
     },
     {
       path: '/write',
+      name: 'write',
       component: () => import('./view/mine/Write'),
       meta: {
         title: '填写',
