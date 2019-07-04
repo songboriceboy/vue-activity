@@ -24,9 +24,17 @@ const tip = msg => {
  * 跳转登录页
  */
 const toLogin = () => {
-  router.replace({
-    path: '/login'
-  })
+  store.commit('setToken', '')
+  store.commit('setUserInfo', '')
+  try {
+    setTimeout(() => {
+      router.replace({
+        path: '/login'
+      })
+    }, 1500)
+  } catch (e) {
+    tip(e)
+  }
 }
 
 /**
@@ -44,10 +52,7 @@ const errorHandle = (status, other) => {
     // 清除token并跳转登录页
     case 403:
       tip('授权登录失效，请重新授权登录')
-      store.commit('setToken', '')
-      setTimeout(() => {
-        toLogin()
-      }, 1000)
+      toLogin()
       break
     // 404请求不存在
     case 404:
@@ -80,7 +85,7 @@ instance.interceptors.request.use(
     // 而后我们可以在响应拦截器中，根据状态码进行一些统一的操作。
     // 测试
     // const token =
-    //   'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvbWVyY2hhbnRzLmx6ZHUuY29tXC9hcGlcL2xvZ2luIiwiaWF0IjoxNTYyMjUwNTExLCJleHAiOjE1NjIyNTc3MTEsIm5iZiI6MTU2MjI1MDUxMSwianRpIjoiZkt0N3RyWGxlbHJ2bE9jSiIsInN1YiI6MiwicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyJ9.3lydPbRCGHQ5CYDhumQPftTWY58kWLPbEO7FF67obu0'
+    //   'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvbWVyY2hhbnRzLmx6ZHUuY29tXC9hcGlcL2xvZ2luIiwiaWF0IjoxNTYyMjUyODQ2LCJleHAiOjE1NjIyNjAwNDYsIm5iZiI6MTU2MjI1Mjg0NiwianRpIjoiNlBkVnFoNU1yTmRsaGpRNiIsInN1YiI6MiwicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyJ9.ZRWRmO8WufztPVlxbtlxcbeyyFz1ES1BI-ctM0K0THY'
     // store.commit(
     //   'setUserInfo',
     //   JSON.stringify({
@@ -109,30 +114,20 @@ instance.interceptors.response.use(
       // 如果 header 中存在 token，那么就替换本地的 token
       store.commit('setToken', token)
     }
+    const code = res.data.errorCode
     if (res.status === 200) {
       let message = res.data.message
       let blacklisted = 'The token has been blacklisted'
       let notBeParesed = 'Token could not be parsed from the request.'
       if (message === blacklisted || message === notBeParesed) {
-        tip('身份信息已过期')
-        store.commit('setToken', '')
-        try {
-          setTimeout(() => {
-            toLogin()
-          }, 1500)
-        } catch (e) {
-          tip(e)
-        }
-      } else if (res.data.errorCode && res.data.errorCode === 2) {
+        tip('身份信息已过期, 请重新登录!')
+        toLogin()
+      } else if (code && code === 2) {
         tip('您的账号已被冻结!')
-        store.commit('setToken', '')
-        try {
-          setTimeout(() => {
-            toLogin()
-          }, 1500)
-        } catch (e) {
-          tip(e)
-        }
+        toLogin()
+      } else if (code && code === 401) {
+        tip('身份信息已过期, 请重新登录!')
+        toLogin()
       } else {
         return Promise.resolve(res.data)
       }
@@ -156,13 +151,18 @@ instance.interceptors.response.use(
  */
 const postTokenInfo = (code, next) => {
   instance.post('/login', qs.stringify({ code })).then(res => {
-    if (res.errorCode === 0) {
+    const code = res.errorCode
+    if (code === 0) {
       // 设置 vuex 状态值
       let token = res.data.token.accessToken
       let userInfo = res.data.user
       store.commit('setToken', token)
       store.commit('setUserInfo', JSON.stringify(userInfo))
       next()
+    } else if (code && code === 2) {
+      tip('您的账号已被冻结!')
+      store.commit('setToken', '')
+      store.commit('setUserInfo', '')
     } else {
       tip(res.message)
       next({
