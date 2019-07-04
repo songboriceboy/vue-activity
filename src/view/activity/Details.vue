@@ -204,12 +204,13 @@ export default {
             type: 1,
             type_id: that.details.id
           }).then(res => {
-            console.log(res)
-            that.$toast('分享成功!')
+            console.log(res, '分享成功')
+            // that.$toast('分享成功!')
           })
         },
         error: function () {
-          that.$toast('已取消分享')
+          console.log('已取消分享')
+          // that.$toast('已取消分享')
         }
       }
       // 将配置注入通用方法
@@ -229,12 +230,13 @@ export default {
             type: 1,
             type_id: that.details.id
           }).then(res => {
-            console.log(res)
-            that.$toast('分享成功!')
+            console.log(res, '分享成功')
+            // that.$toast('分享成功!')
           })
         },
         error: () => {
-          that.$toast('已取消分享')
+          console.log('已取消分享')
+          // that.$toast('已取消分享')
         }
       }
       // 将配置注入通用方法
