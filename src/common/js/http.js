@@ -80,7 +80,7 @@ instance.interceptors.request.use(
     // 而后我们可以在响应拦截器中，根据状态码进行一些统一的操作。
     // 测试
     // const token =
-    //   'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvbWVyY2hhbnRzLmx6ZHUuY29tXC9hcGlcL2xvZ2luIiwiaWF0IjoxNTYyMjQ3NTg5LCJleHAiOjE1NjIyNTQ3ODksIm5iZiI6MTU2MjI0NzU4OSwianRpIjoibld3NzRzR2N1WnFhbzhnaCIsInN1YiI6MiwicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyJ9.hd5wnQen-ctLASydujX4gm4fBvMhPqIBs_v81hgcKSQ'
+    //   'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvbWVyY2hhbnRzLmx6ZHUuY29tXC9hcGlcL2xvZ2luIiwiaWF0IjoxNTYyMjUwNTExLCJleHAiOjE1NjIyNTc3MTEsIm5iZiI6MTU2MjI1MDUxMSwianRpIjoiZkt0N3RyWGxlbHJ2bE9jSiIsInN1YiI6MiwicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyJ9.3lydPbRCGHQ5CYDhumQPftTWY58kWLPbEO7FF67obu0'
     // store.commit(
     //   'setUserInfo',
     //   JSON.stringify({
@@ -115,6 +115,16 @@ instance.interceptors.response.use(
       let notBeParesed = 'Token could not be parsed from the request.'
       if (message === blacklisted || message === notBeParesed) {
         tip('身份信息已过期')
+        store.commit('setToken', '')
+        try {
+          setTimeout(() => {
+            toLogin()
+          }, 1500)
+        } catch (e) {
+          tip(e)
+        }
+      } else if (res.data.errorCode && res.data.errorCode === 2) {
+        tip('您的账号已被冻结!')
         store.commit('setToken', '')
         try {
           setTimeout(() => {
