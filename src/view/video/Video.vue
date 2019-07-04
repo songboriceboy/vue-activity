@@ -51,7 +51,7 @@ export default {
         .then(res => {
 
           if (res.errorCode && res.errorCode !== 0) {
-            this.$toast('数据获取失败!')
+            this.$toast('未获取到数据!')
             this.isLoading = false
             this.loading = false
             this.finished = true
