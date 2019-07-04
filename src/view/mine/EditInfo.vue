@@ -75,7 +75,7 @@ export default {
         avatar: this.userInfo.avatar,
         user_name: this.userInfo.name
       }
-      console.log(params)
+
       this.$api.mine
         .patchInfo(params)
         .then(res => {
@@ -96,6 +96,11 @@ export default {
 
     // 将图片上传至服务器
     afterRead (file) {
+      this.$toast.loading({
+        mask: true,
+        message: '上传中...'
+      })
+
       // 图片预览
       this.oldAvatar = this.userInfo.avatar
       this.userInfo.avatar = file.content
