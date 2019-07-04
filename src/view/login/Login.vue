@@ -47,7 +47,8 @@ export default {
     // 允许授权登录
     onLogin () {
       let path = this.afterLoginGo || '/checkin'
-      let url = 'http://mh5.lzdu.com' + path
+      let origin = location.protocol + "//" + location.hostname + (location.port ? ':' + location.port : '')
+      let url = origin + path
       location.href = 'http://merchants.lzdu.com/api/oauth?back_url=' + encodeURIComponent(url)
     }
   }
