@@ -119,28 +119,31 @@ export default {
     rotateHandle () {
       if (!this.clickFlag) return
 
-      if (this.lotteryTicket <= 0) {
-        this.$toast('您的抽奖次数用完了哦!')
+      // if (this.lotteryTicket <= 0) {
+      //   this.$toast('您的抽奖次数用完了哦!')
+      //   return false
+      // }
+
+      let len = this.prizeList.length
+      if (len === 0) {
+        this.$toast('奖品不存在,无法抽奖!请联系管理员')
         return false
       }
 
-      const vm = this
-      this.getPrizeList(function () {
-        let len = vm.prizeList.length
-        if (len === 0) {
-          vm.$toast('奖品不存在,无法抽奖!请联系管理员')
-          return false
-        }
-        for (let i = 0; i < len; i++) {
-          if (vm.prizeList[i].selected === 1) {
-            vm.index = i
-            break
+      this.$api.checkin.winPrize()
+        .then(res => {
+          for (let i = 0; i < len; i++) {
+            if (this.prizeList[i].id === res.prize_id) {
+              this.index = i
+              break
+            }
           }
-        }
-        if (vm.index !== '') {
-          vm.rotating()
-        }
-      })
+          if (this.index !== '') {
+            this.rotating()
+          } else {
+            this.$toast('请稍后再试')
+          }
+        })
     },
 
     rotating () {
@@ -200,7 +203,7 @@ export default {
         }
         this.$api.checkin.postWinPrize(params)
           .then(res => {
-            if (res && res.errorCode !== 0) {
+            if (res.errorCode && res.errorCode !== 0) {
               this.$toast(res.message)
             }
           })
