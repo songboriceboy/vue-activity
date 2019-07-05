@@ -51,7 +51,7 @@
     <message-box :show="this.$store.state.messageShow"
                  :title="messageTitle"
                  :content="messageContent"
-                 :path="messagePath"></message-box>
+                 :back="back"></message-box>
   </div>
 </template>
 
@@ -77,7 +77,7 @@ export default {
       district: '', // 区
       messageTitle: '', // 弹框提示
       messageContent: '', // 提示内容
-      messagePath: '', // 点击确定之后的跳转地址
+      back: false, // 跳转回上一页
       id: this.$route.query.id // 试用品id
     }
   },
@@ -123,9 +123,9 @@ export default {
       this.$api.trial.postTryUse(data)
         .then(res => {
           if (res.errorCode === 0) {
-            this.showMessage('提交成功', '报名申请已提交成功，请耐心等待！')
+            this.showMessage('提交成功', '报名申请已提交成功，请耐心等待！', true)
           } else if (res.errorCode === 1) {
-            this.showMessage('提交失败', '已提交试用申请，不能重复申请！')
+            this.showMessage('提交失败', '已提交试用申请，不能重复申请！', true)
           } else {
             this.showMessage('提交失败', res.message)
           }
@@ -133,10 +133,11 @@ export default {
     },
 
     // 显示提示
-    showMessage (title, content) {
+    showMessage (title, content, back) {
       this.$store.commit('setMessageShow', true)
       this.messageTitle = title
       this.messageContent = content
+      this.back = back
     },
 
     // 提交校验
