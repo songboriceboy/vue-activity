@@ -134,42 +134,7 @@ export default {
           }
 
           // 数据处理
-          this.dataProcessing({
-            "try_use": {
-              "data": [ // 参与的试用
-                {
-                  "id": 1,
-                  "name": "试用品1",
-                  "front_cover": "123.jpg",
-                  "stock": 4, // 库存
-                  "price": "100.00",
-                  "apply_end": "2019-06-14",
-                  "is_write": 1 // 1 表示写了报告 0 表示未写
-                }
-              ],
-              "total": 1
-            },
-            "activity": {
-              "data": [ // 参与的活动
-                {
-                  "id": 2,
-                  "name": "招商羽毛球活动",
-                  "front_cover": "123.jpg",
-                  "created_at": "2019年06月14日",
-                  "is_write": 0
-                },
-                {
-                  "id": 1,
-                  "name": "招商踏青活动",
-                  "front_cover": "123.jpg",
-                  "created_at": "2019年06月12日",
-                  "is_write": 1
-                }
-              ],
-              "total": 2
-            }
-          }
-          )
+          this.dataProcessing(res)
           this.tryTotals = res.try_use.total
           this.activityTotals = res.activity.total
           this.page++
