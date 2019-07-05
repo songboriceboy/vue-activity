@@ -124,7 +124,7 @@ export default {
   methods: {
     // 加载详情
     init () {
-      this.shareUrl = window.document.location.protocol + '//' + window.document.location.host + this.$route.path + '?id=' + this.id
+      this.shareUrl = location.protocol + '//' + location.host + this.$route.path + '?id=' + this.id
       const from = this.$route.query.from // 来源, mine: 我的活动
       if (from === 'mine') {
         this.$api.mine
