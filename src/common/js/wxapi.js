@@ -3,6 +3,19 @@ import wx from 'weixin-js-sdk'
 import Axios from '@/common/js/http'
 const wxApi = {
   /**
+   * [isweixin 判断是否微信浏览器]
+   */
+  isweixin() {
+    const ua = window.navigator.userAgent.toLowerCase()
+    if (ua.match(/MicroMessenger/i) == 'micromessenger') {
+      return true
+    } else {
+      this.$router.push({ path: '/wxkj/isnotWechat' })
+      return false
+    }
+  },
+
+  /**
    * [wxRegister 微信Api初始化]
    * @param  {Function} callback [ready回调函数]
    */
