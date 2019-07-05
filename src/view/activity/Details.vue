@@ -113,6 +113,7 @@ export default {
       applyStatus: -1, // 我的申请状态
       activityStatus: 0, // 活动进行状态 // 1进行中、2已结束
       id: this.$route.query.id, // 活动id
+      shareUrl: '' // 要分享的url
     }
   },
 
@@ -123,6 +124,7 @@ export default {
   methods: {
     // 加载详情
     init () {
+      this.shareUrl = window.document.location.protocol + '//' + window.document.location.host + this.$route.path + '?id=' + this.id
       const from = this.$route.query.from // 来源, mine: 我的活动
       if (from === 'mine') {
         this.$api.mine
