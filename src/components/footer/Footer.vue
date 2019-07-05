@@ -17,7 +17,8 @@
                      v-if="over">已结束</van-tabbar-item>
     <van-tabbar-item class="footer-r"
                      v-else
-                     @click="redirectTo">
+                     replace
+                     :to="routerPath">
       {{ label }}
     </van-tabbar-item>
   </van-tabbar>
@@ -67,7 +68,7 @@ export default {
       //   this.$toast('报名人数已达到上限, 请关注其他活动')
       // } else {
       // }
-      this.$router.push(this.routerPath)
+      // this.$router.push(this.routerPath)
     }
   },
 

@@ -51,7 +51,7 @@ export default {
   methods: {
     // 申请试用
     goTrialDetail () {
-      this.$router.push({ path: './trialDetail', query: { id: this.itemData.id } })
+      this.$router.push({ path: '/trialDetail', query: { id: this.itemData.id } })
     }
   }
 };

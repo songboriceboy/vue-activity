@@ -199,7 +199,7 @@ export default {
       let that = this
       let opstion = {
         title: this.details.title, // 分享标题
-        link: window.location.href, // 分享链接
+        link: this.shareUrl, // 分享链接
         imgUrl: this.details.imgSrc, // 分享图标
         success: function () {
           that.$api.common.share({
@@ -225,7 +225,7 @@ export default {
       let option = {
         title: this.details.title, // 分享标题, 
         // desc: '', // 分享描述, 
-        link: window.location.href, // 分享链接
+        link: this.shareUrl, // 分享链接
         imgUrl: this.details.imgSrc, // 分享图标, ，需要绝对路径
         success: () => {
           that.$api.common.share({
