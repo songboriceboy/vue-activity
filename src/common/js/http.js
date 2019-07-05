@@ -85,7 +85,7 @@ instance.interceptors.request.use(
     // 而后我们可以在响应拦截器中，根据状态码进行一些统一的操作。
     // 测试
     // const token =
-    //   'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvbWVyY2hhbnRzLmx6ZHUuY29tXC9hcGlcL2xvZ2luIiwiaWF0IjoxNTYyMzMwMzY4LCJleHAiOjE1NjIzMzc1NjgsIm5iZiI6MTU2MjMzMDM2OCwianRpIjoieFZNdzVHTUI4RzhCZ0JUcyIsInN1YiI6MiwicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyJ9.EFrcWabBCPpCKpevaeUeiqPxttKD1sHKYAqUSOclySs'
+    //   'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvbWVyY2hhbnRzLmx6ZHUuY29tXC9hcGlcL2xvZ2luIiwiaWF0IjoxNTYyMjUyODQ2LCJleHAiOjE1NjIyNjAwNDYsIm5iZiI6MTU2MjI1Mjg0NiwianRpIjoiNlBkVnFoNU1yTmRsaGpRNiIsInN1YiI6MiwicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyJ9.ZRWRmO8WufztPVlxbtlxcbeyyFz1ES1BI-ctM0K0THY'
     // store.commit(
     //   'setUserInfo',
     //   JSON.stringify({
@@ -151,7 +151,7 @@ instance.interceptors.response.use(
  */
 const postTokenInfo = (code, next) => {
   instance.post('/login', qs.stringify({ code })).then(res => {
-    const code = res ? res.errorCode : ''
+    const code = res.errorCode ? res.errorCode : ''
     if (code === 0) {
       // 设置 vuex 状态值
       let token = res.data.token.accessToken

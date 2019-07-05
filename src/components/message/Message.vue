@@ -32,10 +32,7 @@ export default {
     }, // 确定之后的跳转地址
     query: {
       default: null
-    }, // 参数
-    back: {
-      default: false
-    } // 返回上一页
+    } // 参数
   },
   data () {
     return {
@@ -46,9 +43,7 @@ export default {
     // 关闭信息弹框
     handleClose () {
       this.$store.commit('setMessageShow', false)
-      if (this.back) {
-        this.$router.back()
-      } else if (this.path && !this.query) {
+      if (this.path && !this.query) {
         this.$router.push({ path: this.path })
       } else if (this.path && this.query) {
         this.$router.push({ path: this.path, query: this.query })

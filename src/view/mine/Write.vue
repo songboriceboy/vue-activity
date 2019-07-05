@@ -47,7 +47,8 @@
     <message-box :show="this.$store.state.messageShow"
                  :title="messageTitle"
                  :content="messageContent"
-                 :back="back"></message-box>
+                 :path="messagePath"
+                 :query="messageQuery"></message-box>
   </div>
 </template>
 
@@ -61,7 +62,6 @@ export default {
   data () {
     return {
       type: 0, // 类型 1：活动体验报告 2：试用体验报告
-      id: 0, // 活动/试用 id
       title: '',
       imgSrc: '',
       message: '', //内容
@@ -69,7 +69,8 @@ export default {
       imgs: [], // 图片上传地址列表
       messageTitle: '', // 弹框提示
       messageContent: '', // 提示内容
-      back: false // 跳转至上一页
+      messagePath: '', // 跳转地址
+      messageQuery: '', // 参数
     }
   },
 
@@ -77,7 +78,6 @@ export default {
     this.title = this.$route.params.title
     this.type = parseInt(this.$route.params.type)
     this.imgSrc = this.$route.params.img
-    this.id = this.$route.params.id
   },
 
   methods: {
@@ -89,7 +89,7 @@ export default {
       }
       const params = {
         type: this.type,
-        type_id: this.id,
+        type_id: this.$route.params.id,
         sign_id: this.$route.params.signId,
         content: this.message,
         images: this.imgs
@@ -98,11 +98,7 @@ export default {
       this.$api.mine.postReport(params)
         .then(res => {
           if (res && res.errorCode === 0) {
-            if (this.type === 1) {
-              this.showMessage('提交成功', '您的体验报告已提交成功!', true)
-            } else if (this.type === 2) {
-              this.showMessage('提交成功', '您的体验报告已提交成功!', true)
-            }
+            this.showMessage('提交成功', '您的体验报告已提交成功!', '/CommentDetails', { type: this.type, id: res.id })
           } else {
             this.$toast(res.message)
           }
@@ -110,11 +106,12 @@ export default {
     },
 
     // 显示提示
-    showMessage (title, content, back) {
+    showMessage (title, content, path, query) {
       this.$store.commit('setMessageShow', true)
       this.messageTitle = title
       this.messageContent = content
-      this.back = back
+      this.messagePath = path
+      this.messageQuery = query
     },
 
     // 读取文件之后

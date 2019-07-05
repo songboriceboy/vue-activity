@@ -102,7 +102,6 @@ export default {
             this.$toast('发布成功!')
             // 清空文本框
             this.message = ''
-            this.len = 0
             // 刷新页面
             this.$parent.init()
           } else {
