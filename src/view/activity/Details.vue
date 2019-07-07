@@ -140,7 +140,7 @@ export default {
         id: data.id, // 活动 id
         title: data.name, // 活动名称
         imgSrc: data.front_cover, // 封面图片
-        applyed: data.signs && data.signs.length, // 已经申请的人数
+        // applyed: data.signs && data.signs.length, // 已经申请的人数
         total: data.limit, // 上限报名人数
         address: data.address, // 活动地点
         time: data.activity_time // 活动的时间
@@ -157,7 +157,7 @@ export default {
         endTime: data.activity_apply_end.replace(/-/g, '/'),
         label: '报名',
         routerPath: '/activityApply?id=' + data.id,
-        limited: data.signs.length > data.limit ? true : false
+        // limited: data.signs.length > data.limit ? true : false
       }
 
       // 活动介绍, 商户介绍, 体验报告
