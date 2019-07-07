@@ -163,7 +163,8 @@ export default {
       ]
 
       // 初始化分享内容
-      wxapi.wxRegister(this.wxRegCallback)
+      // wxapi.wxRegister(this.wxRegCallback)
+      wxapi.wxShare(this.details.title)
     },
 
     // wxRegCallback 用于微信JS-SDK回调
