@@ -84,19 +84,19 @@ instance.interceptors.request.use(
     // 后台根据携带的token判断用户的登录情况，并返回给我们对应的状态码
     // 而后我们可以在响应拦截器中，根据状态码进行一些统一的操作。
     // 测试
-    const token =
-      'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvbWVyY2hhbnRzLmx6ZHUuY29tXC9hcGlcL2NoZWNrX2luIiwiaWF0IjoxNTYyNDgyODUzLCJleHAiOjE1NjI1MDAyMzYsIm5iZiI6MTU2MjQ5MzAzNiwianRpIjoiZUcyajlVdERhRkJUUkp3SiIsInN1YiI6MiwicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyJ9.tBOp663nn4BpfeBOLK_IJd2lapkbxdp-9OzYlKp7Dhg'
-    store.commit(
-      'setUserInfo',
-      JSON.stringify({
-        name: '种子的信仰之八月',
-        sex: 1,
-        avatar:
-          'http://food.resource.lzdu.com/apply/ThPbr5rWIGN4nmK2OP4686vG0VnNoOKEfP5HPtUz.png',
-        openid: 'oT9bx04CfaPT5d4FdjXRy0oUbrjo'
-      })
-    )
-    // const token = store.state.token
+    // const token =
+    //   'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvbWVyY2hhbnRzLmx6ZHUuY29tXC9hcGlcL2NoZWNrX2luIiwiaWF0IjoxNTYyNDgyODUzLCJleHAiOjE1NjI1MDAyMzYsIm5iZiI6MTU2MjQ5MzAzNiwianRpIjoiZUcyajlVdERhRkJUUkp3SiIsInN1YiI6MiwicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyJ9.tBOp663nn4BpfeBOLK_IJd2lapkbxdp-9OzYlKp7Dhg'
+    // store.commit(
+    //   'setUserInfo',
+    //   JSON.stringify({
+    //     name: '种子的信仰之八月',
+    //     sex: 1,
+    //     avatar:
+    //       'http://food.resource.lzdu.com/apply/ThPbr5rWIGN4nmK2OP4686vG0VnNoOKEfP5HPtUz.png',
+    //     openid: 'oT9bx04CfaPT5d4FdjXRy0oUbrjo'
+    //   })
+    // )
+    const token = store.state.token
     token && (config.headers.Authorization = token)
     store.commit('setToken', token)
     return config
