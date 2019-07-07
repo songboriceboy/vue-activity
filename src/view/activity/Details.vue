@@ -113,6 +113,7 @@ export default {
       applyStatus: -1, // 我的申请状态
       activityStatus: 0, // 活动进行状态 // 1进行中、2已结束
       id: this.$route.query.id, // 活动id
+      shareUrl: '' // 分享url
     }
   },
 
@@ -123,6 +124,7 @@ export default {
   methods: {
     // 加载详情
     init () {
+      this.shareUrl = location.protocol + "//" + location.hostname + this.$route.path + '?id=' + this.id
       const from = this.$route.query.from // 来源, mine: 我的活动
       if (from === 'mine') {
         this.$api.mine
@@ -197,7 +199,7 @@ export default {
       let that = this
       let opstion = {
         title: this.details.title, // 分享标题
-        link: window.location.href, // 分享链接
+        link: this.shareUrl, // 分享链接
         imgUrl: this.details.imgSrc, // 分享图标
         success: function () {
           that.$api.common.share({
@@ -223,7 +225,7 @@ export default {
       let option = {
         title: this.details.title, // 分享标题, 
         // desc: '', // 分享描述, 
-        link: window.location.href, // 分享链接
+        link: this.shareUrl, // 分享链接
         imgUrl: this.details.imgSrc, // 分享图标, ，需要绝对路径
         success: () => {
           that.$api.common.share({

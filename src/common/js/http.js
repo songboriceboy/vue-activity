@@ -85,7 +85,7 @@ instance.interceptors.request.use(
     // 而后我们可以在响应拦截器中，根据状态码进行一些统一的操作。
     // 测试
     // const token =
-    //   'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvbWVyY2hhbnRzLmx6ZHUuY29tXC9hcGlcL2xvZ2luIiwiaWF0IjoxNTYyMzQ1NDkyLCJleHAiOjE1NjIzNTI2OTIsIm5iZiI6MTU2MjM0NTQ5MiwianRpIjoidkxLanNhdWtPRGM1ZDNVOSIsInN1YiI6MiwicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyJ9.Fwx988tjZkvzclpG2dy8Axt84wAvcTEiYBmrVY_J0dg'
+    //   'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvbWVyY2hhbnRzLmx6ZHUuY29tXC9hcGlcL2xvZ2luIiwiaWF0IjoxNTYyNDgyODUzLCJleHAiOjE1NjI0OTAwNTMsIm5iZiI6MTU2MjQ4Mjg1MywianRpIjoiNlBGeE9wTnFyR2pzSEdYbyIsInN1YiI6MiwicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyJ9.Rssy8UzwoqQwJborSlXrrabH_hmV1qFCfG7piSFx580'
     // store.commit(
     //   'setUserInfo',
     //   JSON.stringify({

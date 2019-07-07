@@ -20,7 +20,7 @@ const wxApi = {
    * @param  {Function} callback [ready回调函数]
    */
   wxRegister(callback) {
-    let links = window.location.href
+    let links = location.protocol + '//' + location.hostname + '/'
     Axios.get(`/wx_config?url=${encodeURIComponent(links)}`)
       .then(res => {
         wx.config(res)
@@ -37,6 +37,7 @@ const wxApi = {
         // })
       })
       .catch(error => {
+        this.$toast(error)
         console.log(error)
       })
     wx.ready(res => {
@@ -55,7 +56,6 @@ const wxApi = {
    * @param {[type]} error   [失败回调]
    */
   ShareTimeline(opstion) {
-    console.log('opstion', opstion)
     wx.onMenuShareTimeline({
       title: opstion.title, // 分享标题
       link: opstion.link, // 分享链接
@@ -70,6 +70,7 @@ const wxApi = {
       }
     })
   },
+
   /**
    * [ShareAppMessage 微信分享给朋友]
    * @param {[type]} option [分享信息]
@@ -77,7 +78,6 @@ const wxApi = {
    * @param {[type]} error   [失败回调]
    */
   ShareAppMessage(option) {
-    console.log('option', option)
     wx.onMenuShareAppMessage({
       title: option.title, // 分享标题
       // desc: option.desc, // 分享描述
