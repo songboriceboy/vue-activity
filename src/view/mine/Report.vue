@@ -4,6 +4,7 @@
               sticky
               animated
               swipeable
+              @change="changeTabs"
               class="report-tabs"
               title-inactive-color="#333"
               title-active-color="#FF4500">
@@ -95,7 +96,7 @@ export default {
       ], // 选项
       tryUseData: [], // 参与试用数据
       activityData: [], // 参与活动数据
-      active: 0, // 0 参与试用 1 参与活动
+      active: this.$store.state.reportActive || 0, // 0 参与试用 1 参与活动
       loading: false, // 加载中
       tryFinished: false, // 是否已加载完所有数据
       activityFinished: false, // 是否已加载完所有数据
@@ -194,11 +195,19 @@ export default {
 
     // 查看详情
     toActivity (id) {
-      this.$router.push({ path: '/activityDetail', query: { id: id } })
+      location.href = '/activityDetail?id=' + id
+      // this.$router.push({ path: '/activityDetail', query: { id: id } })
     },
 
+    // 查看详情
     toTrial (id) {
-      this.$router.push({ path: '/trialDetail', query: { id: id } })
+      location.href = '/trialDetail?id=' + id
+      // this.$router.push({ path: '/trialDetail', query: { id: id } })
+    },
+
+    // 切换tabs
+    changeTabs () {
+      this.$store.commit('setReportActive', this.active)
     }
   }
 }

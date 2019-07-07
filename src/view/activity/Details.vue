@@ -86,15 +86,7 @@ export default {
   components: { commonTabs, detailFooter, applyStatus, emptyBox, shareBtn, commentLi },
   data () {
     return {
-      details: {
-        id: null,
-        title: '',
-        imgSrc: '',
-        applyed: 0,
-        total: 0,
-        address: '',
-        time: ''
-      }, // 简介内容
+      details: {}, // 简介内容
       detailData: [
         {
           tab: '活动介绍',

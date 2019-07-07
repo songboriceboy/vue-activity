@@ -30,5 +30,10 @@ export default {
   // 设置 share 弹框控制状态
   setShareShow(state, show) {
     state.shareShow = show
+  },
+
+  // 设置报告当前板块
+  setReportActive(state, active) {
+    state.reportActive = active
   }
 }

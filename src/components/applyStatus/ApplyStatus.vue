@@ -1,9 +1,9 @@
 <template>
   <van-tabbar class="apply-status">
-    <template v-if="status === 2">
+    <template v-if="status === 2 && applyStatus === -1">
       <van-tabbar-item class="end">试用已结束</van-tabbar-item>
     </template>
-    <template v-else-if="activityStatus === 2">
+    <template v-else-if="activityStatus === 2 && applyStatus === -1">
       <van-tabbar-item class="ing">已结束</van-tabbar-item>
     </template>
     <template v-else>
@@ -22,7 +22,7 @@ export default {
   name: 'applyStatus',
   props: {
     applyStatus: {
-      default: '',
+      default: -1,
     }, // 我的申请状态
     status: {
       default: 0

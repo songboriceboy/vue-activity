@@ -34,7 +34,8 @@ export default {
   methods: {
     // 详情
     toDetails () {
-      this.$router.push({ path: '/activityDetail', query: { id: this.itemData.id, from: 'mine' } })
+      location.href = '/activityDetail?id=' + this.itemData.id + '&from=mine'
+      // this.$router.push({ path: '/activityDetail', query: { id: this.itemData.id, from: 'mine' } })
     },
   }
 };

@@ -61,20 +61,16 @@ import likesCount from '@/components/likes/Likes'
 import shareBtn from '@/components/shareBtn/ShareBtn'
 import topicChildren from './children/Topic'
 
+import wxapi from '@/common/js/wxapi.js'
+
 export default {
   name: 'discussDetail',
   components: { usersPic, likesCount, topicChildren, shareBtn },
   data () {
     return {
-      details: {
-        id: 0,
-        title: '',
-        imgSrc: '',
-        usersPic: [],
-        picLen: 0,
-        content: ''
-      }, // 简介内容
+      details: {}, // 简介内容
       comments: [], // 评论列表
+      shareUrl: '' // 分享url
     }
   },
 
@@ -85,6 +81,7 @@ export default {
   methods: {
     // 初始化
     init () {
+      this.shareUrl = location.protocol + "//" + location.hostname + this.$route.path + '?id=' + this.id
       const id = this.$route.query.id
       this.$api.discuss
         .getTopicDetail(id)
@@ -101,7 +98,55 @@ export default {
 
           // 评论列表
           this.comments = res.comments
+
+          // 初始化分享内容
+          wxapi.wxRegister(this.wxRegCallback)
         })
+    },
+
+    // wxRegCallback 用于微信JS-SDK回调
+    wxRegCallback () {
+      this.wxShareTimeline()
+      this.wxShareAppMessage()
+    },
+
+    // wxShareTimeline 微信自定义分享到朋友圈
+    wxShareTimeline () {
+      let opstion = {
+        title: this.details.title, // 分享标题
+        link: this.shareUrl, // 分享链接
+        imgUrl: location.protocol + '//' + location.hostname + '/logo.png', // 分享图标
+        success: function () {
+          console.log('分享成功')
+          // that.$toast('分享成功!')
+        },
+        error: function () {
+          console.log('已取消分享')
+          // that.$toast('已取消分享')
+        }
+      }
+      // 将配置注入通用方法
+      wxapi.ShareTimeline(opstion)
+    },
+
+    // 微信自定义分享给朋友
+    wxShareAppMessage () {
+      let option = {
+        title: this.details.title, // 分享标题, 
+        // desc: '', // 分享描述, 
+        link: this.shareUrl, // 分享链接
+        imgUrl: location.protocol + '//' + location.hostname + '/logo.png', // 分享图标, ，需要绝对路径
+        success: () => {
+          console.log('分享成功')
+          // that.$toast('分享成功!')
+        },
+        error: () => {
+          console.log('已取消分享')
+          // that.$toast('已取消分享')
+        }
+      }
+      // 将配置注入通用方法
+      wxapi.ShareAppMessage(option)
     },
 
     // 删除评论
@@ -132,7 +177,7 @@ export default {
           })
       }).catch(() => {
         this.$toast('已取消删除!')
-      });
+      })
     }
   },
 

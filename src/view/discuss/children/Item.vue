@@ -41,7 +41,8 @@ export default {
   methods: {
     // 我有话说
     goDiscuss () {
-      this.$router.push({ path: '/discussDetail', query: { id: this.itemData.id } })
+      location.href = '/discussDetail?id=' + this.itemData.id
+      // this.$router.push({ path: '/discussDetail', query: { id: this.itemData.id } })
     }
   }
 };
