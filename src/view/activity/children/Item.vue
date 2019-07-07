@@ -52,7 +52,8 @@ export default {
 
     // 详情
     toDetails () {
-      this.$router.push({ path: '/activityDetail', query: { id: this.itemData.id } })
+      location.href = '/activityDetail?id=' + this.itemData.id
+      // this.$router.push({ path: '/activityDetail', query: { id: this.itemData.id } })
     },
 
     // 时间结束

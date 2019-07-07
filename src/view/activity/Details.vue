@@ -185,8 +185,7 @@ export default {
       ]
 
       // 初始化分享内容
-      // wxapi.wxRegister(this.wxRegCallback)
-      wxapi.wxShare(this.details.title)
+      wxapi.wxRegister(this.wxRegCallback)
     },
 
     // wxRegCallback 用于微信JS-SDK回调
@@ -201,7 +200,7 @@ export default {
       let opstion = {
         title: this.details.title, // 分享标题
         link: this.shareUrl, // 分享链接
-        imgUrl: this.details.imgSrc, // 分享图标
+        imgUrl: location.protocol + '//' + location.hostname + '/logo.png', // 分享图标
         success: function () {
           that.$api.common.share({
             type: 1,
@@ -227,7 +226,7 @@ export default {
         title: this.details.title, // 分享标题, 
         // desc: '', // 分享描述, 
         link: this.shareUrl, // 分享链接
-        imgUrl: this.details.imgSrc, // 分享图标, ，需要绝对路径
+        imgUrl: location.protocol + '//' + location.hostname + '/logo.png', // 分享图标, ，需要绝对路径
         success: () => {
           that.$api.common.share({
             type: 1,

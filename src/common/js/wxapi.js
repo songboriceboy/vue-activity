@@ -15,51 +15,6 @@ const wxApi = {
     }
   },
 
-  wxShare(title) {
-    const _this = this
-    let links = location.href
-    Axios.get(`/wx_config?url=${encodeURIComponent(links)}`)
-      .then(response => {
-        wx.config({
-          debug: false,
-          appId: response.appId,
-          timestamp: response.timestamp,
-          nonceStr: response.nonceStr,
-          signature: response.signature,
-          jsApiList: response.jsApiList
-        })
-
-        wx.ready(() => {
-          wx.onMenuShareAppMessage({
-            title: title || _this.title, // 分享标题
-            // desc: subtitle || _this.subtitle,
-            link: links, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
-            imgUrl: location.protocol + '//' + location.hostname + '/logo.png', // 分享图标
-            success: function() {
-              // 用户确认分享后执行的回调函数
-            },
-            cancel: function() {
-              // 用户取消分享后执行的回调函数
-            }
-          })
-          wx.onMenuShareTimeline({
-            title: title || _this.title, // 分享标题
-            link: links, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
-            imgUrl: location.protocol + '//' + location.hostname + '/logo.png', // 分享图标
-            success: function() {
-              // 用户点击了分享后执行的回调函数
-            },
-            cancel: function() {
-              // 用户取消分享后执行的回调函数
-            }
-          })
-        })
-      })
-      .catch(error => {
-        console.log(error)
-      })
-  },
-
   /**
    * [wxRegister 微信Api初始化]
    * @param  {Function} callback [ready回调函数]
