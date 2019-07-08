@@ -65,7 +65,6 @@ export default {
             hasZan: res.has_zan // 是否是我点赞的
           }
         })
-
     }
   }
 }

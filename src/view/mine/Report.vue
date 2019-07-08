@@ -19,12 +19,12 @@
                   @load="init"
                   v-if="active === 0">
           <li v-for="data of tryUseData"
-              :key="data.id">
+              :key="data.id"
+              @click="viewComment(2, data.reportId)">
             <div class="img"
-                 :style="{backgroundImage: 'url('+data.frontCover+')'}"
-                 @click="toTrial(data.id)"></div>
+                 :style="{backgroundImage: 'url('+data.frontCover+')'}"></div>
             <div class="content">
-              <h2 @click="toTrial(data.id)">{{ data.name }}</h2>
+              <h2>{{ data.name }}</h2>
               <div class="trial-time">
                 <span class="end-time">{{ data.applyEnd }} 截止</span>
                 提供{{ data.stock }}份
@@ -53,12 +53,12 @@
                   @load="init"
                   v-if="active === 1">
           <li v-for="data of activityData"
-              :key="data.id">
+              :key="data.id"
+              @click="viewComment(1, data.reportId)">
             <div class="img"
-                 :style="{backgroundImage: 'url('+data.frontCover+')'}"
-                 @click="toActivity(data.id)"></div>
+                 :style="{backgroundImage: 'url('+data.frontCover+')'}"></div>
             <div class="content">
-              <h2 @click="toActivity(data.id)">{{ data.name }}</h2>
+              <h2>{{ data.name }}</h2>
               <div class="activity-time">{{ data.createdAt }}</div>
               <div class="row">
                 <div class="row-l"></div>
@@ -167,6 +167,7 @@ export default {
             stock: item.stock, // 库存
             price: item.price, // 价格
             signId: item.sign_id, // 报名的id
+            reportId: item.report_id, // 报告的id
             applyEnd: item.apply_end, // 截止日期
             isWrite: item.is_write // 1 表示写了报告 0 表示未写
           })
@@ -182,6 +183,7 @@ export default {
             frontCover: item.front_cover,
             createdAt: item.created_at,
             signId: item.sign_id, // 报名的id
+            reportId: item.report_id, // 报告的id
             isWrite: item.is_write // 1 表示写了报告 0 表示未写
           })
         }
@@ -193,21 +195,19 @@ export default {
       this.$router.push({ name: 'write', params: { id: id, title: title, img: img, type: type, signId: signId } })
     },
 
-    // 查看详情
-    toActivity (id) {
-      location.href = '/activityDetail?id=' + id
-      // this.$router.push({ path: '/activityDetail', query: { id: id } })
-    },
-
-    // 查看详情
-    toTrial (id) {
-      location.href = '/trialDetail?id=' + id
-      // this.$router.push({ path: '/trialDetail', query: { id: id } })
-    },
-
     // 切换tabs
     changeTabs () {
       this.$store.commit('setReportActive', this.active)
+    },
+
+    // 查询我的报告id
+    viewComment (type, id) {
+      if (id === 0) {
+        return false
+      }
+
+      this.$router.push({ path: '/CommentDetails', query: { type: type, id: id } })
+
     }
   }
 }
