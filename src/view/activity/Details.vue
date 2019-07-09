@@ -188,11 +188,12 @@ export default {
 
     // wxShareTimeline 微信自定义分享到朋友圈
     wxShareTimeline () {
+      console.log('分享到朋友圈')
       let that = this
       let opstion = {
         title: this.details.title, // 分享标题
         link: this.shareUrl, // 分享链接
-        imgUrl: location.protocol + '//' + location.hostname + '/logo.png', // 分享图标
+        imgUrl: this.details.imgSrc, // 分享图标
         success: function () {
           that.$api.common.share({
             type: 1,
@@ -218,7 +219,7 @@ export default {
         title: this.details.title, // 分享标题, 
         // desc: '', // 分享描述, 
         link: this.shareUrl, // 分享链接
-        imgUrl: location.protocol + '//' + location.hostname + '/logo.png', // 分享图标, ，需要绝对路径
+        imgUrl: this.details.imgSrc, // 分享图标, ，需要绝对路径
         success: () => {
           that.$api.common.share({
             type: 1,

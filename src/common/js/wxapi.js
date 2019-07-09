@@ -20,7 +20,9 @@ const wxApi = {
    * @param  {Function} callback [ready回调函数]
    */
   wxRegister(callback) {
-    let links = location.protocol + '//' + location.hostname + '/'
+    // let links = location.protocol + '//' + location.hostname + '/'
+    let links = window.location.href
+    console.log('links', `/wx_config?url=${encodeURIComponent(links)}`)
     Axios.get(`/wx_config?url=${encodeURIComponent(links)}`)
       .then(res => {
         wx.config(res)
@@ -38,10 +40,9 @@ const wxApi = {
       })
       .catch(error => {
         this.$toast(error)
-        console.log(error)
       })
     wx.ready(res => {
-      console.log(res)
+      console.log('ready', res)
       // 如果需要定制ready回调方法
       if (callback) {
         callback()
