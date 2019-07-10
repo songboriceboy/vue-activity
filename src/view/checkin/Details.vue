@@ -11,7 +11,7 @@
       <van-field v-model="infos.phone"
                  type="text"
                  ref="tel"
-                 maxlength="13"
+                 maxlength="11"
                  input-align="right"
                  :readonly="readonly"
                  label="联系电话"

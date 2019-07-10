@@ -10,7 +10,7 @@
       <van-field v-model="infos.phone"
                  ref="phone"
                  type="tel"
-                 maxlength="13"
+                 maxlength="11"
                  input-align="right"
                  label="联系电话:"
                  placeholder="请填写电话号码" />
