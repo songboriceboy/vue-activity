@@ -29,7 +29,8 @@
     <!-- 弹框 -->
     <message-box :show="this.$store.state.messageShow"
                  :title="messageTitle"
-                 :content="messageContent"></message-box>
+                 :content="messageContent"
+                 :back="back"></message-box>
   </div>
 </template>
 
@@ -45,7 +46,8 @@ export default {
       content: '', // 反馈内容
       len: 0, // 已经输入的长度
       messageTitle: '', // 弹框提示
-      messageContent: '' // 提示内容
+      messageContent: '', // 提示内容
+      back: false // 跳转至上一页
     }
   },
   created () {
@@ -68,12 +70,11 @@ export default {
       this.$api.mine.postSuggest(params)
         .then(res => {
           if (res.errorCode === 0) {
-            this.showMessage('提交成功', '您的意见已提交成功!')
             this.username = ''
             this.phone = ''
             this.content = ''
             this.len = 0
-            this.$router.back()
+            this.showMessage('提交成功', '您的意见已提交成功!', true)
           } else {
             this.$toast(res.message)
           }
@@ -81,10 +82,11 @@ export default {
     },
 
     // 显示提示
-    showMessage (title, content) {
+    showMessage (title, content, back) {
       this.$store.commit('setMessageShow', true)
       this.messageTitle = title
       this.messageContent = content
+      this.back = back
     },
 
     // 提交校验
