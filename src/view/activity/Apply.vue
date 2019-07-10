@@ -9,12 +9,11 @@
                  placeholder="请填写姓名" />
       <van-field v-model="infos.phone"
                  ref="phone"
-                 type="text"
+                 type="tel"
                  maxlength="13"
                  input-align="right"
                  label="联系电话:"
-                 placeholder="请填写电话号码"
-                 @blur="telNumValidate" />
+                 placeholder="请填写电话号码" />
       <div class="details-form-row-label">报名理由:</div>
       <van-field v-model="infos.content"
                  maxlength="100"

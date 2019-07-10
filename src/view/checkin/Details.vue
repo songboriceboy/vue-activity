@@ -10,13 +10,12 @@
                  placeholder="请填写收件人" />
       <van-field v-model="infos.phone"
                  type="text"
-                 ref="phone"
+                 ref="tel"
                  maxlength="13"
                  input-align="right"
                  :readonly="readonly"
                  label="联系电话"
-                 placeholder="请填写联系电话"
-                 @blur="telNumValidate" />
+                 placeholder="请填写联系电话" />
       <van-field v-model="infos.areas"
                  type="tel"
                  input-align="right"
