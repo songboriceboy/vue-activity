@@ -63,28 +63,28 @@ export default {
 }
 </script>
 
-<style lang="less">
+<style lang="less" scoped>
 .head-nav {
   height: 86px;
   background-color: #f21717;
-  .van-tabs--line {
+  /deep/ .van-tabs--line {
     padding-top: 85px;
     background-color: #f21717;
   }
-  .van-hairline--top-bottom::after {
+  /deep/ .van-hairline--top-bottom::after {
     border: none;
   }
-  .van-tabs--line .van-tabs__wrap {
+  /deep/ .van-tabs--line .van-tabs__wrap {
     height: 85px;
     background-color: #f21717;
   }
-  .van-tab {
+  /deep/ .van-tab {
     line-height: 85px;
   }
-  .van-tabs__line {
+  /deep/ .van-tabs__line {
     background: #fff;
   }
-  .van-ellipsis {
+  /deep/ .van-ellipsis {
     font-size: 32px;
   }
 }

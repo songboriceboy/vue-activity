@@ -1,8 +1,13 @@
 <template>
-  <div class="content">
-    <head-nav></head-nav>
-    <div class="wrapper">
-      <router-view />
+  <div class="container">
+    <div class="header-box">
+      <head-nav></head-nav>
+    </div>
+    <div class="content"
+         ref="content">
+      <div class="wrapper">
+        <router-view />
+      </div>
     </div>
   </div>
 </template>
@@ -19,6 +24,8 @@ export default {
   watch: {
     '$route' () {
       this.redirect()
+      this.$refs.content.scrollTop = 0
+      // document.documentElement.scrollTop = 0
     }
   },
   mounted () {
@@ -36,14 +43,24 @@ export default {
 };
 </script>
 
-<style lang="less">
+<style lang="less" scoped>
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+.header-box {
+  height: 86px;
+  width: 100%;
+}
+.content {
+  flex: 1;
+  overflow-x: hidden;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
 .wrapper {
-  position: absolute;
-  top: 85px;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  overflow: auto;
+  min-height: 101%;
   background-color: #fff;
 }
 </style>
