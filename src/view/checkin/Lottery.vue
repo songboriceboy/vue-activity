@@ -119,10 +119,10 @@ export default {
     rotateHandle () {
       if (!this.clickFlag) return
 
-      // if (this.lotteryTicket <= 0) {
-      //   this.$toast('您的抽奖次数用完了哦!')
-      //   return false
-      // }
+      if (this.lotteryTicket <= 0) {
+        this.$toast('您的抽奖次数用完了哦!')
+        return false
+      }
 
       let len = this.prizeList.length
       if (len === 0) {
