@@ -54,12 +54,14 @@
           </li>
         </ul>
       </div>
-      <van-button type="default"
-                  class="is-radius-button-red"
-                  @click="onCheckin">
-        <i class="calendar-icon"></i>
-        <span class="button-text">点击签到</span>
-      </van-button>
+      <div class="button-wrap">
+        <van-button type="default"
+                    class="is-radius-button-red"
+                    @click="onCheckin">
+          <i class="calendar-icon"></i>
+          <span class="button-text">点击签到</span>
+        </van-button>
+      </div>
     </div>
     <!-- 签到成功 -->
     <check-success :show="successControl"
@@ -335,7 +337,7 @@ export default {
     background-color: #fff;
     border-radius: 30px;
     box-shadow: 0px 2px 20px 0px #000 0.12;
-    padding: 20px 18px 30px;
+    padding: 20px 18px 0;
     .van-col {
       height: 50px;
       line-height: 50px;
@@ -443,6 +445,10 @@ export default {
     }
   }
 
+  .button-wrap {
+    padding: 20px 0 30px;
+  }
+
   .is-radius-button-red {
     .is-radius-button-red();
     width: 468px;
@@ -450,7 +456,7 @@ export default {
     line-height: 88px;
     border-radius: 44px;
     display: block;
-    margin: 20px auto 0;
+    margin: 0 auto;
     font-size: 0;
   }
   .calendar-icon {

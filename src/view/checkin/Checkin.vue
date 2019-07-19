@@ -52,7 +52,6 @@ export default {
     closeRules () {
       this.rulesControl = false
     }
-
   }
 };
 </script>
