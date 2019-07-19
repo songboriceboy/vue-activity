@@ -48,6 +48,7 @@ export default {
   display: flex;
   flex-direction: column;
   height: 100vh;
+  position: relative;
 }
 .header-box {
   height: 86px;

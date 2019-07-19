@@ -60,7 +60,7 @@ export default {
 <style lang="less" scoped>
 .checkin {
   position: absolute;
-  top: 0;
+  top: 86px;
   left: 0;
   right: 0;
   bottom: 0;
