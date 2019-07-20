@@ -5,7 +5,7 @@
     </div>
     <div class="index-content"
          ref="content">
-      <div class="wrapper">
+      <div class="index-wrapper">
         <router-view />
       </div>
     </div>
@@ -44,7 +44,7 @@ export default {
 };
 </script>
 
-<style lang="less" scoped>
+<style lang="less">
 .index-container {
   display: flex;
   flex-direction: column;
@@ -61,7 +61,7 @@ export default {
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
 }
-.wrapper {
+.index-wrapper {
   min-height: calc(100% + 1px);
   background-color: #fff;
 }
