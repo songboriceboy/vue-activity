@@ -119,7 +119,8 @@ instance.interceptors.response.use(
       let message = res.data.message
       let blacklisted = 'The token has been blacklisted'
       let notBeParesed = 'Token could not be parsed from the request.'
-      if (message === blacklisted || message === notBeParesed) {
+      let notRefreshed = 'Token has expired and can no longer be refreshed.'
+      if (message === blacklisted || message === notBeParesed || message === notRefreshed) {
         tip('身份信息已过期, 请重新登录!')
         toLogin()
       } else if (code && code === 2) {
