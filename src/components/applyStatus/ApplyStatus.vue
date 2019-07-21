@@ -42,7 +42,7 @@ export default {
   line-height: 110px;
   text-align: center;
   box-shadow: 0px 2px 8px 0px rgba(0, 0, 0, 0.42);
-  font-size: 38px;
+  font-size: 34px;
   font-family: PingFangSC-Regular;
   font-weight: 400;
   /deep/ .van-tabbar-item__icon {

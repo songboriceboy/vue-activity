@@ -48,6 +48,14 @@ export default {
     img {
       max-width: 100% !important;
     }
+    p {
+      font-size: 30px;
+      font-family: PingFangSC-Regular;
+      font-weight: 400;
+      color: rgba(51, 51, 51, 1);
+      line-height: 1.5;
+      letter-spacing: 1px;
+    }
   }
 }
 </style>
