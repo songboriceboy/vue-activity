@@ -24,8 +24,8 @@ export default {
   name: 'login',
   data () {
     return {
-      title: '掌上生活',
-      name: '深圳招商银行',
+      title: '国有生活',
+      name: '深圳国有银行',
       imgSrc: './logo.png',
       afterLoginGo: '' // 登录前访问的地址
     }
@@ -49,7 +49,7 @@ export default {
       let path = this.afterLoginGo || '/checkin'
       let origin = location.protocol + "//" + location.hostname + (location.port ? ':' + location.port : '')
       let url = origin + path
-      location.href = 'http://merchants.lzdu.com/api/oauth?back_url=' + encodeURIComponent(url)
+      location.href = 'http://192.168.14.100/api/oauth?back_url=' + encodeURIComponent(url)
     }
   }
 }

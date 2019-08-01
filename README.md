@@ -1,4 +1,4 @@
-# merchants-h5
+# vue-activity
 
 ## Project setup
 ```

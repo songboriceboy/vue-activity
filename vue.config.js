@@ -13,7 +13,7 @@ module.exports = {
     proxy: {
       '/': {
         //代理api
-        target: 'https://merchants.lzdu.com/api', //服务器api地址
+        target: 'https://192.168.14.100/api', //服务器api地址
         changeOrigin: true, //是否跨域
         ws: false, // proxy websockets
         pathRewrite: {
